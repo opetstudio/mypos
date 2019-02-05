@@ -32,7 +32,7 @@ function mapAttributes (dataIn, obj) {
 
 function getEntityBatch (dataIn, obj) {
   const contentDetail = dataIn || {}
-  const {byId, allIds, status} = contentDetail
+  const { byId, allIds, status } = contentDetail
   // const byId = {}
   // byId[contentDetail._id] = contentDetail
   // const allIds = [contentDetail._id]
@@ -59,20 +59,22 @@ function getEntity (dataIn, obj) {
   }
 }
 function getEntityCollection (dataIn, entity, obj) {
-  const allData = path([ '_embedded', entity ], dataIn) || []
+  const allData = path(['_embedded', entity], dataIn) || []
   const byId = {}
   var maxModifiedon = 0
-  let allIds = _.compact(allData.map(r => {
-    // const allIds = _.difference(state.allIds, action.data.listId)
-    // const byId = state.byId.without(action.data.listId)
-    delete r._links
-    delete r.password
-    if (r.status === 'remove') return null
-    if (r._id === undefined || r._id === 'undefined') return null
-    byId['' + r._id] = obj ? {...pick(obj, r), _id: r._id} : r
-    maxModifiedon = r.modifiedon || 0
-    return r._id
-  }))
+  let allIds = _.compact(
+    allData.map(r => {
+      // const allIds = _.difference(state.allIds, action.data.listId)
+      // const byId = state.byId.without(action.data.listId)
+      delete r._links
+      delete r.password
+      if (r.status === 'remove') return null
+      if (r._id === undefined || r._id === 'undefined') return null
+      byId['' + r._id] = obj ? { ...pick(obj, r), _id: r._id } : r
+      maxModifiedon = r.modifiedon || 0
+      return r._id
+    })
+  )
   return {
     byId,
     allIds,
@@ -138,8 +140,24 @@ function updateMulti (singleIn, multiIn) {
 }
 
 function insertMulti (singleIn, multiIn) {
-  var newList = pipe(prepend(singleIn), sortBy(compose(toLower, prop('name'))))
+  var newList = pipe(
+    prepend(singleIn),
+    sortBy(
+      compose(
+        toLower,
+        prop('name')
+      )
+    )
+  )
   return newList(multiIn)
 }
 
-export { getAttributes, mapAttributes, updateMulti, insertMulti, getEntity, getEntityCollection, getEntityBatch }
+export {
+  getAttributes,
+  mapAttributes,
+  updateMulti,
+  insertMulti,
+  getEntity,
+  getEntityCollection,
+  getEntityBatch
+}

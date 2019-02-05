@@ -1,6 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Dropdown, Icon, Menu, Segment, Button, Header, Modal } from 'semantic-ui-react'
+import {
+  Dropdown,
+  Icon,
+  Menu,
+  Segment,
+  Button,
+  Header,
+  Modal
+} from 'semantic-ui-react'
 import ReactTable from 'react-table'
 import _ from 'lodash'
 import checkboxHOC from 'react-table/lib/hoc/selectTable'
@@ -41,8 +49,14 @@ class FormFieldMultiselect extends React.Component {
       selected: this.props.selected,
       columnTable: this.props.columnTable,
       options: this.props.options,
-      optionsData: _.filter(this.props.options, (o) => this.props.selected.indexOf(o._id) === -1),
-      optionsSelected: _.filter(this.props.options, (o) => this.props.selected.indexOf(o._id) !== -1)
+      optionsData: _.filter(
+        this.props.options,
+        o => this.props.selected.indexOf(o._id) === -1
+      ),
+      optionsSelected: _.filter(
+        this.props.options,
+        o => this.props.selected.indexOf(o._id) !== -1
+      )
     }
     // this.setState(newState)
     this.state = newState
@@ -57,8 +71,14 @@ class FormFieldMultiselect extends React.Component {
     if (!_.isEqual(prevProps.selected, this.props.selected)) {
       this.setState({
         selected: this.props.selected,
-        optionsData: _.filter(this.props.options, (o) => this.props.selected.indexOf(o._id) === -1),
-        optionsSelected: _.filter(this.props.options, (o) => this.props.selected.indexOf(o._id) !== -1)
+        optionsData: _.filter(
+          this.props.options,
+          o => this.props.selected.indexOf(o._id) === -1
+        ),
+        optionsSelected: _.filter(
+          this.props.options,
+          o => this.props.selected.indexOf(o._id) !== -1
+        )
       })
     }
     if (!_.isEqual(prevProps.columnTable, this.props.columnTable)) {
@@ -69,18 +89,27 @@ class FormFieldMultiselect extends React.Component {
     if (!_.isEqual(prevProps.options, this.props.options)) {
       this.setState({
         options: this.props.options,
-        optionsData: _.filter(this.props.options, (o) => this.props.selected.indexOf(o._id) === -1),
-        optionsSelected: _.filter(this.props.options, (o) => this.props.selected.indexOf(o._id) !== -1)
+        optionsData: _.filter(
+          this.props.options,
+          o => this.props.selected.indexOf(o._id) === -1
+        ),
+        optionsSelected: _.filter(
+          this.props.options,
+          o => this.props.selected.indexOf(o._id) !== -1
+        )
       })
     }
     if (prevState.searchOptionsString !== this.state.searchOptionsString) {
       this.setState({
-        optionsData: _.filter(this.state.options, (o) => {
+        optionsData: _.filter(this.state.options, o => {
           for (var key in o) {
             // console.log('key' + key + ':', o[key])
             const targetString = (o[key] || '').toLowerCase()
-            if (targetString.includes(this.state.searchOptionsString) && this.state.selected.indexOf(o._id) === -1) {
-            //   // string.includes(substring);
+            if (
+              targetString.includes(this.state.searchOptionsString) &&
+              this.state.selected.indexOf(o._id) === -1
+            ) {
+              //   // string.includes(substring);
               return true
             }
           }
@@ -91,12 +120,15 @@ class FormFieldMultiselect extends React.Component {
     }
     if (prevState.searchSelectedString !== this.state.searchSelectedString) {
       this.setState({
-        optionsSelected: _.filter(this.state.options, (o) => {
+        optionsSelected: _.filter(this.state.options, o => {
           for (var key in o) {
             // console.log('key' + key + ':', o[key])
             const targetString = (o[key] || '').toLowerCase()
-            if (targetString.includes(this.state.searchSelectedString) && this.state.selected.indexOf(o._id) !== -1) {
-            //   // string.includes(substring);
+            if (
+              targetString.includes(this.state.searchSelectedString) &&
+              this.state.selected.indexOf(o._id) !== -1
+            ) {
+              //   // string.includes(substring);
               return true
             }
           }
@@ -108,7 +140,10 @@ class FormFieldMultiselect extends React.Component {
       // })
     }
   }
-  toggleSelection = (key, shift, row) => {
+  toggleSelection = (keys, shift, row) => {
+    console.log('key======>', keys)
+    let key = (keys.split('-') || ['', ''])[1]
+    if (key === '') return
     /*
       Implementation of how to manage the selection state is up to the developer.
       This implementation uses an array stored in the component state.
@@ -163,7 +198,7 @@ class FormFieldMultiselect extends React.Component {
       })
     }
     this.setState({ selectAll, selection })
-  };
+  }
   isSelected = key => {
     /*
       Instead of passing our external selection state we provide an 'isSelected'
@@ -173,7 +208,7 @@ class FormFieldMultiselect extends React.Component {
     return this.state.selection.includes(key)
   }
   renderModal () {
-    const {selectAll} = this.state
+    const { selectAll } = this.state
     const { toggleSelection, toggleAll, isSelected, logSelection } = this
     const checkboxProps = {
       selectAll,
@@ -200,17 +235,23 @@ class FormFieldMultiselect extends React.Component {
     return (
       <Modal
         open={this.state.modalIsOpen}
-        onOpen={() => this.setState({modalIsOpen: true})}
-        onClose={() => this.setState({modalIsOpen: false})}
+        onOpen={() => this.setState({ modalIsOpen: true })}
+        onClose={() => this.setState({ modalIsOpen: false })}
       >
         <Header icon='archive' content='Select Data' />
         <Modal.Content>
-
           <Menu attached='top'>
             <Menu.Menu position='right'>
               <div className='ui right aligned category search item'>
                 <div className='ui transparent icon input'>
-                  <input className='prompt' type='text' onChange={(event) => this.setState({searchOptionsString: event.target.value})} placeholder='Search...' />
+                  <input
+                    className='prompt'
+                    type='text'
+                    onChange={event =>
+                      this.setState({ searchOptionsString: event.target.value })
+                    }
+                    placeholder='Search...'
+                  />
                   <i className='search link icon' />
                 </div>
                 <div className='results' />
@@ -233,11 +274,13 @@ class FormFieldMultiselect extends React.Component {
               primary
               onClick={() => {
                 this.props.onSubmitSelected(this.state.selection)
-                this.setState({modalIsOpen: false})
+                this.setState({ modalIsOpen: false })
               }}
-            >Add</Button>Don't forget to submit
+            >
+              Add
+            </Button>
+            Don't forget to submit
           </Segment>
-
         </Modal.Content>
         {/* <Modal.Actions>
           <Button basic color='red' inverted>
@@ -257,20 +300,31 @@ class FormFieldMultiselect extends React.Component {
         <Menu attached='top'>
           <Menu.Item
             onClick={() => {
-              this.setState({modalIsOpen: true})
-            }}>
-            <Icon name='add' />Add Item
+              this.setState({ modalIsOpen: true })
+            }}
+          >
+            <Icon name='add' />
+            Add Item
           </Menu.Item>
           <Menu.Item
             onClick={() => {
               this.props.createItemForFieldMultiselect()
-            }}>
-            <Icon name='add' />Create New Item
+            }}
+          >
+            <Icon name='add' />
+            Create New Item
           </Menu.Item>
           <Menu.Menu position='right'>
             <div className='ui right aligned category search item'>
               <div className='ui transparent icon input'>
-                <input className='prompt' type='text' placeholder='Search...' onChange={(event) => this.setState({searchSelectedString: event.target.value})} />
+                <input
+                  className='prompt'
+                  type='text'
+                  placeholder='Search...'
+                  onChange={event =>
+                    this.setState({ searchSelectedString: event.target.value })
+                  }
+                />
                 <i className='search link icon' />
               </div>
               <div className='results' />
@@ -278,14 +332,12 @@ class FormFieldMultiselect extends React.Component {
           </Menu.Menu>
         </Menu>
         <Segment attached='bottom'>
-
           <ReactTable
             data={this.state.optionsSelected}
             columns={this.state.columnTable}
             defaultPageSize={10}
             className='-striped -highlight'
           />
-          
         </Segment>
       </div>
     )

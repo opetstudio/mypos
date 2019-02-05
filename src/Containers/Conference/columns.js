@@ -19,7 +19,7 @@ export const columns = [
         id: 'conference_name',
         fieldtype: 'input-text',
         accessor: d => d.conference_name
-      },
+      }
       // {
       //   Header: 'Status',
       //   accessor: 'status',

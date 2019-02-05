@@ -13,7 +13,7 @@ test('Api getClassparticipants', async () => {
 })
 test('Api getClassparticipant', async () => {
   const id = 1
-  const response = await api.getClassparticipant({id})
+  const response = await api.getClassparticipant({ id })
   const hasData = 'data' in response
   const hasOk = 'ok' in response
   expect(hasData).toBe(true)
@@ -22,7 +22,7 @@ test('Api getClassparticipant', async () => {
 })
 test('Api postClassparticipant', async () => {
   const data = {
-    'field1': 'value1'
+    field1: 'value1'
   }
   const response = await api.postClassparticipant(data)
   const hasData = 'data' in response
@@ -33,8 +33,8 @@ test('Api postClassparticipant', async () => {
 })
 test('Api updateClassparticipant', async () => {
   const data = {
-    'id': 1,
-    'field1': 'value1'
+    id: 1,
+    field1: 'value1'
   }
   const response = await api.updateClassparticipant(data)
   const hasData = 'data' in response
@@ -45,7 +45,7 @@ test('Api updateClassparticipant', async () => {
 })
 test('Api removeClassparticipant', async () => {
   const data = {
-    'id': 1
+    id: 1
   }
   const response = await api.removeClassparticipant(data)
   const hasData = 'data' in response

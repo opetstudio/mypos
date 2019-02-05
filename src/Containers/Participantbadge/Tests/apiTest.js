@@ -13,7 +13,7 @@ test('Api getParticipantbadges', async () => {
 })
 test('Api getParticipantbadge', async () => {
   const id = 1
-  const response = await api.getParticipantbadge({id})
+  const response = await api.getParticipantbadge({ id })
   const hasData = 'data' in response
   const hasOk = 'ok' in response
   expect(hasData).toBe(true)
@@ -22,7 +22,7 @@ test('Api getParticipantbadge', async () => {
 })
 test('Api postParticipantbadge', async () => {
   const data = {
-    'field1': 'value1'
+    field1: 'value1'
   }
   const response = await api.postParticipantbadge(data)
   const hasData = 'data' in response
@@ -33,8 +33,8 @@ test('Api postParticipantbadge', async () => {
 })
 test('Api updateParticipantbadge', async () => {
   const data = {
-    'id': 1,
-    'field1': 'value1'
+    id: 1,
+    field1: 'value1'
   }
   const response = await api.updateParticipantbadge(data)
   const hasData = 'data' in response
@@ -45,7 +45,7 @@ test('Api updateParticipantbadge', async () => {
 })
 test('Api removeParticipantbadge', async () => {
   const data = {
-    'id': 1
+    id: 1
   }
   const response = await api.removeParticipantbadge(data)
   const hasData = 'data' in response

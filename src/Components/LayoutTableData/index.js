@@ -2,12 +2,26 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import Immutable from 'seamless-immutable'
-import { Container, Image, Button, Menu, Dropdown, Grid, Icon, Modal, Header, Input, Responsive, Segment, GridColumn } from 'semantic-ui-react'
+import {
+  Container,
+  Image,
+  Button,
+  Menu,
+  Dropdown,
+  Grid,
+  Icon,
+  Modal,
+  Header,
+  Input,
+  Responsive,
+  Segment,
+  GridColumn
+} from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import ReactTable from 'react-table'
 import checkboxHOC from 'react-table/lib/hoc/selectTable'
 import Chance from 'chance'
-import {pick} from 'ramda'
+import { pick } from 'ramda'
 import BreadcrumbCustom from '../BreadcrumbCustom'
 import ParentDetail from '../ParentDetail'
 // import styles from './styles'
@@ -29,9 +43,12 @@ function getData (theData, column, filter, entityName) {
     }
   })
   // console.log('====>>>filterInArr', filterInArr)
-  if (window.location.pathname === `/entity/${entityName.toLowerCase()}-trash`) return _.filter(data, (o) => o.status === 'delete')
-  if (filterInArr && filterInArr.length > 0) return _.filter(data, (o) => filterInArr.indexOf(o.status) !== -1)
-  return _.filter(data, (o) => o.status !== 'delete')
+  if (
+    (window.location.hash || window.location.pathname).replace('#', '') ===
+    `/entity/${entityName.toLowerCase()}-trash`
+  ) { return _.filter(data, o => o.status === 'delete') }
+  if (filterInArr && filterInArr.length > 0) { return _.filter(data, o => filterInArr.indexOf(o.status) !== -1) }
+  return _.filter(data, o => o.status !== 'delete')
   // return data.asMutable()
 }
 
@@ -81,10 +98,13 @@ export default class LayoutTableData extends Component {
       entityName,
       showLogoutDialog: false,
       selectedOneId: '',
-      modalMessage: 'Apakah anda yakin untuk hapus data? Klik Yes untuk hapus, Klik No untuk kembali ke Dashboard',
+      modalMessage:
+        'Apakah anda yakin untuk hapus data? Klik Yes untuk hapus, Klik No untuk kembali ke Dashboard',
       modalYesFunc: () => {},
       searchString: '',
-      parentDetail: Immutable.asMutable(this.props.parentDetail, {deep: true}),
+      parentDetail: Immutable.asMutable(this.props.parentDetail, {
+        deep: true
+      }),
       breadcrumb: this.props.breadcrumb
     }
   }
@@ -101,17 +121,48 @@ export default class LayoutTableData extends Component {
       }
     })
     // console.log('====>>>filterInArr', filterInArr)
-    if (window.location.pathname === `/entity/${entityName.toLowerCase()}-trash`) return _.filter(data, (o) => o.status === 'delete')
-    if (filterInArr && filterInArr.length > 0) return _.filter(data, (o) => filterInArr.indexOf(o.status) !== -1)
-    return _.filter(data, (o) => o.status !== 'delete')
+    if (
+      (window.location.hash || window.location.pathname).replace('#', '') ===
+      `/entity/${entityName.toLowerCase()}-trash`
+    ) { return _.filter(data, o => o.status === 'delete') }
+    if (filterInArr && filterInArr.length > 0) { return _.filter(data, o => filterInArr.indexOf(o.status) !== -1) }
+    return _.filter(data, o => o.status !== 'delete')
     // return data.asMutable()
   }
   componentDidUpdate (prevProps, prevState) {
-    if (!_.isEqual(prevProps.allDataArr, this.props.allDataArr)) this.setState({allDataArr: Immutable.asMutable(this.props.allDataArr, {deep: true})})
-    if (!_.isEqual(prevProps.allIds, this.props.allIds)) this.setState({allIds: Immutable.asMutable(this.props.allIds, {deep: true})})
-    if (!_.isEqual(prevProps.column, this.props.column)) this.setState({columns: Immutable.asMutable(this.props.column, {deep: true})})
-    if (!_.isEqual(prevProps.parentDetail, this.props.parentDetail) && !_.isEmpty(this.props.parentDetail)) this.setState({parentDetail: Immutable.asMutable(this.props.parentDetail, {deep: true})})
-    if (!_.isEqual(prevProps.breadcrumb, this.props.breadcrumb) && !_.isEmpty(this.props.breadcrumb)) this.setState({breadcrumb: Immutable.asMutable(this.props.breadcrumb, {deep: true})})
+    if (!_.isEqual(prevProps.allDataArr, this.props.allDataArr)) {
+      this.setState({
+        allDataArr: Immutable.asMutable(this.props.allDataArr, { deep: true })
+      })
+    }
+    if (!_.isEqual(prevProps.allIds, this.props.allIds)) {
+      this.setState({
+        allIds: Immutable.asMutable(this.props.allIds, { deep: true })
+      })
+    }
+    if (!_.isEqual(prevProps.column, this.props.column)) {
+      this.setState({
+        columns: Immutable.asMutable(this.props.column, { deep: true })
+      })
+    }
+    if (
+      !_.isEqual(prevProps.parentDetail, this.props.parentDetail) &&
+      !_.isEmpty(this.props.parentDetail)
+    ) {
+      this.setState({
+        parentDetail: Immutable.asMutable(this.props.parentDetail, {
+          deep: true
+        })
+      })
+    }
+    if (
+      !_.isEqual(prevProps.breadcrumb, this.props.breadcrumb) &&
+      !_.isEmpty(this.props.breadcrumb)
+    ) {
+      this.setState({
+        breadcrumb: Immutable.asMutable(this.props.breadcrumb, { deep: true })
+      })
+    }
   }
   // componentWillReceiveProps (nextProps) {
   //   // console.log('[LayoutFormData.componentWillReceiveProps] nextProps=', nextProps)
@@ -123,7 +174,10 @@ export default class LayoutTableData extends Component {
   //     defaultPageSize: nextProps.defaultPageSize
   //   })
   // }
-  toggleSelection = (key, shift, row) => {
+  toggleSelection = (keys, shift, row) => {
+    console.log('key===>', keys)
+    let key = (keys.split('-') || ['', ''])[1]
+    if (key === '') return
     /*
       Implementation of how to manage the selection state is up to the developer.
       This implementation uses an array stored in the component state.
@@ -143,6 +197,7 @@ export default class LayoutTableData extends Component {
       // it does not exist so add it
       selection.push(key)
     }
+    // console.log('toggleSelection==>selection=', selection)
     // update the state
     this.setState({ selection })
   }
@@ -178,7 +233,7 @@ export default class LayoutTableData extends Component {
       })
     }
     this.setState({ selectAll, selection })
-  };
+  }
 
   isSelected = key => {
     /*
@@ -195,21 +250,27 @@ export default class LayoutTableData extends Component {
   deleteDialog (isShow, _id, act) {
     const newState = {}
     if (act === 'trash') {
-      newState.modalMessage = 'Remove to the trash? Klik Yes untuk hapus, Klik No untuk kembali ke Dashboard'
+      newState.modalMessage =
+        'Remove to the trash? Klik Yes untuk hapus, Klik No untuk kembali ke Dashboard'
       newState.modalYesFunc = () => {
-        this.props.updateOne({status: 'delete'}, _id); this.deleteDialog(false)
+        this.props.updateOne({ status: 'delete' }, _id)
+        this.deleteDialog(false)
       }
     }
     if (act === 'remove') {
-      newState.modalMessage = 'Remove forever (cannot be undo)? Klik Yes untuk hapus, Klik No untuk kembali ke Dashboard'
+      newState.modalMessage =
+        'Remove forever (cannot be undo)? Klik Yes untuk hapus, Klik No untuk kembali ke Dashboard'
       newState.modalYesFunc = () => {
-        this.props.removeOne({status: 'remove'}, _id); this.deleteDialog(false)
+        this.props.removeOne({ status: 'remove' }, _id)
+        this.deleteDialog(false)
       }
     }
     if (act === 'remove-batch') {
-      newState.modalMessage = 'Batch remove to the trash? Klik Yes untuk hapus, Klik No untuk kembali ke Dashboard'
+      newState.modalMessage =
+        'Batch remove to the trash? Klik Yes untuk hapus, Klik No untuk kembali ke Dashboard'
       newState.modalYesFunc = () => {
-        this.props.updateBatch({status: 'delete', ids: _id}); this.deleteDialog(false)
+        this.props.updateBatch({ status: 'delete', ids: _id })
+        this.deleteDialog(false)
       }
     }
     newState.showLogoutDialog = isShow
@@ -221,13 +282,23 @@ export default class LayoutTableData extends Component {
     const { toggleSelection, toggleAll, isSelected, logSelection } = this
     const { allDataArr, columns, selectAll, parentDetail } = this.state
     const ModalBasic = () => (
-      <Modal open={this.state.showLogoutDialog} onClose={() => this.setState({showLogoutDialog: false})} basic size='small'>
+      <Modal
+        open={this.state.showLogoutDialog}
+        onClose={() => this.setState({ showLogoutDialog: false })}
+        basic
+        size='small'
+      >
         <Header icon='archive' content='Delete Data Confirmation' />
         <Modal.Content>
           <p>{this.state.modalMessage}</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic color='red' inverted onClick={() => this.deleteDialog(false)}>
+          <Button
+            basic
+            color='red'
+            inverted
+            onClick={() => this.deleteDialog(false)}
+          >
             <Icon name='remove' /> No
           </Button>
           <Button color='green' inverted onClick={this.state.modalYesFunc}>
@@ -263,10 +334,12 @@ export default class LayoutTableData extends Component {
       toggleAll,
       selectType: 'checkbox',
       getTrProps: (s, r) => {
-        // someone asked for an example of a background color change
         if (!r) return {}
+        // console.log('=====>>>>>>selected selection', this.state.selection)
+        // console.log('=====>>>>>>selected s', s)
+        // console.log('=====>>>>>>selected r', r)
+        // someone asked for an example of a background color change
         // here it is...
-        // console.log('=====>>>>>>selected', r.original._id)
         const selected = this.isSelected(r.original._id)
         return {
           style: {
@@ -276,19 +349,24 @@ export default class LayoutTableData extends Component {
         }
       }
     }
-    const MenuButtons = (row) => {
+    const MenuButtons = row => {
       // row.original._id
       // if (!row) return null
       // console.log('row======>>>>', row.original)
       // if (row.original.status === 'delete' || row.original.status === null || row.original.status === undefined) {
       //   this.props.deleteRow({listId: [row.original._id, undefined]})
       // }
-      if (window.location.pathname === `/entity/${(this.props.entityName).toLowerCase()}-trash`) {
+      if (
+        (window.location.hash || window.location.pathname).replace('#', '') ===
+        `/entity/${this.props.entityName.toLowerCase()}-trash`
+      ) {
         return (
           <div>
             <Menu secondary>
               <Menu.Item
-                onClick={() => this.props.updateOne({status: 'publish'}, row.original._id)}
+                onClick={() =>
+                  this.props.updateOne({ status: 'publish' }, row.original._id)
+                }
               >
                 <Icon name='redo' />
               </Menu.Item>
@@ -299,7 +377,9 @@ export default class LayoutTableData extends Component {
               <Icon name='play' />
             </Menu.Item> */}
               <Menu.Item
-                onClick={() => this.deleteDialog(true, row.original._id, 'remove')}
+                onClick={() =>
+                  this.deleteDialog(true, row.original._id, 'remove')
+                }
               >
                 <Icon name='remove circle' />
               </Menu.Item>
@@ -331,37 +411,41 @@ export default class LayoutTableData extends Component {
         </div>
       )
     }
-    const listSubMenu = (this.props.subMenu || []).map(r => r.isLink ? (
-      <Dropdown.Item
-        key={r.label}
-        as={Link}
-        to={r.to}
-      > <Icon name={r.iconName} size='small' /> {r.label}</Dropdown.Item>
-    ) : (<Dropdown.Item
-      key={r.label}
-      onClick={() => {}}
-    > <Icon name={r.iconName} size='small' /> {r.label}</Dropdown.Item>)
+    const listSubMenu = (this.props.subMenu || []).map(r =>
+      r.isLink ? (
+        <Dropdown.Item key={r.label} as={Link} to={r.to}>
+          {' '}
+          <Icon name={r.iconName} size='small' /> {r.label}
+        </Dropdown.Item>
+      ) : (
+        <Dropdown.Item key={r.label} onClick={() => {}}>
+          {' '}
+          <Icon name={r.iconName} size='small' /> {r.label}
+        </Dropdown.Item>
+      )
     )
     const dropdownItems = () => (
       <Dropdown.Menu>
+        <Dropdown.Item as={Link} to={`/entity/${this.state.entityName}/create`}>
+          {' '}
+          <Icon name='file outline' size='small' /> Create New
+        </Dropdown.Item>
+        <Dropdown.Item as={Link} to={`/entity/${this.state.entityName}`}>
+          {' '}
+          <Icon name='database' size='small' /> All Data
+        </Dropdown.Item>
+        <Dropdown.Item as={Link} to={`/entity/${this.state.entityName}-trash`}>
+          <Icon name='trash' size='small' /> Trash
+        </Dropdown.Item>
         <Dropdown.Item
-          as={Link}
-          to={`/entity/${this.state.entityName}/create`}
-        > <Icon name='file outline' size='small' /> Create New</Dropdown.Item>
-        <Dropdown.Item
-          as={Link}
-          to={`/entity/${this.state.entityName}`}
-        > <Icon name='database' size='small' /> All Data</Dropdown.Item>
-        <Dropdown.Item
-          as={Link}
-          to={`/entity/${this.state.entityName}-trash`}
-        ><Icon name='trash' size='small' /> Trash</Dropdown.Item>
-        <Dropdown.Item
-          onClick={() => this.deleteDialog(true, this.state.selection, 'remove-batch')}
-        > <Icon name='remove circle' size='small' /> Delete selected</Dropdown.Item>
-        {this.props.subMenu &&
-        listSubMenu
-        }
+          onClick={() =>
+            this.deleteDialog(true, this.state.selection, 'remove-batch')
+          }
+        >
+          {' '}
+          <Icon name='remove circle' size='small' /> Delete selected
+        </Dropdown.Item>
+        {this.props.subMenu && listSubMenu}
       </Dropdown.Menu>
     )
     return (
@@ -369,20 +453,20 @@ export default class LayoutTableData extends Component {
         <div>{ModalBasic()}</div>
         <Container>
           <Grid container style={{ padding: '1em 0em' }}>
-            {this.state.breadcrumb &&
-            <Grid.Row>
-              <Grid.Column>
-                <BreadcrumbCustom breadcrumb={this.state.breadcrumb} />
-              </Grid.Column>
-            </Grid.Row>
-            }
-            {parentDetail &&
-            <Grid.Row>
-              <Grid.Column>
-                <ParentDetail dataArr={parentDetail} />
-              </Grid.Column>
-            </Grid.Row>
-            }
+            {this.state.breadcrumb && (
+              <Grid.Row>
+                <Grid.Column>
+                  <BreadcrumbCustom breadcrumb={this.state.breadcrumb} />
+                </Grid.Column>
+              </Grid.Row>
+            )}
+            {parentDetail && (
+              <Grid.Row>
+                <Grid.Column>
+                  <ParentDetail dataArr={parentDetail} />
+                </Grid.Column>
+              </Grid.Row>
+            )}
             <Grid.Row>
               <Grid.Column>
                 <Menu attached='top'>
@@ -390,7 +474,13 @@ export default class LayoutTableData extends Component {
                     {/* <Menu.Item> */}
                     <div className='ui left aligned category search item'>
                       <div className='ui transparent icon input'>
-                        <Input icon='search' placeholder='Search...' onChange={(event) => this.props.onSearch(event.target.value)} />
+                        <Input
+                          icon='search'
+                          placeholder='Search...'
+                          onChange={event =>
+                            this.props.onSearch(event.target.value)
+                          }
+                        />
                       </div>
                     </div>
                     {/* </Menu.Item> */}
@@ -399,17 +489,29 @@ export default class LayoutTableData extends Component {
                     </Menu.Item> */}
                   </Menu.Menu>
                   <Menu.Menu position='right'>
-                    <Responsive icon='bars' as={Dropdown} minWidth={769} pointing='right' className='link item' text='Menu'>
+                    <Responsive
+                      icon='bars'
+                      as={Dropdown}
+                      minWidth={769}
+                      pointing='right'
+                      className='link item'
+                      text='Menu'
+                    >
                       {/* <Dropdown icon='bars' text={Responsive.onlyMobile ? 'Menu' : ''} pointing='right' className='link item'> */}
                       {dropdownItems()}
                       {/* </Dropdown> */}
                     </Responsive>
-                    <Responsive icon='bars' as={Dropdown} maxWidth={768} pointing='right' className='link item'>
+                    <Responsive
+                      icon='bars'
+                      as={Dropdown}
+                      maxWidth={768}
+                      pointing='right'
+                      className='link item'
+                    >
                       {/* <Dropdown icon='bars' text={Responsive.onlyMobile ? 'Menu' : ''} pointing='right' className='link item'> */}
                       {dropdownItems()}
                       {/* </Dropdown> */}
                     </Responsive>
-
                   </Menu.Menu>
                 </Menu>
                 <Segment attached='bottom'>

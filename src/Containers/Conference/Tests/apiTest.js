@@ -13,7 +13,7 @@ test('Api getConferences', async () => {
 })
 test('Api getConference', async () => {
   const id = 1
-  const response = await api.getConference({id})
+  const response = await api.getConference({ id })
   const hasData = 'data' in response
   const hasOk = 'ok' in response
   expect(hasData).toBe(true)
@@ -22,7 +22,7 @@ test('Api getConference', async () => {
 })
 test('Api postConference', async () => {
   const data = {
-    'field1': 'value1'
+    field1: 'value1'
   }
   const response = await api.postConference(data)
   const hasData = 'data' in response
@@ -33,8 +33,8 @@ test('Api postConference', async () => {
 })
 test('Api updateConference', async () => {
   const data = {
-    'id': 1,
-    'field1': 'value1'
+    id: 1,
+    field1: 'value1'
   }
   const response = await api.updateConference(data)
   const hasData = 'data' in response
@@ -45,7 +45,7 @@ test('Api updateConference', async () => {
 })
 test('Api removeConference', async () => {
   const data = {
-    'id': 1
+    id: 1
   }
   const response = await api.removeConference(data)
   const hasData = 'data' in response

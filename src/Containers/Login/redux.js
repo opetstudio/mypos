@@ -1,7 +1,7 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import {arrayMerge} from '../../Utils/helper/datamining'
-import {isEmpty} from 'ramda'
+import { arrayMerge } from '../../Utils/helper/datamining'
+import { isEmpty } from 'ramda'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -83,12 +83,26 @@ export const remove = state => {
 // successful api lookup
 export const success = (state, action) => {
   const { payload } = action
-  return state.merge({ fetching: false, error: null, payload, isLoggedIn: false, single: {}, token: '' })
+  return state.merge({
+    fetching: false,
+    error: null,
+    payload,
+    isLoggedIn: false,
+    single: {},
+    token: ''
+  })
 }
 export const removeSuccess = (state, action) => {
   const { payload } = action
   window.localStorage.setItem('isLoggedIn', false)
-  return state.merge({ fetching: false, error: null, payload, isLoggedIn: false, single: {}, token: '' })
+  return state.merge({
+    fetching: false,
+    error: null,
+    payload,
+    isLoggedIn: false,
+    single: {},
+    token: ''
+  })
 }
 
 export const singleSuccess = (state, action) => {
@@ -103,7 +117,7 @@ export const singleSuccess = (state, action) => {
   return state.merge({
     fetching: false,
     error: null,
-    byId: {...state.byId, ...byId},
+    byId: { ...state.byId, ...byId },
     token: contentDetail.access_token,
     isLoggedIn,
     single: contentDetail,
@@ -120,25 +134,34 @@ export const updateHeader = (state, action) => {
 
 export const allSuccess = (state, action) => {
   const { byId, allIds, maxModifiedon } = action
-  return state.merge({ fetching: false, error: null, byId: {...state.byId, ...byId}, allIds: arrayMerge([state.allIds, allIds]) })
+  return state.merge({
+    fetching: false,
+    error: null,
+    byId: { ...state.byId, ...byId },
+    allIds: arrayMerge([state.allIds, allIds])
+  })
 }
 
 // Something went wrong somewhere.
 export const failure = (state, action) => {
   const { data } = action
-  return state.merge({ fetching: false, error: true, payload: null, formSubmitMessage: data.formSubmitMessage })
+  return state.merge({
+    fetching: false,
+    error: true,
+    payload: null,
+    formSubmitMessage: data.formSubmitMessage
+  })
 }
-export const reset = (state) => state.merge(INITIAL_STATE)
+export const reset = state => state.merge(INITIAL_STATE)
 
 // Or just merge a new object
-export const data = (state, { data }) =>
-  state.merge({ data }, {deep: true})
+export const data = (state, { data }) => state.merge({ data }, { deep: true })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.LOGIN_CHECK_STATUS]: (state) => state,
-  [Types.LOGIN_STILL_EXIST]: (state) => state,
+  [Types.LOGIN_CHECK_STATUS]: state => state,
+  [Types.LOGIN_STILL_EXIST]: state => state,
   [Types.LOGIN_REQUEST]: request,
   [Types.LOGIN_CREATE]: create,
   [Types.LOGIN_UPDATE]: update,

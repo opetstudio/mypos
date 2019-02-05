@@ -40,7 +40,7 @@ class PageHomeLayout extends Component {
   render () {
     // console.log('===>==', this.state)
     if (!isUserDetailAccessed && this.state.username) {
-      this.props.getUserProfile({username: this.state.username})
+      this.props.getUserProfile({ username: this.state.username })
     }
     return (
       <div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-// import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
-import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+// import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
 
 // Import Screens for the Router
 // prettier-ignore
@@ -85,9 +85,7 @@ class App extends Component {
     this.unlisten()
   }
   render () {
-    return (
-      <div>{this.props.children}</div>
-    )
+    return <div>{this.props.children}</div>
   }
 }
 const AppContainer = withRouter(App)
@@ -108,9 +106,21 @@ class NavigationRouter extends Component {
 
             {/* begin Ignite-Entity-Filecontent */}
             <Route exact path='/entity/filecontent' component={Filecontent} />
-            <Route exact path='/entity/filecontent-trash' component={Filecontent} />
-            <Route exact path='/entity/filecontent/create' component={FilecontentForm} />
-            <Route exact path='/entity/filecontent/update/:id' component={FilecontentForm} />
+            <Route
+              exact
+              path='/entity/filecontent-trash'
+              component={Filecontent}
+            />
+            <Route
+              exact
+              path='/entity/filecontent/create'
+              component={FilecontentForm}
+            />
+            <Route
+              exact
+              path='/entity/filecontent/update/:id'
+              component={FilecontentForm}
+            />
             {/* end Ignite-Entity-Filecontent */}
 
             {/* begin Ignite-Entity-File */}
@@ -121,24 +131,52 @@ class NavigationRouter extends Component {
             {/* end Ignite-Entity-File */}
 
             {/* begin Ignite-Entity-Participantbadge */}
-            <Route exact path=' /entity/participantbadge/:participant_id' component={Participantbadge} />
+            <Route
+              exact
+              path=' /entity/participantbadge/:participant_id'
+              component={Participantbadge}
+            />
             {/* <Route exact path='/entity/participantbadge-trash' component={Participantbadge} />
     <Route exact path='/entity/participantbadge/create' component={ParticipantbadgeForm} />
     <Route exact path='/entity/participantbadge/update/:id' component={ParticipantbadgeForm} /> */}
             {/* end Ignite-Entity-Participantbadge */}
 
             {/* begin Ignite-Entity-Classparticipant */}
-            <Route exact path='/entity/classparticipant' component={Classparticipant} />
-            <Route exact path='/entity/classparticipant-trash' component={Classparticipant} />
-            <Route exact path='/entity/classparticipant/create' component={ClassparticipantForm} />
-            <Route exact path='/entity/classparticipant/update/:id' component={ClassparticipantForm} />
+            <Route
+              exact
+              path='/entity/classparticipant'
+              component={Classparticipant}
+            />
+            <Route
+              exact
+              path='/entity/classparticipant-trash'
+              component={Classparticipant}
+            />
+            <Route
+              exact
+              path='/entity/classparticipant/create'
+              component={ClassparticipantForm}
+            />
+            <Route
+              exact
+              path='/entity/classparticipant/update/:id'
+              component={ClassparticipantForm}
+            />
             {/* end Ignite-Entity-Classparticipant */}
 
             {/* begin Ignite-Entity-Classes */}
             <Route exact path='/entity/classes' component={Classes} />
             <Route exact path='/entity/classes-trash' component={Classes} />
-            <Route exact path='/entity/classes/create' component={ClassesForm} />
-            <Route exact path='/entity/classes/update/:id' component={ClassesForm} />
+            <Route
+              exact
+              path='/entity/classes/create'
+              component={ClassesForm}
+            />
+            <Route
+              exact
+              path='/entity/classes/update/:id'
+              component={ClassesForm}
+            />
             {/* end Ignite-Entity-Classes */}
 
             {/* begin Ignite-Entity-User */}
@@ -150,23 +188,51 @@ class NavigationRouter extends Component {
 
             {/* begin Ignite-Entity-Participant */}
             <Route exact path='/entity/participant' component={Participant} />
-            <Route exact path='/entity/participant-trash' component={Participant} />
-            <Route exact path='/entity/participant/create' component={ParticipantForm} />
-            <Route exact path='/entity/participant/update/:id' component={ParticipantForm} />
+            <Route
+              exact
+              path='/entity/participant-trash'
+              component={Participant}
+            />
+            <Route
+              exact
+              path='/entity/participant/create'
+              component={ParticipantForm}
+            />
+            <Route
+              exact
+              path='/entity/participant/update/:id'
+              component={ParticipantForm}
+            />
             {/* end Ignite-Entity-Participant */}
 
             {/* begin Ignite-Entity-Conference */}
             <Route exact path='/entity/conference' component={Conference} />
-            <Route exact path='/entity/conference-trash' component={Conference} />
-            <Route exact path='/entity/conference/create' component={ConferenceForm} />
-            <Route exact path='/entity/conference/update/:id' component={ConferenceForm} />
+            <Route
+              exact
+              path='/entity/conference-trash'
+              component={Conference}
+            />
+            <Route
+              exact
+              path='/entity/conference/create'
+              component={ConferenceForm}
+            />
+            <Route
+              exact
+              path='/entity/conference/update/:id'
+              component={ConferenceForm}
+            />
             {/* end Ignite-Entity-Conference */}
 
             {/* begin Ignite-Entity-Badge */}
             <Route exact path='/entity/badge' component={Badge} />
             <Route exact path='/entity/badge-trash' component={Badge} />
             <Route exact path='/entity/badge/create' component={BadgeForm} />
-            <Route exact path='/entity/badge/update/:id' component={BadgeForm} />
+            <Route
+              exact
+              path='/entity/badge/update/:id'
+              component={BadgeForm}
+            />
             {/* end Ignite-Entity-Badge */}
 
             {/* begin Ignite-Entity-Login */}

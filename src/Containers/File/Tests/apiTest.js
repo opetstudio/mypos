@@ -13,7 +13,7 @@ test('Api getFiles', async () => {
 })
 test('Api getFile', async () => {
   const id = 1
-  const response = await api.getFile({id})
+  const response = await api.getFile({ id })
   const hasData = 'data' in response
   const hasOk = 'ok' in response
   expect(hasData).toBe(true)
@@ -22,7 +22,7 @@ test('Api getFile', async () => {
 })
 test('Api postFile', async () => {
   const data = {
-    'field1': 'value1'
+    field1: 'value1'
   }
   const response = await api.postFile(data)
   const hasData = 'data' in response
@@ -33,8 +33,8 @@ test('Api postFile', async () => {
 })
 test('Api updateFile', async () => {
   const data = {
-    'id': 1,
-    'field1': 'value1'
+    id: 1,
+    field1: 'value1'
   }
   const response = await api.updateFile(data)
   const hasData = 'data' in response
@@ -45,7 +45,7 @@ test('Api updateFile', async () => {
 })
 test('Api removeFile', async () => {
   const data = {
-    'id': 1
+    id: 1
   }
   const response = await api.removeFile(data)
   const hasData = 'data' in response

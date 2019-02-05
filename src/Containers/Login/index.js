@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-import LoginActions, {LoginSelectors} from './redux'
+import LoginActions, { LoginSelectors } from './redux'
 import LayoutTableData from '../../Components/LayoutTableData'
 import { makeData } from '../../Utils/Utils'
-import {columns} from './columns'
+import { columns } from './columns'
 
 const Login = LayoutTableData
 const column = columns
@@ -22,11 +22,14 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     // ignite boilerplate dispatch list
-    fetchAll: (query) => dispatch(LoginActions.loginAll(query))
+    fetchAll: query => dispatch(LoginActions.loginAll(query))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login)

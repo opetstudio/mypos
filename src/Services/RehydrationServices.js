@@ -4,51 +4,52 @@ import { persistStore } from 'redux-persist'
 import StartupActions from '../Redux/StartupRedux'
 import DebugConfig from '../Config/DebugConfig'
 
-const updateReducers = (store) => {
+const updateReducers = store => {
   const reducerVersion = ReduxPersist.reducerVersion
   const config = ReduxPersist.storeConfig
   const startup = () => store.dispatch(StartupActions.startup())
 
   // Check to ensure latest reducer version
-  const setPersistStore = () => new Promise(resolve => {
-    LocalForage.getItem('reducerVersion')
-      .then(localVersion => {
-        if (localVersion !== reducerVersion) {
-          if (DebugConfig.useReactotron) {
-            console.tron.display({
-              name: 'PURGE',
-              value: {
-                'Old Version:': localVersion,
-                'New Version:': reducerVersion
-              },
-              preview: 'Reducer Version Change Detected',
-              important: true
-            })
+  const setPersistStore = () =>
+    new Promise(resolve => {
+      LocalForage.getItem('reducerVersion')
+        .then(localVersion => {
+          if (localVersion !== reducerVersion) {
+            if (DebugConfig.useReactotron) {
+              console.tron.display({
+                name: 'PURGE',
+                value: {
+                  'Old Version:': localVersion,
+                  'New Version:': reducerVersion
+                },
+                preview: 'Reducer Version Change Detected',
+                important: true
+              })
+            } else {
+              // console.log(
+              //  'Reducer Version Change from: ' +
+              //    localVersion +
+              //    ' to: ' +
+              //    reducerVersion
+              // )
+            }
+            // Purge store
+            // console.log('do purge')
+            // persistStore(store, config, startup).purge()
+            resolve(persistStore(store, null, startup).purge())
+            LocalForage.setItem('reducerVersion', reducerVersion)
           } else {
-            // console.log(
-            //  'Reducer Version Change from: ' +
-            //    localVersion +
-            //    ' to: ' +
-            //    reducerVersion
-            // )
+            // console.log('dont purge')
+            resolve(persistStore(store, null, startup))
+            // persistStore(store, config, startup)
           }
-          // Purge store
-          // console.log('do purge')
-          // persistStore(store, config, startup).purge()
-          resolve(persistStore(store, null, startup).purge())
-          LocalForage.setItem('reducerVersion', reducerVersion)
-        } else {
-          // console.log('dont purge')
+        })
+        .catch(() => {
           resolve(persistStore(store, null, startup))
           // persistStore(store, config, startup)
-        }
-      })
-      .catch(() => {
-        resolve(persistStore(store, null, startup))
-        // persistStore(store, config, startup)
-        LocalForage.setItem('reducerVersion', reducerVersion)
-      })
-  })
+          LocalForage.setItem('reducerVersion', reducerVersion)
+        })
+    })
   // var r
   // r = await setPersistStore()
   // const doit = async () => {

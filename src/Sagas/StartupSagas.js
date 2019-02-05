@@ -3,7 +3,7 @@ export const selectAvatar = state => state.github.avatar
 
 // process STARTUP actions
 // eslint-disable-next-line
-export function* startup(action) {
+export function * startup (action) {
   if (console.tron) {
     // straight-up string logging
     console.tron.log("Hello, I'm an example of how to log via Reactotron.")

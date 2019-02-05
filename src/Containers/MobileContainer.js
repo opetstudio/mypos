@@ -37,92 +37,125 @@ class MobileContainer extends Component {
     const { children } = this.props
     const { sidebarOpened } = this.state
     const isHome =
-      window.location.pathname === '/home' || window.location.pathname === '/'
+      (window.location.hash || window.location.pathname).replace('#', '') ===
+        '/home' ||
+      (window.location.hash || window.location.pathname).replace('#', '') ===
+        '/'
 
     return (
       // <Responsive {...Responsive.onlyMobile}>
       // <Responsive>
       <Sidebar.Pushable as={Segment}>
-          <Sidebar
-            as={Menu}
-            animation='overlay'
-            icon='labeled'
-            inverted
-            vertical
-            visible={sidebarOpened}
-            width='thin'
+        <Sidebar
+          as={Menu}
+          animation='overlay'
+          icon='labeled'
+          inverted
+          vertical
+          visible={sidebarOpened}
+          width='thin'
+        >
+          <Menu.Item as={Link} to='/' active={isHome}>
+            {/* <Icon name='home' /> */}
+            Home
+          </Menu.Item>
+          <Menu.Item
+            as={Link}
+            to='/about'
+            active={
+              (window.location.hash || window.location.pathname).replace(
+                '#',
+                ''
+              ) === '/about'
+            }
           >
-            <Menu.Item as={Link} to='/' active={isHome}>
-              {/* <Icon name='home' /> */}
-              Home
-            </Menu.Item>
+            {/* <Icon name='gamepad' /> */}
+            About
+          </Menu.Item>
+          <LoggedInAttribute
+            attr='mainmenu'
+            pathname={(
+              window.location.hash || window.location.pathname
+            ).replace('#', '')}
+          />
+          <Menu.Item
+            name='entity'
+            onClick={() => {
+              this.setState({ menuEntityToggle: !this.state.menuEntityToggle })
+            }}
+            style={{
+              backgroundColor:
+                (window.location.hash || window.location.pathname)
+                  .replace('#', '')
+                  .startsWith('/entity') || !this.state.menuEntityToggle
+                  ? 'rgba(255, 255, 255, 0.05)'
+                  : '#1b1c1d'
+            }}
+          >
+            Master Data
+          </Menu.Item>
+          <div
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+            hidden={this.state.menuEntityToggle}
+          >
+            {/* ---list new entity--- */}
+
+            {/* begin Ignite-Entity-File */}
             <Menu.Item
               as={Link}
-              to='/about'
-              active={window.location.pathname === '/about'}
+              to='/entity/file'
+              active={(window.location.hash || window.location.pathname)
+                .replace('#', '')
+                .startsWith('/entity/file')}
             >
-              {/* <Icon name='gamepad' /> */}
-              About
+              File
             </Menu.Item>
-            <LoggedInAttribute attr='mainmenu' pathname={window.location.pathname} />
+            {/* end Ignite-Entity-File */}
+
+            {/* begin Ignite-Entity-Conference */}
             <Menu.Item
-              name='entity'
-              onClick={() => { this.setState({'menuEntityToggle': !this.state.menuEntityToggle}) }}
-              style={{ backgroundColor: (window.location.pathname).startsWith('/entity') || !this.state.menuEntityToggle ? 'rgba(255, 255, 255, 0.05)' : '#1b1c1d' }}
+              as={Link}
+              to='/entity/conference'
+              active={(window.location.hash || window.location.pathname)
+                .replace('#', '')
+                .startsWith('/entity/conference')}
             >
-              Master Data
+              Conference
             </Menu.Item>
-            <div style={{backgroundColor: 'rgba(255, 255, 255, 0.05)'}} hidden={this.state.menuEntityToggle}>
-              {/* ---list new entity--- */}
+            {/* end Ignite-Entity-Conference */}
 
-    {/* begin Ignite-Entity-File */}
-    <Menu.Item
-      as={Link}
-      to='/entity/file'
-      active={(window.location.pathname).startsWith('/entity/file')}
-    >
-    File
-    </Menu.Item>
-    {/* end Ignite-Entity-File */}
-    
+            {/* begin Ignite-Entity-Badge */}
+            <Menu.Item
+              as={Link}
+              to='/entity/badge'
+              active={(window.location.hash || window.location.pathname)
+                .replace('#', '')
+                .startsWith('/entity/badge')}
+            >
+              Badge
+            </Menu.Item>
+            {/* end Ignite-Entity-Badge */}
 
-              {/* begin Ignite-Entity-Conference */}
-              <Menu.Item
-                as={Link}
-                to='/entity/conference'
-                active={(window.location.pathname).startsWith('/entity/conference')}
-              >
-    Conference
-              </Menu.Item>
-              {/* end Ignite-Entity-Conference */}
-
-              {/* begin Ignite-Entity-Badge */}
-              <Menu.Item
-                as={Link}
-                to='/entity/badge'
-                active={(window.location.pathname).startsWith('/entity/badge')}
-              >
-    Badge
-              </Menu.Item>
-              {/* end Ignite-Entity-Badge */}
-
-              {/* <Menu.Item
+            {/* <Menu.Item
                 as={Link}
                 to='/entity/entity1'
-                active={(window.location.pathname).startsWith('/entity/entity1')}
+                active={((window.location.hash || window.location.pathname).replace('#','')).startsWith('/entity/entity1')}
               >
                 Entity1
               </Menu.Item> */}
-            </div>
-            <LoggedInAttribute attr='buttonLogout' onLogout={() => this.setState({sidebarOpened: false})} />
-          </Sidebar>
+          </div>
+          <LoggedInAttribute
+            attr='buttonLogout'
+            onLogout={() => this.setState({ sidebarOpened: false })}
+          />
+        </Sidebar>
 
-          <Sidebar.Pusher
-            dimmed={sidebarOpened}
-            onClick={this.handlePusherClick}
-            style={{ minHeight: '100vh' }}
-          >
-            { window.localStorage.getItem('isLoggedIn') === 'true' &&
+        <Sidebar.Pusher
+          dimmed={sidebarOpened}
+          onClick={this.handlePusherClick}
+          style={{ minHeight: '100vh' }}
+        >
+          {window.localStorage.getItem('isLoggedIn') === 'true' && (
             <Segment
               inverted
               textAlign='center'
@@ -139,10 +172,10 @@ class MobileContainer extends Component {
               </Container>
               {isHome ? <HomepageHeading mobile /> : null}
             </Segment>
-            }
-            {children}
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
+          )}
+          {children}
+        </Sidebar.Pusher>
+      </Sidebar.Pushable>
       // </Responsive>
     )
   }

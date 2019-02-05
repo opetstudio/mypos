@@ -14,7 +14,7 @@ import {
   // Icon
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import LoginActions, {LoginSelectors} from './Login/redux'
+import LoginActions, { LoginSelectors } from './Login/redux'
 import HomepageHeading from '../Components/HomepageHeading'
 import LoggedInAttribute from './LoggedinAttribute'
 
@@ -42,12 +42,18 @@ class DesktopContainer extends Component {
   render () {
     const { children } = this.props
     const { fixed } = this.state
-    // console.log('state=', this.state)
-    const pathname = (window.location.hash).replace('#', '')
+    console.log('window=', window.location)
+    const pathname = (window.location.hash || window.location.pathname).replace(
+      '#',
+      ''
+    )
     // #/entity/participant
     const isHome =
-    pathname === '/home' || pathname === '/' || pathname === '#/' || pathname === '#/home'
-    // console.log('pathname=', pathname)
+      pathname === '/home' ||
+      pathname === '/' ||
+      pathname === '#/' ||
+      pathname === '#/home'
+    console.log('pathname=', pathname)
 
     // const children = React.Children.map(this.props.children, (child, index) => {
     //   // console.log('cekk===>', child)
@@ -85,8 +91,7 @@ class DesktopContainer extends Component {
     return (
       // <Responsive {...Responsive.onlyComputer}>
       <div>
-        {
-          window.localStorage.getItem('isLoggedIn') === 'true' &&
+        {window.localStorage.getItem('isLoggedIn') === 'true' && (
           <Visibility
             once={false}
             onBottomPassed={this.showFixedMenu}
@@ -108,14 +113,14 @@ class DesktopContainer extends Component {
               >
                 <Container>
                   <Menu.Item as={Link} to='/' active={isHome}>
-                  Home
+                    Home
                   </Menu.Item>
                   <Menu.Item
                     as={Link}
                     to='/about'
                     active={pathname === '/about'}
                   >
-                  About
+                    About
                   </Menu.Item>
                   <LoggedInAttribute attr='mainmenu' pathname={pathname} />
                   <LoggedInAttribute attr='buttonLogout' />
@@ -124,7 +129,7 @@ class DesktopContainer extends Component {
               {/* {isHome ? <HomepageHeading /> : null} */}
             </Segment>
           </Visibility>
-        }
+        )}
         {children}
       </div>
       // </Responsive>

@@ -1,10 +1,10 @@
 /* ***********************************************************
-* Wiring Instructions
-* To make this test work, you'll need to:
-*  - Add a Fixture named getFilecontent to the
-*    ./App/Services/FixtureApi file. You can just keep adding
-*    functions to that file.
-*************************************************************/
+ * Wiring Instructions
+ * To make this test work, you'll need to:
+ *  - Add a Fixture named getFilecontent to the
+ *    ./App/Services/FixtureApi file. You can just keep adding
+ *    functions to that file.
+ *************************************************************/
 
 import FixtureAPI from '../../../Services/FixtureApi'
 import API from '../api'
@@ -21,9 +21,13 @@ import {
   theMulti
 } from '../sagas'
 import FilecontentActions from '../redux'
-import { mapAttributes, updateMulti, insertMulti } from '../../../Transforms/TransformAttributes'
+import {
+  mapAttributes,
+  updateMulti,
+  insertMulti
+} from '../../../Transforms/TransformAttributes'
 
-const stepper = (fn) => (mock) => fn.next(mock).value
+const stepper = fn => mock => fn.next(mock).value
 
 // it('first calls API', () => {
 //   const step = stepper(getFilecontent(theApi, {data: 'taco'}))
@@ -72,7 +76,9 @@ test('calls the index action', () => {
   }
 
   actual = saga.next(response).value
-  expect(actual).toEqual(put(FilecontentActions.filecontentAllSuccess(mapAttributes(response.data))))
+  expect(actual).toEqual(
+    put(FilecontentActions.filecontentAllSuccess(mapAttributes(response.data)))
+  )
 
   expect(saga.next().done).toEqual(true)
 })
@@ -99,7 +105,9 @@ test('calls the index action, but fails', () => {
     put(FilecontentActions.filecontentFailure(response.data.errors))
   )
 
-  expect(actual).toEqual(put(FilecontentActions.filecontentFailure(response.data.errors)))
+  expect(actual).toEqual(
+    put(FilecontentActions.filecontentFailure(response.data.errors))
+  )
   expect(saga.next().done).toEqual(true)
 })
 

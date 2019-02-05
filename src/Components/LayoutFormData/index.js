@@ -1,10 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { Container, Image, Button, Menu, Dropdown, Grid, Form, Checkbox, Message, Icon, Input } from 'semantic-ui-react'
+import {
+  Container,
+  Image,
+  Button,
+  Menu,
+  Dropdown,
+  Grid,
+  Form,
+  Checkbox,
+  Message,
+  Icon,
+  Input
+} from 'semantic-ui-react'
 import ReactTable from 'react-table'
-import {path, pick, pickBy, isEmpty, find, propEq} from 'ramda'
-import {Redirect} from 'react-router-dom'
+import { path, pick, pickBy, isEmpty, find, propEq } from 'ramda'
+import { Redirect } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import FormFieldMultiselect from '../FormFieldMultiselect'
@@ -130,7 +142,7 @@ export default class LayoutFormData extends Component {
         let isSubmit = true
         if (v === undefined) isSubmit = false
         if (_.isEqual(this.props.dataDetail[k], v)) isSubmit = false
-        if (!((find(propEq('id', k))(column) || {}).fieldtype)) isSubmit = false
+        if (!(find(propEq('id', k))(column) || {}).fieldtype) isSubmit = false
         return isSubmit
       }, this.props.formData)
       // console.log('formDataPicture   ====>', formDataPicture)
@@ -168,7 +180,7 @@ export default class LayoutFormData extends Component {
       // })
       // formDataFile.append('file', event.target.files[0])
       // console.log('formDataFile======>>>>', formDataFile)
-      this.props.setFormValue({[fieldName]: event.target.files[0]})
+      this.props.setFormValue({ [fieldName]: event.target.files[0] })
       // this.props.setFormValue({'file_name_origin': fileDetail.name})
     } else if (type === 'multiselect-component') {
       val = _.uniq(_.concat(this.props.formData[fieldName], event.value))
@@ -185,27 +197,100 @@ export default class LayoutFormData extends Component {
     }
     // console.log('val==>', val)
 
-    if (val !== null) this.props.setFormValue({[fieldName]: val})
+    if (val !== null) this.props.setFormValue({ [fieldName]: val })
   }
-  renderField ({type, name, value, placeholder, label, options, widthfield, isDesktop}) {
+  renderField ({
+    type,
+    name,
+    value,
+    placeholder,
+    label,
+    options,
+    widthfield,
+    isDesktop
+  }) {
     // console.log('this.state.startDate', this.state.startDate)
     // console.log(`renderField name=${name} value=${value} type=${type}`)
     // const options = [
     //   { key: 'm', text: 'Male', value: 'male' },
     //   { key: 'f', text: 'Female', value: 'female' },
     // ]
-    const selectStyle = isDesktop ? {position: 'relative', top: -20, left: 210} : {}
-    const datepickerStyle = isDesktop ? {position: 'relative', top: -25, left: 210} : {}
-    const textareaStyle = isDesktop ? {position: 'relative', top: -25, left: 210} : {}
+    const selectStyle = isDesktop
+      ? { position: 'relative', top: -20, left: 210 }
+      : {}
+    const datepickerStyle = isDesktop
+      ? { position: 'relative', top: -25, left: 210 }
+      : {}
+    const textareaStyle = isDesktop
+      ? { position: 'relative', top: -25, left: 210 }
+      : {}
     let opt = options || []
     // if (options) opt = options.map(r => ({key: r._id, text: r.conference_name, value: r.conference_code}))
-    if (type === 'input-text') return (<input type='text' name={name} placeholder={placeholder} value={value} onChange={(o) => this.handleChange(o, name)} />)
-    else if (type === 'file') return (<input type='file' name={name} placeholder={placeholder} onChange={(o) => this.handleChange(o, name, type)} />)
-    else if (type === 'textarea') return (<Form.TextArea style={textareaStyle} width={widthfield} type='text' name={name} placeholder={placeholder} value={value} onChange={(o) => this.handleChange(o, name)} />)
-    else if (type === 'input-hidden') return (<Form.Input type='hidden' name={name} placeholder={placeholder} value={value} onChange={(o) => this.handleChange(o, name)} />)
+    if (type === 'input-text') {
+      return (
+        <input
+          type='text'
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={o => this.handleChange(o, name)}
+        />
+      )
+    } else if (type === 'file') {
+      return (
+        <input
+          type='file'
+          name={name}
+          placeholder={placeholder}
+          onChange={o => this.handleChange(o, name, type)}
+        />
+      )
+    } else if (type === 'textarea') {
+      return (
+        <Form.TextArea
+          style={textareaStyle}
+          width={widthfield}
+          type='text'
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={o => this.handleChange(o, name)}
+        />
+      )
+    } else if (type === 'input-hidden') {
+      return (
+        <Form.Input
+          type='hidden'
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={o => this.handleChange(o, name)}
+        />
+      )
+    }
     // else if (type === 'select') return (<Dropdown placeholder='Skills' name={name} fluid multiple selection options={options} onChange={(o) => this.handleChange(o, name)} />)
-    else if (type === 'select') return (<Form.Select style={selectStyle} width={widthfield} name={name} value={value} options={opt} placeholder={label} onChange={(o, obj) => this.handleChange(obj, name, type)} />)
-    else if (type === 'input-date') return (<div style={datepickerStyle}><DatePicker selected={moment(parseInt(value || new Date().getTime()))} onChange={(date) => this.handleChange({value: date}, name, type)} /></div>)
+    else if (type === 'select') {
+      return (
+        <Form.Select
+          style={selectStyle}
+          width={widthfield}
+          name={name}
+          value={value}
+          options={opt}
+          placeholder={label}
+          onChange={(o, obj) => this.handleChange(obj, name, type)}
+        />
+      )
+    } else if (type === 'input-date') {
+      return (
+        <div style={datepickerStyle}>
+          <DatePicker
+            selected={moment(parseInt(value || new Date().getTime()))}
+            onChange={date => this.handleChange({ value: date }, name, type)}
+          />
+        </div>
+      )
+    }
     return null
   }
 
@@ -214,8 +299,12 @@ export default class LayoutFormData extends Component {
     // console.log('[LayoutFormData.render] formData', this.props.formData)
     const id = path(['match', 'params', 'id', 'formData'], this.props)
     const MessageIcon = () => (
-      <Message icon negative={this.props.submitFailed} success={this.props.submitSuccess}>
-        {(this.props.submit && id) && <Icon name='circle notched' loading />}
+      <Message
+        icon
+        negative={this.props.submitFailed}
+        success={this.props.submitSuccess}
+      >
+        {this.props.submit && id && <Icon name='circle notched' loading />}
         <Message.Content>
           {this.props.submit && <Message.Header>Please wait.</Message.Header>}
           {this.props.submitMessage && <span>{this.props.submitMessage}</span>}
@@ -230,57 +319,101 @@ export default class LayoutFormData extends Component {
     // return <Redirect to={`${this.props.redirectPath}${this.props.newRecordId}`} />
     // }
     // const isDesktop = true
-    const isDesktop = (window.screen.width >= minDesktopScreenWidth)
-    const labelStyle = isDesktop ? {'width': 200, 'textAlign': 'right'} : {}
-    const buttonStyle = isDesktop ? {position: 'relative', left: 210} : {}
+    const isDesktop = window.screen.width >= minDesktopScreenWidth
+    const labelStyle = isDesktop ? { width: 200, textAlign: 'right' } : {}
+    const buttonStyle = isDesktop ? { position: 'relative', left: 210 } : {}
     return (
       <div>
         <Container>
           <Grid container style={{ padding: '1em 0em' }}>
             <Grid.Row>
               <Grid.Column>
-                {(this.props.submitMessage !== '' && !this.props.initial) && <MessageIcon />}
+                {this.props.submitMessage !== '' && !this.props.initial && (
+                  <MessageIcon />
+                )}
                 <h2>Form {this.props.entityName}</h2>
                 <Form>
-                  {
-                    this.props.column &&
-                    this.props.column.map(colGroup => colGroup.Action !== 'ACT' && (
-                      colGroup.columns.map(col => (<Form.Field inline={isDesktop} key={col.id}>
-                        {col.fieldtype && <label style={labelStyle}>{col.Header}</label>}
-                        { col.fieldtype !== 'multiselect-component' &&
-                          this.renderField({
-                            type: col.fieldtype,
-                            name: col.id,
-                            value: (this.props.formData || {})[col.id] || '',
-                            widthfield: col.widthfield,
-                            placeholder: col.Header,
-                            label: col.Header,
-                            options: (this.props.selectoptions) ? this.props.selectoptions[col.id] : [],
-                            isDesktop
-                          })
-                        }
-                        { (col.fieldtype === 'multiselect-component' && this.props.multiselectComponent) &&
-                          <FormFieldMultiselect
-                            options={(this.props.multiselectComponent[col.id] || {}).data}
-                            columns={(this.props.multiselectComponent[col.id] || {}).column}
-                            columnTable={(this.props.multiselectComponent[col.id] || {}).columnTable}
-                            selected={this.props.formData[col.id] || []}
-                            onSubmitSelected={(listSelectedId) => this.handleChange({value: listSelectedId}, col.id, col.fieldtype)}
-                            createItemForFieldMultiselect={this.props.createItemForFieldMultiselect}
-                          />
-                        }
-                      </Form.Field>))
-                    ))
-                  }
+                  {this.props.column &&
+                    this.props.column.map(
+                      colGroup =>
+                        colGroup.Action !== 'ACT' &&
+                        colGroup.columns.map(col => (
+                          <Form.Field inline={isDesktop} key={col.id}>
+                            {col.fieldtype && (
+                              <label style={labelStyle}>{col.Header}</label>
+                            )}
+                            {col.fieldtype !== 'multiselect-component' &&
+                              this.renderField({
+                                type: col.fieldtype,
+                                name: col.id,
+                                value:
+                                  (this.props.formData || {})[col.id] || '',
+                                widthfield: col.widthfield,
+                                placeholder: col.Header,
+                                label: col.Header,
+                                options: this.props.selectoptions
+                                  ? this.props.selectoptions[col.id]
+                                  : [],
+                                isDesktop
+                              })}
+                            {col.fieldtype === 'multiselect-component' &&
+                              this.props.multiselectComponent && (
+                                <FormFieldMultiselect
+                                  options={
+                                    (
+                                      this.props.multiselectComponent[col.id] ||
+                                      {}
+                                    ).data
+                                  }
+                                  columns={
+                                    (
+                                      this.props.multiselectComponent[col.id] ||
+                                      {}
+                                    ).column
+                                  }
+                                  columnTable={
+                                    (
+                                      this.props.multiselectComponent[col.id] ||
+                                      {}
+                                    ).columnTable
+                                  }
+                                  selected={this.props.formData[col.id] || []}
+                                  onSubmitSelected={listSelectedId =>
+                                    this.handleChange(
+                                      { value: listSelectedId },
+                                      col.id,
+                                      col.fieldtype
+                                    )
+                                  }
+                                  createItemForFieldMultiselect={
+                                    this.props.createItemForFieldMultiselect
+                                  }
+                                />
+                              )}
+                          </Form.Field>
+                        ))
+                    )}
                   {/* <Form.Field>
                     <Checkbox label='I agree to the Terms and Conditions' />
                   </Form.Field> */}
                   {/* <Form.Field inline key={'file'} >
                     <input id='myfiles' multiple type='file' name='myfiles' />
                   </Form.Field> */}
-                  <Form.Field inline key={'submit'} >
-                    <Button style={buttonStyle} type='submit' onClick={e => this.handleSubmit(e)}>Submit</Button>
-                    <Button style={buttonStyle} type='button' onClick={e => window.history.back()}>Back</Button>
+                  <Form.Field inline key={'submit'}>
+                    <Button
+                      style={buttonStyle}
+                      type='submit'
+                      onClick={e => this.handleSubmit(e)}
+                    >
+                      Submit
+                    </Button>
+                    <Button
+                      style={buttonStyle}
+                      type='button'
+                      onClick={e => window.history.back()}
+                    >
+                      Back
+                    </Button>
                   </Form.Field>
                 </Form>
               </Grid.Column>

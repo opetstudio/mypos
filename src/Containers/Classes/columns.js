@@ -32,7 +32,12 @@ export const columns = [
         // accessor: 'starting_date',
         id: 'starting_date',
         fieldtype: 'input-date',
-        accessor: d => d.starting_date ? moment(parseInt(d.starting_date || '0')).format('ll').toString() : ''
+        accessor: d =>
+          d.starting_date
+            ? moment(parseInt(d.starting_date || '0'))
+              .format('ll')
+              .toString()
+            : ''
       },
       {
         Header: 'description',

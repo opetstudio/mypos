@@ -13,7 +13,7 @@ test('Api getUsers', async () => {
 })
 test('Api getUser', async () => {
   const id = 1
-  const response = await api.getUser({id})
+  const response = await api.getUser({ id })
   const hasData = 'data' in response
   const hasOk = 'ok' in response
   expect(hasData).toBe(true)
@@ -22,7 +22,7 @@ test('Api getUser', async () => {
 })
 test('Api postUser', async () => {
   const data = {
-    'field1': 'value1'
+    field1: 'value1'
   }
   const response = await api.postUser(data)
   const hasData = 'data' in response
@@ -33,8 +33,8 @@ test('Api postUser', async () => {
 })
 test('Api updateUser', async () => {
   const data = {
-    'id': 1,
-    'field1': 'value1'
+    id: 1,
+    field1: 'value1'
   }
   const response = await api.updateUser(data)
   const hasData = 'data' in response
@@ -45,7 +45,7 @@ test('Api updateUser', async () => {
 })
 test('Api removeUser', async () => {
   const data = {
-    'id': 1
+    id: 1
   }
   const response = await api.removeUser(data)
   const hasData = 'data' in response

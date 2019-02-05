@@ -1,7 +1,7 @@
 // a library to wrap and simplify api calls
 import AppConfig from '../../Config/AppConfig'
 
-export const create = (api) => ({
+export const create = api => ({
   postLogin: (data, opt) => {
     // console.log('postLogin data', data)
     // api.setHeader('authorization', opt.session.token)
@@ -16,7 +16,10 @@ export const create = (api) => ({
   },
   updateLogin: data => api.patch('logins/' + data.id, { login: data }),
   removeLogin: (data, opt) => {
-    api.setHeader(AppConfig.authHeader, opt.session.token_type + ' ' + opt.session.access_token)
+    api.setHeader(
+      AppConfig.authHeader,
+      opt.session.token_type + ' ' + opt.session.access_token
+    )
     return api.get('logout')
   },
   getLoginStatus: (data, opt) => {
@@ -24,7 +27,10 @@ export const create = (api) => ({
     // console.log('auth===>', auth)
     api.setHeader('Content-Type', 'application/json')
     api.setHeader('Accept', 'application/json')
-    api.setHeader(AppConfig.authHeader, opt.session.token_type + ' ' + opt.session.access_token)
+    api.setHeader(
+      AppConfig.authHeader,
+      opt.session.token_type + ' ' + opt.session.access_token
+    )
     return api.get('get-login-status')
   }
 })

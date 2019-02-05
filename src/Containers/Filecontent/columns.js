@@ -2,7 +2,7 @@ export const columns = [
   {
     Header: 'Name',
     columns: [
-       {
+      {
         Header: '_id',
         accessor: '_id',
         id: '_id',

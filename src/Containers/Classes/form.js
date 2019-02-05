@@ -1,23 +1,25 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {Redirect} from 'react-router-dom'
-import {path, isEmpty, find, pickBy, propEq} from 'ramda'
+import { Redirect } from 'react-router-dom'
+import { path, isEmpty, find, pickBy, propEq } from 'ramda'
 import Immutable from 'seamless-immutable'
 import _ from 'lodash'
-import ClassesActions, {ClassesSelectors} from './redux'
-import BadgeActions, {BadgeSelectors} from '../Badge/redux'
-import ParticipantActions, {ParticipantSelectors} from '../Participant/redux'
-import ClassparticipantActions, {ClassparticipantSelectors} from '../Classparticipant/redux'
+import ClassesActions, { ClassesSelectors } from './redux'
+import BadgeActions, { BadgeSelectors } from '../Badge/redux'
+import ParticipantActions, { ParticipantSelectors } from '../Participant/redux'
+import ClassparticipantActions, {
+  ClassparticipantSelectors
+} from '../Classparticipant/redux'
 import LayoutFormData from '../../Components/LayoutFormData'
-import {columns as column} from './columns'
-import {columns as participantColumns} from '../Participant/columns'
-import {LoginSelectors} from '../Login/redux'
+import { columns as column } from './columns'
+import { columns as participantColumns } from '../Participant/columns'
+import { LoginSelectors } from '../Login/redux'
 import ButtonAction from '../../Components/ButtonAction'
 
 // const column = columns
 const defaultPageSize = 10
-const columnOptions =  _.cloneDeep(participantColumns)
+const columnOptions = _.cloneDeep(participantColumns)
 
 // (columnSelected[0].columns).push({})
 class TheComponent extends Component {
@@ -60,21 +62,34 @@ class TheComponent extends Component {
   constructor (props) {
     super(props)
     this.state = {}
-    this.setupMultiselectComponent = this.setupMultiselectComponent.bind(this) 
+    this.setupMultiselectComponent = this.setupMultiselectComponent.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.props.fetchAllBadge({})
     this.props.fetchAllParticipant({})
-    this.props.fetchAllClassParticipant({params: { class_id: (this.props.dataDetail || {})['_id'] }})
-   
-    const allParticipants = _.filter(Immutable.asMutable(this.props.allParticipants, {deep: true}), (o) => o.status !== 'remove')
-    let allClassParticipant = Immutable.asMutable(this.props.allClassParticipant, {deep: true})
-    const multiselectComponent = this.setupMultiselectComponent({options: allParticipants, allClassParticipant})
+    this.props.fetchAllClassParticipant({
+      params: { class_id: (this.props.dataDetail || {})['_id'] }
+    })
+
+    const allParticipants = _.filter(
+      Immutable.asMutable(this.props.allParticipants, { deep: true }),
+      o => o.status !== 'remove'
+    )
+    let allClassParticipant = Immutable.asMutable(
+      this.props.allClassParticipant,
+      { deep: true }
+    )
+    const multiselectComponent = this.setupMultiselectComponent({
+      options: allParticipants,
+      allClassParticipant
+    })
     // console.log('constructor allClassParticipant', allClassParticipant)
     // console.log('constructor allParticipants', allParticipants)
     this.state = {
       column: this.props.column,
       allParticipants,
-      selectoptions: Immutable.asMutable(this.props.selectoptions, {deep: true}),
+      selectoptions: Immutable.asMutable(this.props.selectoptions, {
+        deep: true
+      }),
       id: this.props.id,
       dataDetail: this.props.dataDetail,
       submit: this.props.submit,
@@ -89,21 +104,28 @@ class TheComponent extends Component {
       entityName: this.props.entityName,
       formReset: this.props.formReset,
       formData: this.props.formData,
-      createItemForFieldMultiselect: () => this.props.redirect('/entity/participant/create'),
+      createItemForFieldMultiselect: () =>
+        this.props.redirect('/entity/participant/create'),
       initial: true,
       allClassParticipant,
       multiselectComponent
     }
     if (this.props.id && this.props.id !== '') {
-      this.props.fetchOne({id: this.props.id})
-      this.props.setFormValue({...Immutable.asMutable(this.props.dataDetail, {deep: true}), class_participants: Immutable.asMutable(this.props.allParticipantIdByClassId, {deep: true})})
+      this.props.fetchOne({ id: this.props.id })
+      this.props.setFormValue({
+        ...Immutable.asMutable(this.props.dataDetail, { deep: true }),
+        class_participants: Immutable.asMutable(
+          this.props.allParticipantIdByClassId,
+          { deep: true }
+        )
+      })
     }
-    
+
     // console.log('multiselectComponent', multiselectComponent)
     // this.setState({multiselectComponent})
   }
   onSubmit (event) {
-    this.setState({initial: false})
+    this.setState({ initial: false })
     // alert('Your favorite flavor is: ' + this.state.value)
     // console.log('submit', this.state.form._id)
     let column = ((this.props.column || [])[0] || {}).columns
@@ -125,7 +147,7 @@ class TheComponent extends Component {
       var dataPatch = pickBy((v, k) => {
         let isSubmit = true
         if (_.isEqual(this.props.dataDetail[k], v)) isSubmit = false
-        if (!((find(propEq('id', k))(column) || {}).fieldtype)) isSubmit = false
+        if (!(find(propEq('id', k))(column) || {}).fieldtype) isSubmit = false
         return isSubmit
       }, this.props.formData)
       // console.log('dataPatch   ====>', dataPatch)
@@ -133,7 +155,7 @@ class TheComponent extends Component {
     } else {
       // console.log('dataPatch====>', this.props.formData)
       // create
-      if (!isEmpty(this.props.formData)) this.props.entityCreate(this.props.formData)
+      if (!isEmpty(this.props.formData)) { this.props.entityCreate(this.props.formData) }
     }
     event.preventDefault()
   }
@@ -146,7 +168,7 @@ class TheComponent extends Component {
     // }
     return null
   }
-  setupMultiselectComponent ({options, allClassParticipant}) {
+  setupMultiselectComponent ({ options, allClassParticipant }) {
     // const options = this.state.allParticipants
     // const allClassParticipant = this.state.allClassParticipant
     // console.log('allParticipants===>', options)
@@ -156,74 +178,175 @@ class TheComponent extends Component {
       class_participants: {
         data: options,
         column: columnOptions,
-        columnTable: ((opt) => {
+        columnTable: (opt => {
           const columnSelected = _.cloneDeep(participantColumns) || [{}]
           columnSelected[0].columns.push({
             Header: 'Evaluate',
             id: 'evaluate',
-            accessor: (o) => {
+            accessor: o => {
               if (!_.isEmpty(allClassParticipant)) {
-                const isEvaluated = ((_.filter(allClassParticipant, {class_id: this.state.id, participant_id: o._id}) || [{}])[0] || {})['is_evaluated'] || '0'
-                if (isEvaluated === '1') return <div><span>done</span></div>
+                const isEvaluated =
+                  ((_.filter(allClassParticipant, {
+                    class_id: this.state.id,
+                    participant_id: o._id
+                  }) || [{}])[0] || {})['is_evaluated'] || '0'
+                if (isEvaluated === '1') {
+                  return (
+                    <div>
+                      <span>done</span>
+                    </div>
+                  )
+                }
               }
-              return <ButtonAction evaluatedButton onClick={() => opt.onClickEvaluateButton(o._id)} />
+              return (
+                <ButtonAction
+                  evaluatedButton
+                  onClick={() => opt.onClickEvaluateButton(o._id)}
+                />
+              )
             }
           })
           columnSelected[0].columns.push({
             Header: 'Delete',
             id: 'Del',
-            accessor: (o) => {
+            accessor: o => {
               // console.log(`classId=${this.state.id}|participantId=${o._id}|allClassParticipant`, allClassParticipant)
               if (!_.isEmpty(allClassParticipant)) {
-                const isEvaluated = ((_.filter(allClassParticipant, {class_id: this.state.id, participant_id: o._id}) || [{}])[0] || {})['is_evaluated'] || '0'
-                if (isEvaluated === '1') return <div><span>-</span></div>
+                const isEvaluated =
+                  ((_.filter(allClassParticipant, {
+                    class_id: this.state.id,
+                    participant_id: o._id
+                  }) || [{}])[0] || {})['is_evaluated'] || '0'
+                if (isEvaluated === '1') {
+                  return (
+                    <div>
+                      <span>-</span>
+                    </div>
+                  )
+                }
               }
-              return <ButtonAction deleteButton onClick={() => opt.onClickDeleteButton(o._id)} />
+              return (
+                <ButtonAction
+                  deleteButton
+                  onClick={() => opt.onClickDeleteButton(o._id)}
+                />
+              )
             }
           })
           return columnSelected
-        })({onClickEvaluateButton: (participantId) => this.state.evaluateParticipant({classId: this.state.id, participantId: participantId}), onClickDeleteButton: (participantId) => this.state.deleteParticipant({classId: this.state.id, participantId: participantId})})
+        })({
+          onClickEvaluateButton: participantId =>
+            this.state.evaluateParticipant({
+              classId: this.state.id,
+              participantId: participantId
+            }),
+          onClickDeleteButton: participantId =>
+            this.state.deleteParticipant({
+              classId: this.state.id,
+              participantId: participantId
+            })
+        })
       }
     }
     return multiselectComponent
   }
   componentDidUpdate (prevProps, prevState, snapshot) {
     // console.log('componentDidUpdate')
-    if (!_.isEqual(prevProps.dataDetail, this.props.dataDetail) && !_.isEmpty(this.props.dataDetail)) {
-      let dataDetail = Immutable.asMutable(this.props.dataDetail, {deep: true})
-      this.props.setFormValue({...this.props.formData, ...dataDetail})
-      this.setState({dataDetail})
+    if (
+      !_.isEqual(prevProps.dataDetail, this.props.dataDetail) &&
+      !_.isEmpty(this.props.dataDetail)
+    ) {
+      let dataDetail = Immutable.asMutable(this.props.dataDetail, {
+        deep: true
+      })
+      this.props.setFormValue({ ...this.props.formData, ...dataDetail })
+      this.setState({ dataDetail })
     }
-    if (!_.isEqual(prevProps.allParticipantIdByClassId, this.props.allParticipantIdByClassId) && !_.isEmpty(this.props.allParticipantIdByClassId)) {
-      const currentFormClassParticipants = Immutable.asMutable(this.props.formData.class_participants || [], {deep: true})
-      this.props.setFormValue({...this.props.formData, class_participants: _.uniq([...currentFormClassParticipants, ...this.props.allParticipantIdByClassId])})
+    if (
+      !_.isEqual(
+        prevProps.allParticipantIdByClassId,
+        this.props.allParticipantIdByClassId
+      ) &&
+      !_.isEmpty(this.props.allParticipantIdByClassId)
+    ) {
+      const currentFormClassParticipants = Immutable.asMutable(
+        this.props.formData.class_participants || [],
+        { deep: true }
+      )
+      this.props.setFormValue({
+        ...this.props.formData,
+        class_participants: _.uniq([
+          ...currentFormClassParticipants,
+          ...this.props.allParticipantIdByClassId
+        ])
+      })
     }
-    if (!_.isEqual(prevProps.allParticipants, this.props.allParticipants) && !_.isEmpty(this.props.allParticipants)) {
-      let allParticipants = _.filter(Immutable.asMutable(this.props.allParticipants, {deep: true}), (o) => o.status !== 'remove')
-      
+    if (
+      !_.isEqual(prevProps.allParticipants, this.props.allParticipants) &&
+      !_.isEmpty(this.props.allParticipants)
+    ) {
+      let allParticipants = _.filter(
+        Immutable.asMutable(this.props.allParticipants, { deep: true }),
+        o => o.status !== 'remove'
+      )
+
       this.setState({ allParticipants })
     }
-    if (!_.isEqual(prevProps.allClassParticipant, this.props.allClassParticipant) && !_.isEmpty(this.props.allClassParticipant)) {
-      let allClassParticipant = Immutable.asMutable(this.props.allClassParticipant, {deep: true})
+    if (
+      !_.isEqual(
+        prevProps.allClassParticipant,
+        this.props.allClassParticipant
+      ) &&
+      !_.isEmpty(this.props.allClassParticipant)
+    ) {
+      let allClassParticipant = Immutable.asMutable(
+        this.props.allClassParticipant,
+        { deep: true }
+      )
       this.setState({ allClassParticipant })
     }
-    if (!_.isEqual(prevProps.selectoptions, this.props.selectoptions) && !_.isEmpty(this.props.selectoptions)) this.setState({selectoptions: Immutable.asMutable(this.props.selectoptions, {deep: true})})
-    if (!_.isEqual(prevProps.formData, this.props.formData) && !_.isEmpty(this.props.formData)) this.setState({formData: {...this.state.formData, ...Immutable.asMutable(this.props.formData, {deep: true})}})
-    if (prevProps.id !== this.props.id) this.setState({id: this.props.id})
+    if (
+      !_.isEqual(prevProps.selectoptions, this.props.selectoptions) &&
+      !_.isEmpty(this.props.selectoptions)
+    ) {
+      this.setState({
+        selectoptions: Immutable.asMutable(this.props.selectoptions, {
+          deep: true
+        })
+      })
+    }
+    if (
+      !_.isEqual(prevProps.formData, this.props.formData) &&
+      !_.isEmpty(this.props.formData)
+    ) {
+      this.setState({
+        formData: {
+          ...this.state.formData,
+          ...Immutable.asMutable(this.props.formData, { deep: true })
+        }
+      })
+    }
+    if (prevProps.id !== this.props.id) this.setState({ id: this.props.id })
 
-    if (prevProps.submit !== this.props.submit) this.setState({submit: this.props.submit})
-    if (prevProps.submitFailed !== this.props.submitFailed) this.setState({submitFailed: this.props.submitFailed})
-    if (prevProps.submitSuccess !== this.props.submitSuccess) this.setState({submitSuccess: this.props.submitSuccess})
-    if (prevProps.submitMessage !== this.props.submitMessage) this.setState({submitMessage: this.props.submitMessage})
+    if (prevProps.submit !== this.props.submit) { this.setState({ submit: this.props.submit }) }
+    if (prevProps.submitFailed !== this.props.submitFailed) { this.setState({ submitFailed: this.props.submitFailed }) }
+    if (prevProps.submitSuccess !== this.props.submitSuccess) { this.setState({ submitSuccess: this.props.submitSuccess }) }
+    if (prevProps.submitMessage !== this.props.submitMessage) { this.setState({ submitMessage: this.props.submitMessage }) }
 
-    if ((prevState.allClassParticipant !== this.state.allClassParticipant && !_.isEmpty(this.state.allClassParticipant)) ||
-    (prevState.allParticipants !== this.state.allParticipants && !_.isEmpty(this.state.allParticipants))
+    if (
+      (prevState.allClassParticipant !== this.state.allClassParticipant &&
+        !_.isEmpty(this.state.allClassParticipant)) ||
+      (prevState.allParticipants !== this.state.allParticipants &&
+        !_.isEmpty(this.state.allParticipants))
     ) {
       // console.log('======>allClassParticipant', this.state.allClassParticipant)
       // console.log('======>allParticipants', this.state.allParticipants)
       const allParticipants = this.state.allParticipants
       const allClassParticipant = this.state.allClassParticipant
-      const multiselectComponent = this.setupMultiselectComponent({options: allParticipants, allClassParticipant})
+      const multiselectComponent = this.setupMultiselectComponent({
+        options: allParticipants,
+        allClassParticipant
+      })
       this.setState({
         multiselectComponent
       })
@@ -234,27 +357,35 @@ class TheComponent extends Component {
   }
   render () {
     // console.log('render state=', this.state)
-    if (window.localStorage.getItem('isLoggedIn') !== 'true') return <Redirect to='/login' />
-    if (!this.props.dataDetail) return <div><span>Loading</span></div>
+    if (window.localStorage.getItem('isLoggedIn') !== 'true') { return <Redirect to='/login' /> }
+    if (!this.props.dataDetail) {
+      return (
+        <div>
+          <span>Loading</span>
+        </div>
+      )
+    }
     // console.log('render====>', this.state)
-    return <LayoutFormData
-      id={this.state.id}
-      column={this.state.column}
-      formData={this.state.formData}
-      dataDetail={this.state.dataDetail}
-      entityUpdate={this.state.entityUpdate}
-      setFormValue={this.state.setFormValue}
-      submitSuccess={this.state.submitSuccess}
-      submitMessage={this.state.submitMessage}
-      submitFailed={this.state.submitFailed}
-      submit={this.state.submit}
-      initial={this.state.initial}
-      entityName={this.state.entityName}
-      selectoptions={this.state.selectoptions}
-      multiselectComponent={this.state.multiselectComponent}
-      createItemForFieldMultiselect={this.state.createItemForFieldMultiselect}
-      onSubmit={this.onSubmit}
-    />
+    return (
+      <LayoutFormData
+        id={this.state.id}
+        column={this.state.column}
+        formData={this.state.formData}
+        dataDetail={this.state.dataDetail}
+        entityUpdate={this.state.entityUpdate}
+        setFormValue={this.state.setFormValue}
+        submitSuccess={this.state.submitSuccess}
+        submitMessage={this.state.submitMessage}
+        submitFailed={this.state.submitFailed}
+        submit={this.state.submit}
+        initial={this.state.initial}
+        entityName={this.state.entityName}
+        selectoptions={this.state.selectoptions}
+        multiselectComponent={this.state.multiselectComponent}
+        createItemForFieldMultiselect={this.state.createItemForFieldMultiselect}
+        onSubmit={this.onSubmit}
+      />
+    )
   }
 }
 
@@ -266,7 +397,9 @@ const mapStateToProps = (state, ownProps) => {
     // this.props.history.push('/dashboard')
     redirect: ownProps.history.push,
     defaultPageSize,
-    allClassParticipant: ClassparticipantSelectors.getAllDataArr(state.classparticipant),
+    allClassParticipant: ClassparticipantSelectors.getAllDataArr(
+      state.classparticipant
+    ),
     allParticipants: ParticipantSelectors.getAllDataArr(state.participant),
     dataDetail: ClassesSelectors.getDetailById(state.classes, id),
     submitFailed: ClassesSelectors.getFormSubmitFailed(state.classes),
@@ -276,42 +409,55 @@ const mapStateToProps = (state, ownProps) => {
     newRecordId: ClassesSelectors.getNewRecordId(state.classes),
     formData: ClassesSelectors.getForm(state.classes),
     id,
-    allParticipantIdByClassId: ClassparticipantSelectors.getAllParticipantIdByClassId(state.classparticipant, id),
+    allParticipantIdByClassId: ClassparticipantSelectors.getAllParticipantIdByClassId(
+      state.classparticipant,
+      id
+    ),
     redirectPath: '/entity/classes/update/',
     entityName: 'Classes',
     isLoggedIn: LoginSelectors.isLoggedIn(state.login),
     selectoptions: {
       status: [
-        {key: '1', text: 'publish', value: 'publish'},
-        {key: '2', text: 'draft', value: 'draft'},
+        { key: '1', text: 'publish', value: 'publish' },
+        { key: '2', text: 'draft', value: 'draft' },
         // {key: '3', text: 'delete', value: 'delete'},
-        {key: '4', text: 'complete', value: 'complete'}
+        { key: '4', text: 'complete', value: 'complete' }
       ],
-      badge: (BadgeSelectors.getAllDataArr(state.badge) || []).map(r => ({key: r._id, text: r.badge_name, value: r._id}))
+      badge: (BadgeSelectors.getAllDataArr(state.badge) || []).map(r => ({
+        key: r._id,
+        text: r.badge_name,
+        value: r._id
+      }))
     },
     loginDetail: LoginSelectors.getSingle(state.login),
     loginToken: LoginSelectors.getToken(state.login),
     column
-
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     // dependences list
-    fetchAllBadge: (query) => dispatch(BadgeActions.badgeRequestAll(query)),
-    fetchAllParticipant: (query) => dispatch(ParticipantActions.participantRequestAll(query)),
-    fetchAllClassParticipant: (query) => dispatch(ClassparticipantActions.classparticipantRequestAll(query)),
+    fetchAllBadge: query => dispatch(BadgeActions.badgeRequestAll(query)),
+    fetchAllParticipant: query =>
+      dispatch(ParticipantActions.participantRequestAll(query)),
+    fetchAllClassParticipant: query =>
+      dispatch(ClassparticipantActions.classparticipantRequestAll(query)),
     // ignite boilerplate dispatch list
-    setFormValue: (data) => dispatch(ClassesActions.classesSetFormValue(data)),
-    formReset: (data) => dispatch(ClassesActions.classesFormReset(data)),
-    fetchOne: (query) => dispatch(ClassesActions.classesRequest(query)),
-    entityCreate: (data) => dispatch(ClassesActions.classesCreate(data)),
-    entityUpdate: (data, id) => dispatch(ClassesActions.classesUpdate(data, id)),
-    deleteParticipant: (data) => dispatch(ClassesActions.classesDeleteParticipant(data)),
-    evaluateParticipant: (data) => dispatch(ClassesActions.classesEvaluatedParticipant(data))
-
+    setFormValue: data => dispatch(ClassesActions.classesSetFormValue(data)),
+    formReset: data => dispatch(ClassesActions.classesFormReset(data)),
+    fetchOne: query => dispatch(ClassesActions.classesRequest(query)),
+    entityCreate: data => dispatch(ClassesActions.classesCreate(data)),
+    entityUpdate: (data, id) =>
+      dispatch(ClassesActions.classesUpdate(data, id)),
+    deleteParticipant: data =>
+      dispatch(ClassesActions.classesDeleteParticipant(data)),
+    evaluateParticipant: data =>
+      dispatch(ClassesActions.classesEvaluatedParticipant(data))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TheComponent)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TheComponent)

@@ -1,10 +1,10 @@
 /* ***********************************************************
-* Wiring Instructions
-* To make this test work, you'll need to:
-*  - Add a Fixture named getBadge to the
-*    ./App/Services/FixtureApi file. You can just keep adding
-*    functions to that file.
-*************************************************************/
+ * Wiring Instructions
+ * To make this test work, you'll need to:
+ *  - Add a Fixture named getBadge to the
+ *    ./App/Services/FixtureApi file. You can just keep adding
+ *    functions to that file.
+ *************************************************************/
 
 import FixtureAPI from '../../../Services/FixtureApi'
 import API from '../api'
@@ -21,9 +21,13 @@ import {
   theMulti
 } from '../sagas'
 import BadgeActions from '../redux'
-import { mapAttributes, updateMulti, insertMulti } from '../../../Transforms/TransformAttributes'
+import {
+  mapAttributes,
+  updateMulti,
+  insertMulti
+} from '../../../Transforms/TransformAttributes'
 
-const stepper = (fn) => (mock) => fn.next(mock).value
+const stepper = fn => mock => fn.next(mock).value
 
 // it('first calls API', () => {
 //   const step = stepper(getBadge(theApi, {data: 'taco'}))
@@ -72,7 +76,9 @@ test('calls the index action', () => {
   }
 
   actual = saga.next(response).value
-  expect(actual).toEqual(put(BadgeActions.badgeAllSuccess(mapAttributes(response.data))))
+  expect(actual).toEqual(
+    put(BadgeActions.badgeAllSuccess(mapAttributes(response.data)))
+  )
 
   expect(saga.next().done).toEqual(true)
 })
@@ -95,9 +101,7 @@ test('calls the index action, but fails', () => {
   }
 
   actual = saga.next(response).value
-  expect(actual).toEqual(
-    put(BadgeActions.badgeFailure(response.data.errors))
-  )
+  expect(actual).toEqual(put(BadgeActions.badgeFailure(response.data.errors)))
 
   expect(actual).toEqual(put(BadgeActions.badgeFailure(response.data.errors)))
   expect(saga.next().done).toEqual(true)

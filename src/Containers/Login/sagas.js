@@ -6,12 +6,21 @@ import ClassesActions from '../Classes/redux'
 import ConferenceActions from '../Conference/redux'
 import ClassparticipantActions from '../Classparticipant/redux'
 import BadgeActions from '../Badge/redux'
-import { getAttributes, mapAttributes, updateMulti, insertMulti } from '../../Transforms/TransformAttributes'
+import {
+  getAttributes,
+  mapAttributes,
+  updateMulti,
+  insertMulti
+} from '../../Transforms/TransformAttributes'
 import { merge, path } from 'ramda'
 // import { showSagaMessage } from '../Translations/SagaMessages'
 // import history from '../Services/BrowserHistory'
 
-export const session = state => ({...state.login.single, token: state.login.token, isLoggedIn: state.login.isLoggedIn})
+export const session = state => ({
+  ...state.login.single,
+  token: state.login.token,
+  isLoggedIn: state.login.isLoggedIn
+})
 export const theData = state => state.login.data
 export const theMulti = state => state.login.multi
 export const theUserPrefs = state => state.user.preferences
@@ -39,7 +48,7 @@ export function * getLoginStatus (api, action) {
   const { data } = action
   const s = yield select(session)
   // make the call to the api
-  const response = yield call(api.getLoginStatus, data, {session: s})
+  const response = yield call(api.getLoginStatus, data, { session: s })
   // console.log('getLoginStatus===>', response)
 
   // success?
@@ -54,22 +63,22 @@ export function * getLoginStatus (api, action) {
   if (response.ok && status) {
     // console.log('STILL LOGIN')
     yield put(LoginActions.loginStillExist())
-  //   // You might need to change the response here - do this with a 'transform',
-  //   // located in ../Transforms/. Otherwise, just pass the data back from the api.
-  //   let success = path(['data', 'success'], response)
-  //   if (!success) {
-  //     yield put(LoginActions.loginRemoveSuccess({}))
-  //     yield put(UserActions.userReset())
-  //     yield put(ParticipantActions.participantReset())
-  //   }
-  //   // const { contentDetail } = response.data
-  //   // yield put(LoginActions.loginSingleSuccess(contentDetail))
-  //   // yield put(LoginActions.loginSingleSuccess(transformedData(response)))
-  //   // yield put(LoginActions.loginData(transformedData(response)))
-  //   // history.push('/path/to/some/url' + data.id, { type: 'login'  })
+    //   // You might need to change the response here - do this with a 'transform',
+    //   // located in ../Transforms/. Otherwise, just pass the data back from the api.
+    //   let success = path(['data', 'success'], response)
+    //   if (!success) {
+    //     yield put(LoginActions.loginRemoveSuccess({}))
+    //     yield put(UserActions.userReset())
+    //     yield put(ParticipantActions.participantReset())
+    //   }
+    //   // const { contentDetail } = response.data
+    //   // yield put(LoginActions.loginSingleSuccess(contentDetail))
+    //   // yield put(LoginActions.loginSingleSuccess(transformedData(response)))
+    //   // yield put(LoginActions.loginData(transformedData(response)))
+    //   // history.push('/path/to/some/url' + data.id, { type: 'login'  })
   } else {
     // console.log('LOGOUT')
-  //   // yield put(LoginActions.loginFailure())
+    //   // yield put(LoginActions.loginFailure())
     yield call(doLogout)
   }
 }
@@ -78,7 +87,7 @@ export function * postLogin (api, action) {
   const { data } = action
   const s = yield select(session)
   // make the call to the api
-  const response = yield call(api.postLogin, data, {session: s})
+  const response = yield call(api.postLogin, data, { session: s })
   console.log('response login=>', response)
 
   // success?
@@ -93,7 +102,12 @@ export function * postLogin (api, action) {
     // var scope = path(['scope'], response.data)
     // var tokenType = path(['token_type'], response.data)
 
-    yield put(LoginActions.loginSingleSuccess({contentDetail: response.data, formSubmitMessage: 'success login'}))
+    yield put(
+      LoginActions.loginSingleSuccess({
+        contentDetail: response.data,
+        formSubmitMessage: 'success login'
+      })
+    )
     // yield put(LoginActions.loginData(transformedData(response)))
     // const multi = yield select(theMulti)
     // yield put(
@@ -106,7 +120,9 @@ export function * postLogin (api, action) {
     let validationMessages = path(['data', 'detail'], response)
     // if (path(['originalError', 'response', 'status'], response) === 500) return yield put(LoginActions.loginRemoveSuccess({}))
     // yield put(BadgeActions.badgeCreateFailed({ formSubmitMessage: validationMessages }))
-    yield put(LoginActions.loginFailure({ formSubmitMessage: validationMessages }))
+    yield put(
+      LoginActions.loginFailure({ formSubmitMessage: validationMessages })
+    )
     // yield call(showSagaMessage, 'error')
   }
 }
@@ -147,7 +163,7 @@ export function * removeLogin (api, action) {
   const { data } = action
   const s = yield select(session)
   // // make the call to the api
-  const response = yield call(api.removeLogin, data, {session: s})
+  const response = yield call(api.removeLogin, data, { session: s })
 
   // // success?
   if (response.ok) {
@@ -160,9 +176,9 @@ export function * removeLogin (api, action) {
     } else {
       alert(responseMessage)
     }
-  // yield call(RehydrationServices, data)
+    // yield call(RehydrationServices, data)
   } else {
-  //   yield put(LoginActions.loginFailure())
+    //   yield put(LoginActions.loginFailure())
     // alert('login failed, please try again.')
     yield call(doLogout)
   }

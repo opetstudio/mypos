@@ -62,7 +62,7 @@ export const columns = [
         id: 'address',
         fieldtype: 'textarea',
         widthfield: 6
-      },
+      }
       // {
       //   Header: 'Status',
       //   accessor: 'status',

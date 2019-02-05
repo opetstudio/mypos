@@ -13,7 +13,7 @@ test('Api getClassess', async () => {
 })
 test('Api getClasses', async () => {
   const id = 1
-  const response = await api.getClasses({id})
+  const response = await api.getClasses({ id })
   const hasData = 'data' in response
   const hasOk = 'ok' in response
   expect(hasData).toBe(true)
@@ -22,7 +22,7 @@ test('Api getClasses', async () => {
 })
 test('Api postClasses', async () => {
   const data = {
-    'field1': 'value1'
+    field1: 'value1'
   }
   const response = await api.postClasses(data)
   const hasData = 'data' in response
@@ -33,8 +33,8 @@ test('Api postClasses', async () => {
 })
 test('Api updateClasses', async () => {
   const data = {
-    'id': 1,
-    'field1': 'value1'
+    id: 1,
+    field1: 'value1'
   }
   const response = await api.updateClasses(data)
   const hasData = 'data' in response
@@ -45,7 +45,7 @@ test('Api updateClasses', async () => {
 })
 test('Api removeClasses', async () => {
   const data = {
-    'id': 1
+    id: 1
   }
   const response = await api.removeClasses(data)
   const hasData = 'data' in response

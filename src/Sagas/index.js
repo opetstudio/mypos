@@ -9,30 +9,25 @@ import AppConfig from '../Config/AppConfig'
 
 // Types /* ------------- Types ------------- */
 
-    // begin Ignite-Entity-Filecontent
-    import { FilecontentTypes } from '../Containers/Filecontent/redux'
-    // end Ignite-Entity-Filecontent
-    
+// begin Ignite-Entity-Filecontent
+import { FilecontentTypes } from '../Containers/Filecontent/redux'
+// end Ignite-Entity-Filecontent
 
-    // begin Ignite-Entity-File
-    import { FileTypes } from '../Containers/File/redux'
-    // end Ignite-Entity-File
-    
+// begin Ignite-Entity-File
+import { FileTypes } from '../Containers/File/redux'
+// end Ignite-Entity-File
 
-    // begin Ignite-Entity-Participantbadge
-    import { ParticipantbadgeTypes } from '../Containers/Participantbadge/redux'
-    // end Ignite-Entity-Participantbadge
-    
+// begin Ignite-Entity-Participantbadge
+import { ParticipantbadgeTypes } from '../Containers/Participantbadge/redux'
+// end Ignite-Entity-Participantbadge
 
-    // begin Ignite-Entity-Classparticipant
-    import { ClassparticipantTypes } from '../Containers/Classparticipant/redux'
-    // end Ignite-Entity-Classparticipant
-    
+// begin Ignite-Entity-Classparticipant
+import { ClassparticipantTypes } from '../Containers/Classparticipant/redux'
+// end Ignite-Entity-Classparticipant
 
-    // begin Ignite-Entity-Classes
-    import { ClassesTypes } from '../Containers/Classes/redux'
-    // end Ignite-Entity-Classes
-    
+// begin Ignite-Entity-Classes
+import { ClassesTypes } from '../Containers/Classes/redux'
+// end Ignite-Entity-Classes
 
 // begin Ignite-Entity-User
 import { UserTypes } from '../Containers/User/redux'
@@ -57,49 +52,118 @@ import { LoginTypes } from '../Containers/Login/redux'
 import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
 
-    // begin Ignite-Entity-Filecontent
-    import { postFilecontent, getFilecontents, getFilecontent, updateFilecontent, removeFilecontent, updateFilecontentBatch} from '../Containers/Filecontent/sagas'
-    // end Ignite-Entity-Filecontent
-    
+// begin Ignite-Entity-Filecontent
+import {
+  postFilecontent,
+  getFilecontents,
+  getFilecontent,
+  updateFilecontent,
+  removeFilecontent,
+  updateFilecontentBatch
+} from '../Containers/Filecontent/sagas'
+// end Ignite-Entity-Filecontent
 
-    // begin Ignite-Entity-File
-    import { postFile, getFiles, getFile, updateFile, removeFile, updateFileBatch} from '../Containers/File/sagas'
-    // end Ignite-Entity-File
-    
+// begin Ignite-Entity-File
+import {
+  postFile,
+  getFiles,
+  getFile,
+  updateFile,
+  removeFile,
+  updateFileBatch
+} from '../Containers/File/sagas'
+// end Ignite-Entity-File
 
-    // begin Ignite-Entity-Participantbadge
-    import { postParticipantbadge, getParticipantbadges, getParticipantbadge, updateParticipantbadge, removeParticipantbadge, updateParticipantbadgeBatch} from '../Containers/Participantbadge/sagas'
-    // end Ignite-Entity-Participantbadge
-    
+// begin Ignite-Entity-Participantbadge
+import {
+  postParticipantbadge,
+  getParticipantbadges,
+  getParticipantbadge,
+  updateParticipantbadge,
+  removeParticipantbadge,
+  updateParticipantbadgeBatch
+} from '../Containers/Participantbadge/sagas'
+// end Ignite-Entity-Participantbadge
 
-    // begin Ignite-Entity-Classparticipant
-    import { postClassparticipant, getClassparticipants, getClassparticipant, updateClassparticipant, removeClassparticipant, updateClassparticipantBatch} from '../Containers/Classparticipant/sagas'
-    // end Ignite-Entity-Classparticipant
-    
+// begin Ignite-Entity-Classparticipant
+import {
+  postClassparticipant,
+  getClassparticipants,
+  getClassparticipant,
+  updateClassparticipant,
+  removeClassparticipant,
+  updateClassparticipantBatch
+} from '../Containers/Classparticipant/sagas'
+// end Ignite-Entity-Classparticipant
 
-    // begin Ignite-Entity-Classes
-    import { postClasses, getClassess, getClasses, updateClasses, removeClasses, updateClassesBatch, doDeleteParticipant, doEvaluatedParticipant} from '../Containers/Classes/sagas'
-    // end Ignite-Entity-Classes
-    
+// begin Ignite-Entity-Classes
+import {
+  postClasses,
+  getClassess,
+  getClasses,
+  updateClasses,
+  removeClasses,
+  updateClassesBatch,
+  doDeleteParticipant,
+  doEvaluatedParticipant
+} from '../Containers/Classes/sagas'
+// end Ignite-Entity-Classes
 
 // begin Ignite-Entity-User
-import { postUser, getUsers, getUser, updateUser, removeUser, updateUserBatch, getUserProfile} from '../Containers/User/sagas'
+import {
+  postUser,
+  getUsers,
+  getUser,
+  updateUser,
+  removeUser,
+  updateUserBatch,
+  getUserProfile
+} from '../Containers/User/sagas'
 // end Ignite-Entity-User
 
 // begin Ignite-Entity-Participant
-import { postParticipant, getParticipants, getParticipant, updateParticipant, removeParticipant, updateParticipantBatch, participantFetchInspect} from '../Containers/Participant/sagas'
+import {
+  postParticipant,
+  getParticipants,
+  getParticipant,
+  updateParticipant,
+  removeParticipant,
+  updateParticipantBatch,
+  participantFetchInspect
+} from '../Containers/Participant/sagas'
 // end Ignite-Entity-Participant
 
 // begin Ignite-Entity-Conference
-import { postConference, getConferences, getConference, updateConference, removeConference, updateConferenceBatch} from '../Containers/Conference/sagas'
+import {
+  postConference,
+  getConferences,
+  getConference,
+  updateConference,
+  removeConference,
+  updateConferenceBatch
+} from '../Containers/Conference/sagas'
 // end Ignite-Entity-Conference
 
 // begin Ignite-Entity-Badge
-import { postBadge, getBadges, getBadge, updateBadge, removeBadge, updateBadgeBatch } from '../Containers/Badge/sagas'
+import {
+  postBadge,
+  getBadges,
+  getBadge,
+  updateBadge,
+  removeBadge,
+  updateBadgeBatch
+} from '../Containers/Badge/sagas'
 // end Ignite-Entity-Badge
 
 // begin Ignite-Entity-Login
-import { postLogin, getLogins, getLogin, updateLogin, removeLogin, getLoginStatus } from '../Containers/Login/sagas'
+import {
+  postLogin,
+  getLogins,
+  getLogin,
+  updateLogin,
+  removeLogin,
+  getLoginStatus
+} from '../Containers/Login/sagas'
 // end Ignite-Entity-Login
 
 import { startup } from './StartupSagas'
@@ -108,7 +172,10 @@ import { startup } from './StartupSagas'
 // The API we use is only used from Sagas, so we create it here and pass along
 // to the sagas which need it.
 // const baseUrl = AppConfig.env === 'development' ? '/' : 'https://api1.opetstudio.com/'
-const baseUrl = AppConfig.env === 'development' ? 'http://localhost:8080/' : 'https://api1.opetstudio.com/'
+const baseUrl =
+  AppConfig.env === 'development'
+    ? 'http://localhost:8080/'
+    : 'https://api1.opetstudio.com/'
 // const baseUrl = 'http://localhost:8080/'
 const host = baseUrl + ''
 // const host = baseUrl + 'api/service/v1/dashboard/api/'
@@ -129,10 +196,13 @@ export default function * root () {
     takeLatest(FilecontentTypes.FILECONTENT_REQUEST, getFilecontent, api),
     takeLatest(FilecontentTypes.FILECONTENT_REQUEST_ALL, getFilecontents, api),
     takeLatest(FilecontentTypes.FILECONTENT_UPDATE, updateFilecontent, api),
-    takeLatest(FilecontentTypes.FILECONTENT_UPDATE_BATCH, updateFilecontentBatch, api),
+    takeLatest(
+      FilecontentTypes.FILECONTENT_UPDATE_BATCH,
+      updateFilecontentBatch,
+      api
+    ),
     takeLatest(FilecontentTypes.FILECONTENT_REMOVE, removeFilecontent, api),
     // end Ignite-Entity-Filecontent
-    
 
     // begin Ignite-Entity-File
     takeLatest(FileTypes.FILE_CREATE, postFile, api),
@@ -142,27 +212,72 @@ export default function * root () {
     takeLatest(FileTypes.FILE_UPDATE_BATCH, updateFileBatch, api),
     takeLatest(FileTypes.FILE_REMOVE, removeFile, api),
     // end Ignite-Entity-File
-    
 
     // begin Ignite-Entity-Participantbadge
-    takeLatest(ParticipantbadgeTypes.PARTICIPANTBADGE_CREATE, postParticipantbadge, api),
-    takeLatest(ParticipantbadgeTypes.PARTICIPANTBADGE_REQUEST, getParticipantbadge, api),
-    takeLatest(ParticipantbadgeTypes.PARTICIPANTBADGE_REQUEST_ALL, getParticipantbadges, api),
-    takeLatest(ParticipantbadgeTypes.PARTICIPANTBADGE_UPDATE, updateParticipantbadge, api),
-    takeLatest(ParticipantbadgeTypes.PARTICIPANTBADGE_UPDATE_BATCH, updateParticipantbadgeBatch, api),
-    takeLatest(ParticipantbadgeTypes.PARTICIPANTBADGE_REMOVE, removeParticipantbadge, api),
+    takeLatest(
+      ParticipantbadgeTypes.PARTICIPANTBADGE_CREATE,
+      postParticipantbadge,
+      api
+    ),
+    takeLatest(
+      ParticipantbadgeTypes.PARTICIPANTBADGE_REQUEST,
+      getParticipantbadge,
+      api
+    ),
+    takeLatest(
+      ParticipantbadgeTypes.PARTICIPANTBADGE_REQUEST_ALL,
+      getParticipantbadges,
+      api
+    ),
+    takeLatest(
+      ParticipantbadgeTypes.PARTICIPANTBADGE_UPDATE,
+      updateParticipantbadge,
+      api
+    ),
+    takeLatest(
+      ParticipantbadgeTypes.PARTICIPANTBADGE_UPDATE_BATCH,
+      updateParticipantbadgeBatch,
+      api
+    ),
+    takeLatest(
+      ParticipantbadgeTypes.PARTICIPANTBADGE_REMOVE,
+      removeParticipantbadge,
+      api
+    ),
     // end Ignite-Entity-Participantbadge
-    
 
     // begin Ignite-Entity-Classparticipant
-    takeLatest(ClassparticipantTypes.CLASSPARTICIPANT_CREATE, postClassparticipant, api),
-    takeLatest(ClassparticipantTypes.CLASSPARTICIPANT_REQUEST, getClassparticipant, api),
-    takeLatest(ClassparticipantTypes.CLASSPARTICIPANT_REQUEST_ALL, getClassparticipants, api),
-    takeLatest(ClassparticipantTypes.CLASSPARTICIPANT_UPDATE, updateClassparticipant, api),
-    takeLatest(ClassparticipantTypes.CLASSPARTICIPANT_UPDATE_BATCH, updateClassparticipantBatch, api),
-    takeLatest(ClassparticipantTypes.CLASSPARTICIPANT_REMOVE, removeClassparticipant, api),
+    takeLatest(
+      ClassparticipantTypes.CLASSPARTICIPANT_CREATE,
+      postClassparticipant,
+      api
+    ),
+    takeLatest(
+      ClassparticipantTypes.CLASSPARTICIPANT_REQUEST,
+      getClassparticipant,
+      api
+    ),
+    takeLatest(
+      ClassparticipantTypes.CLASSPARTICIPANT_REQUEST_ALL,
+      getClassparticipants,
+      api
+    ),
+    takeLatest(
+      ClassparticipantTypes.CLASSPARTICIPANT_UPDATE,
+      updateClassparticipant,
+      api
+    ),
+    takeLatest(
+      ClassparticipantTypes.CLASSPARTICIPANT_UPDATE_BATCH,
+      updateClassparticipantBatch,
+      api
+    ),
+    takeLatest(
+      ClassparticipantTypes.CLASSPARTICIPANT_REMOVE,
+      removeClassparticipant,
+      api
+    ),
     // end Ignite-Entity-Classparticipant
-    
 
     // begin Ignite-Entity-Classes
     takeLatest(ClassesTypes.CLASSES_CREATE, postClasses, api),
@@ -171,10 +286,17 @@ export default function * root () {
     takeLatest(ClassesTypes.CLASSES_UPDATE, updateClasses, api),
     takeLatest(ClassesTypes.CLASSES_UPDATE_BATCH, updateClassesBatch, api),
     takeLatest(ClassesTypes.CLASSES_REMOVE, removeClasses, api),
-    takeLatest(ClassesTypes.CLASSES_DELETE_PARTICIPANT, doDeleteParticipant, api),
-    takeLatest(ClassesTypes.CLASSES_EVALUATED_PARTICIPANT, doEvaluatedParticipant, api),
+    takeLatest(
+      ClassesTypes.CLASSES_DELETE_PARTICIPANT,
+      doDeleteParticipant,
+      api
+    ),
+    takeLatest(
+      ClassesTypes.CLASSES_EVALUATED_PARTICIPANT,
+      doEvaluatedParticipant,
+      api
+    ),
     // end Ignite-Entity-Classes
-    
 
     // begin Ignite-Entity-User
     takeLatest(UserTypes.USER_CREATE, postUser, api),
@@ -191,9 +313,17 @@ export default function * root () {
     takeLatest(ParticipantTypes.PARTICIPANT_REQUEST, getParticipant, api),
     takeLatest(ParticipantTypes.PARTICIPANT_REQUEST_ALL, getParticipants, api),
     takeLatest(ParticipantTypes.PARTICIPANT_UPDATE, updateParticipant, api),
-    takeLatest(ParticipantTypes.PARTICIPANT_UPDATE_BATCH, updateParticipantBatch, api),
+    takeLatest(
+      ParticipantTypes.PARTICIPANT_UPDATE_BATCH,
+      updateParticipantBatch,
+      api
+    ),
     takeLatest(ParticipantTypes.PARTICIPANT_REMOVE, removeParticipant, api),
-    takeLatest(ParticipantTypes.PARTICIPANT_FETCH_INSPECT, participantFetchInspect, api),
+    takeLatest(
+      ParticipantTypes.PARTICIPANT_FETCH_INSPECT,
+      participantFetchInspect,
+      api
+    ),
     // end Ignite-Entity-Participant
 
     // begin Ignite-Entity-Conference
@@ -201,7 +331,11 @@ export default function * root () {
     takeLatest(ConferenceTypes.CONFERENCE_REQUEST, getConference, api),
     takeLatest(ConferenceTypes.CONFERENCE_REQUEST_ALL, getConferences, api),
     takeLatest(ConferenceTypes.CONFERENCE_UPDATE, updateConference, api),
-    takeLatest(ConferenceTypes.CONFERENCE_UPDATE_BATCH, updateConferenceBatch, api),
+    takeLatest(
+      ConferenceTypes.CONFERENCE_UPDATE_BATCH,
+      updateConferenceBatch,
+      api
+    ),
     takeLatest(ConferenceTypes.CONFERENCE_REMOVE, removeConference, api),
     // end Ignite-Entity-Conference
 

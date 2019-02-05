@@ -14,14 +14,14 @@ import {
   Header,
   Icon
 } from 'semantic-ui-react'
-import LoginActions, {LoginSelectors} from './Login/redux'
-import UserActions, {UserSelectors} from './User/redux'
+import LoginActions, { LoginSelectors } from './Login/redux'
+import UserActions, { UserSelectors } from './User/redux'
 
 class LoggedInAttribute extends Component {
-   // Prop type warnings
-   static propTypes = {
-     onLogout: PropTypes.func
-   }
+  // Prop type warnings
+  static propTypes = {
+    onLogout: PropTypes.func
+  }
 
   // Defaults for props
   static defaultProps = {
@@ -39,41 +39,68 @@ class LoggedInAttribute extends Component {
   render () {
     if (this.props.isLoggedIn && this.props.attr === 'buttonLogout') {
       const ModalBasic = () => (
-        <Modal open={this.state.showLogoutDialog} onClose={() => this.setState({showLogoutDialog: false})} basic size='small'>
+        <Modal
+          open={this.state.showLogoutDialog}
+          onClose={() => this.setState({ showLogoutDialog: false })}
+          basic
+          size='small'
+        >
           <Header icon='archive' content='Logout Confirmation' />
           <Modal.Content>
             <p>
-              Apakah anda yakin ingin logout? Klik Yes untuk logout, Klik No untuk kembali ke Dashboard
+              Apakah anda yakin ingin logout? Klik Yes untuk logout, Klik No
+              untuk kembali ke Dashboard
             </p>
           </Modal.Content>
           <Modal.Actions>
-            <Button basic color='red' inverted onClick={() => this.logoutDialog(false)}>
+            <Button
+              basic
+              color='red'
+              inverted
+              onClick={() => this.logoutDialog(false)}
+            >
               <Icon name='remove' /> No
             </Button>
-            <Button color='green' inverted onClick={() => { this.props.doLogout(); this.logoutDialog(false); this.props.onLogout() }}>
+            <Button
+              color='green'
+              inverted
+              onClick={() => {
+                this.props.doLogout()
+                this.logoutDialog(false)
+                this.props.onLogout()
+              }}
+            >
               <Icon name='checkmark' /> Yes
             </Button>
           </Modal.Actions>
         </Modal>
       )
       let m = [0, 1]
-      return <Menu.Menu position='right'>{m.map(r => {
-        if (r === 0) {
-          return (<Menu.Item key={r}>
-            <Button inverted as={Link} to='/profile'>
-          Profile
-            </Button>
-          </Menu.Item>)
-        }
-        if (r === 1) {
-          return (<Menu.Item key={r} >
-            <Button inverted onClick={() => this.logoutDialog(true)}>
-              Logout
-            </Button>
-            <div>{ModalBasic()}</div>
-          </Menu.Item>)
-        }
-      })}</Menu.Menu>
+      return (
+        <Menu.Menu position='right'>
+          {m.map(r => {
+            if (r === 0) {
+              return (
+                <Menu.Item key={r}>
+                  <Button inverted as={Link} to='/profile'>
+                    Profile
+                  </Button>
+                </Menu.Item>
+              )
+            }
+            if (r === 1) {
+              return (
+                <Menu.Item key={r}>
+                  <Button inverted onClick={() => this.logoutDialog(true)}>
+                    Logout
+                  </Button>
+                  <div>{ModalBasic()}</div>
+                </Menu.Item>
+              )
+            }
+          })}
+        </Menu.Menu>
+      )
     }
     if (this.props.isLoggedIn && this.props.attr === 'mainmenu') {
       let m = ['0', '1', '2', '3', '4']
@@ -85,9 +112,9 @@ class LoggedInAttribute extends Component {
                 key={r}
                 as={Link}
                 to='/entity/user'
-                active={(this.props.pathname).startsWith('/entity/user')}
+                active={this.props.pathname.startsWith('/entity/user')}
               >
-              User Management
+                User Management
               </Menu.Item>
             )
           }
@@ -98,9 +125,9 @@ class LoggedInAttribute extends Component {
               key={r}
               as={Link}
               to='/entity/participant'
-              active={(this.props.pathname).startsWith('/entity/participant')}
+              active={this.props.pathname.startsWith('/entity/participant')}
             >
-          Participants
+              Participants
             </Menu.Item>
           )
         }
@@ -110,9 +137,9 @@ class LoggedInAttribute extends Component {
               key={r}
               as={Link}
               to='/entity/classes'
-              active={(this.props.pathname).startsWith('/entity/classes')}
+              active={this.props.pathname.startsWith('/entity/classes')}
             >
-          Classes
+              Classes
             </Menu.Item>
           )
         }
@@ -122,42 +149,29 @@ class LoggedInAttribute extends Component {
               key={r}
               as={Link}
               to='/entity/file'
-              active={(this.props.pathname).startsWith('/entity/file')}
+              active={this.props.pathname.startsWith('/entity/file')}
             >
-          Files
+              Files
             </Menu.Item>
           )
         }
         if (r === '3' && window.screen.width >= 769) {
           return (
-            <Dropdown
-              key={r}
-              item
-              simple
-              text='Master Data'
-            >
+            <Dropdown key={r} item simple text='Master Data'>
               <Dropdown.Menu
-                // open={window.location.pathname === '/about'}
+              // open={(window.location.hash || window.location.pathname).replace('#','') === '/about'}
               >
                 {/* ---list new entity--- */}
 
                 {/* begin Ignite-Entity-Conference */}
-                <Dropdown.Item
-                  as={Link}
-                  to='/entity/conference'
-                  open
-                >
-Conference
+                <Dropdown.Item as={Link} to='/entity/conference' open>
+                  Conference
                 </Dropdown.Item>
                 {/* end Ignite-Entity-Conference */}
 
                 {/* begin Ignite-Entity-Badge */}
-                <Dropdown.Item
-                  as={Link}
-                  to='/entity/badge'
-                  open
-                >
-Badge
+                <Dropdown.Item as={Link} to='/entity/badge' open>
+                  Badge
                 </Dropdown.Item>
                 {/* end Ignite-Entity-Badge */}
 
@@ -178,18 +192,21 @@ Badge
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isLoggedIn: LoginSelectors.isLoggedIn(state.login),
     userScope: (UserSelectors.getProfile(state.user) || {}).scope
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     // ignite boilerplate dispatch list
-    doLogout: (data) => dispatch(LoginActions.loginRemove(data))
+    doLogout: data => dispatch(LoginActions.loginRemove(data))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoggedInAttribute)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoggedInAttribute)

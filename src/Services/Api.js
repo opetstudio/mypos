@@ -67,41 +67,51 @@ const create = (baseURL = 'https://jsonplaceholder.typicode.com/') => {
   let apiMerged = {}
   // merge api
 
-    // begin Ignite-Entity-Filecontent
-    apiMerged = merge(apiMerged, require('../Containers/Filecontent/api').create(api))
-    // end Ignite-Entity-Filecontent
-    
+  // begin Ignite-Entity-Filecontent
+  apiMerged = merge(
+    apiMerged,
+    require('../Containers/Filecontent/api').create(api)
+  )
+  // end Ignite-Entity-Filecontent
 
-    // begin Ignite-Entity-File
-    apiMerged = merge(apiMerged, require('../Containers/File/api').create(api))
-    // end Ignite-Entity-File
-    
+  // begin Ignite-Entity-File
+  apiMerged = merge(apiMerged, require('../Containers/File/api').create(api))
+  // end Ignite-Entity-File
 
-    // begin Ignite-Entity-Participantbadge
-    apiMerged = merge(apiMerged, require('../Containers/Participantbadge/api').create(api))
-    // end Ignite-Entity-Participantbadge
-    
+  // begin Ignite-Entity-Participantbadge
+  apiMerged = merge(
+    apiMerged,
+    require('../Containers/Participantbadge/api').create(api)
+  )
+  // end Ignite-Entity-Participantbadge
 
-    // begin Ignite-Entity-Classparticipant
-    apiMerged = merge(apiMerged, require('../Containers/Classparticipant/api').create(api))
-    // end Ignite-Entity-Classparticipant
-    
+  // begin Ignite-Entity-Classparticipant
+  apiMerged = merge(
+    apiMerged,
+    require('../Containers/Classparticipant/api').create(api)
+  )
+  // end Ignite-Entity-Classparticipant
 
-    // begin Ignite-Entity-Classes
-    apiMerged = merge(apiMerged, require('../Containers/Classes/api').create(api))
-    // end Ignite-Entity-Classes
-    
+  // begin Ignite-Entity-Classes
+  apiMerged = merge(apiMerged, require('../Containers/Classes/api').create(api))
+  // end Ignite-Entity-Classes
 
   // begin Ignite-Entity-User
   apiMerged = merge(apiMerged, require('../Containers/User/api').create(api))
   // end Ignite-Entity-User
 
   // begin Ignite-Entity-Participant
-  apiMerged = merge(apiMerged, require('../Containers/Participant/api').create(api))
+  apiMerged = merge(
+    apiMerged,
+    require('../Containers/Participant/api').create(api)
+  )
   // end Ignite-Entity-Participant
 
   // begin Ignite-Entity-Conference
-  apiMerged = merge(apiMerged, require('../Containers/Conference/api').create(api))
+  apiMerged = merge(
+    apiMerged,
+    require('../Containers/Conference/api').create(api)
+  )
   // end Ignite-Entity-Conference
 
   // begin Ignite-Entity-Badge

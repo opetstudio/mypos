@@ -1,18 +1,18 @@
-console.log('SiswaModel invoked');
-const Realm = require('realm');
+console.log('SiswaModel invoked')
+const Realm = require('realm')
 const SiswaSchema = {
   name: 'Siswa',
   properties: {
-    name:  'string',
+    name: 'string',
     last_name: 'string',
-    nis: {type: 'int', default: 0},
+    nis: {type: 'int', default: 0}
   }
-};
-var realm_db;
+}
+var realm_db
 Realm.open({path: '/Users/opetstudio/AdventistEducation/Siswa.realm', schema: [SiswaSchema]})
-  .then(function(realm){
-    console.log('open schema invoked');
-    realm_db = realm;
+  .then(function (realm) {
+    console.log('open schema invoked')
+    realm_db = realm
     // Create Realm objects and write to local storage
     // realm.write(() => {
     //   const myCar = realm.create('Car', {
@@ -40,4 +40,4 @@ Realm.open({path: '/Users/opetstudio/AdventistEducation/Siswa.realm', schema: [S
 
     // Query results are updated in realtime
     // cars.length // => 2
-  });
+  })

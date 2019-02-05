@@ -1,12 +1,28 @@
 import React from 'react'
-import { Button, Form, Grid, Header, Image, Message, Segment, Container } from 'semantic-ui-react'
-import {Redirect} from 'react-router-dom'
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Segment,
+  Container
+} from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
 
 // var bcrypt = require('bcryptjs')
 // var salt = bcrypt.genSaltSync(1)
 
 class LayoutFormLogin extends React.Component {
-  state = { password: '', email: '', grant_type: 'password', username: '', client_id: '', formSubmitMessage: '' }
+  state = {
+    password: '',
+    email: '',
+    grant_type: 'password',
+    username: '',
+    client_id: '',
+    formSubmitMessage: ''
+  }
   componentWillMount () {
     // console.log('componentWillMount')
     this.props.resetFormLogin()
@@ -33,17 +49,22 @@ class LayoutFormLogin extends React.Component {
   handleSubmit = () => {
     // console.log('handleSubmit')
     const { username, password } = this.state
-    const submittedData = { grant_type: this.state.grant_type, username, password, client_id: this.state.client_id }
+    const submittedData = {
+      grant_type: this.state.grant_type,
+      username,
+      password,
+      client_id: this.state.client_id
+    }
     this.setState(submittedData)
     this.props.loginCreate(submittedData)
   }
   render () {
-    const {isLoggedIn} = this.props
+    const { isLoggedIn } = this.props
     const { password, email } = this.state
 
-    if (window.localStorage.getItem('isLoggedIn') === 'true') return <Redirect to='/' />
+    if (window.localStorage.getItem('isLoggedIn') === 'true') { return <Redirect to='/' /> }
     return (
-      <div className='login-form' style={{marginTop: 30}}>
+      <div className='login-form' style={{ marginTop: 30 }}>
         {/*
           Heads up! The styles below are necessary for the correct render of this example.
           You can do same with CSS, the main idea is that all the elements up to the `Grid`
@@ -57,15 +78,32 @@ class LayoutFormLogin extends React.Component {
           }
         `}</style>
         <Container>
-          <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+          <Grid
+            textAlign='center'
+            style={{ height: '100%' }}
+            verticalAlign='middle'
+          >
             <Grid.Column style={{ maxWidth: 450 }}>
               <Header as='h2' color='teal' textAlign='center'>
-                <Image src='http://react.semantic-ui.com/logo.png' /> Log-in to your account
+                <Image src='http://react.semantic-ui.com/logo.png' /> Log-in to
+                your account
               </Header>
-              {this.state.formSubmitMessage && <Message color={this.props.isError ? 'red' : 'green'}>{this.state.formSubmitMessage}</Message>}
+              {this.state.formSubmitMessage && (
+                <Message color={this.props.isError ? 'red' : 'green'}>
+                  {this.state.formSubmitMessage}
+                </Message>
+              )}
               <Form size='large' onSubmit={this.handleSubmit}>
                 <Segment stacked>
-                  <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' name='email' value={email} onChange={this.handleChange} />
+                  <Form.Input
+                    fluid
+                    icon='user'
+                    iconPosition='left'
+                    placeholder='Username'
+                    name='email'
+                    value={email}
+                    onChange={this.handleChange}
+                  />
                   <Form.Input
                     fluid
                     icon='lock'
@@ -78,7 +116,12 @@ class LayoutFormLogin extends React.Component {
                   />
 
                   {/* <Button color='teal' fluid size='large'> */}
-                  <Form.Button content='Login' color='teal' fluid size='large' />
+                  <Form.Button
+                    content='Login'
+                    color='teal'
+                    fluid
+                    size='large'
+                  />
                 </Segment>
               </Form>
               {/* <Message>

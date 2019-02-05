@@ -1,6 +1,6 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import {arrayMerge} from '../../Utils/helper/datamining'
+import { arrayMerge } from '../../Utils/helper/datamining'
 import _ from 'lodash'
 
 /* ------------- Types and Action Creators ------------- */
@@ -76,7 +76,6 @@ export const INITIAL_STATE = Immutable({
   fetchInspect: false,
   inspectById: {},
   inspectAllIds: []
-
 })
 
 /* ------------- Selectors ------------- */
@@ -86,10 +85,14 @@ export const ParticipantSelectors = {
   getDetailById: (state, id) => (state.byId || {})[id],
   getAllIds: state => state.allIds,
   getIdByUuid: (state, uuid) => {
-    return ((_.filter(ParticipantSelectors.getAllDataArr(state), (o) => o.uuid === uuid) || [{}])[0] || {})['_id']
+    return ((_.filter(
+      ParticipantSelectors.getAllDataArr(state),
+      o => o.uuid === uuid
+    ) || [{}])[0] || {})['_id']
   },
   getAllDataArr: state => state.allIds.map(id => (state.byId || {})[id]),
-  getAllDataInspectArr: state => state.inspectAllIds.map(id => (state.inspectById || {})[id]),
+  getAllDataInspectArr: state =>
+    state.inspectAllIds.map(id => (state.inspectById || {})[id]),
   getMaxModifiedon: state => parseInt(state.maxModifiedon || 0),
   getById: state => state.byId,
   getIsError: state => state.isError,
@@ -117,10 +120,22 @@ export const ParticipantSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, { data }) => state.merge({ create: true, requestFailed: false, requestSuccess: false, requestMessage: 'Request Data' })
-export const requestFailed = (state, action) => state.merge({ request: false, requestFailed: true, requestSuccess: false, requestMessage: action.data.requestMessage })
+export const request = (state, { data }) =>
+  state.merge({
+    create: true,
+    requestFailed: false,
+    requestSuccess: false,
+    requestMessage: 'Request Data'
+  })
+export const requestFailed = (state, action) =>
+  state.merge({
+    request: false,
+    requestFailed: true,
+    requestSuccess: false,
+    requestMessage: action.data.requestMessage
+  })
 export const requestSuccess = (state, action) => {
-  const {byId, allIds, maxModifiedon} = action.data
+  const { byId, allIds, maxModifiedon } = action.data
   // allIds.forEach(r => {
   //   if (byId[r].status === 'delete'){
   //     state.byId.without(r)
@@ -131,7 +146,7 @@ export const requestSuccess = (state, action) => {
     requestFailed: false,
     requestSuccess: true,
     requestMessage: action.data.requestMessage,
-    byId: {...state.byId, ...byId},
+    byId: { ...state.byId, ...byId },
     allIds: arrayMerge([state.allIds, allIds]),
     maxModifiedon: maxModifiedon || state.maxModifiedon
   })
@@ -142,33 +157,52 @@ export const deleteSuccess = (state, action) => {
   // const allIds = _.difference(state.allIds, action.data.listId)
   // const byId = state.byId.without(action.data.listId)
   // return state.merge({byId, allIds})
-  const {byId, allIds} = action.data
+  const { byId, allIds } = action.data
   return state.merge({
     formSubmit: false,
     formSubmitFailed: false,
     formSubmitSuccess: true,
     formSubmitMessage: '',
-    byId: {...state.byId, ...byId},
+    byId: { ...state.byId, ...byId },
     allIds: arrayMerge([state.allIds, allIds])
   })
   // return state
 }
 // Or post it, straight out of Redux
-export const doFormSubmit = state => state.merge({ formSubmit: true, formSubmitFailed: false, formSubmitSuccess: false, formSubmitMessage: 'Sending Data' })
-export const doFormSubmitFailed = (state, action) => state.merge({ formSubmit: false, formSubmitFailed: true, formSubmitSuccess: false, formSubmitMessage: action.data.formSubmitMessage })
+export const doFormSubmit = state =>
+  state.merge({
+    formSubmit: true,
+    formSubmitFailed: false,
+    formSubmitSuccess: false,
+    formSubmitMessage: 'Sending Data'
+  })
+export const doFormSubmitFailed = (state, action) =>
+  state.merge({
+    formSubmit: false,
+    formSubmitFailed: true,
+    formSubmitSuccess: false,
+    formSubmitMessage: action.data.formSubmitMessage
+  })
 export const doFormSubmitSuccess = (state, action) => {
-  const {byId, allIds} = action.data
+  const { byId, allIds } = action.data
   return state.merge({
     formSubmit: false,
     formSubmitFailed: false,
     formSubmitSuccess: true,
     formSubmitMessage: action.data.formSubmitMessage,
     newRecordId: allIds[0],
-    byId: {...state.byId, ...byId},
+    byId: { ...state.byId, ...byId },
     allIds: arrayMerge([state.allIds, allIds])
   })
 }
-export const doFormReset = (state, action) => state.merge({ formSubmit: false, formSubmitFailed: false, formSubmitSuccess: false, formSubmitMessage: '', form: {} })
+export const doFormReset = (state, action) =>
+  state.merge({
+    formSubmit: false,
+    formSubmitFailed: false,
+    formSubmitSuccess: false,
+    formSubmitMessage: '',
+    form: {}
+  })
 
 // or, Update it.
 // export const update = state => state.merge({ update: true, updateFailed: false, updateSuccess: false, updateMessage: 'sending update data' })
@@ -190,13 +224,19 @@ export const doFormReset = (state, action) => state.merge({ formSubmit: false, f
 
 // or, Delete it.
 // export const remove = state => state.merge({ fetching: true, isError: false, message: 'removing process' })
-export const remove = state => state.merge({ formSubmit: true, formSubmitFaied: false, formSubmitSuccess: false, formSubmitMessage: 'removing process' })
+export const remove = state =>
+  state.merge({
+    formSubmit: true,
+    formSubmitFaied: false,
+    formSubmitSuccess: false,
+    formSubmitMessage: 'removing process'
+  })
 export const removeSuccess = (state, action) => {
   // console.log('deleteSuccess==>', action.data.listId)
   // const allIds = _.difference(state.allIds, action.data.listId)
   // const byId = state.byId.without(action.data.listId)
   // return state.merge({byId, allIds})
-  const {id} = action.data
+  const { id } = action.data
   // state.byId.without(id)
   // state.allIds.splice(state.allIds.indexOf(id), 1)
   const allIds = _.difference(state.allIds, [id])
@@ -220,21 +260,28 @@ export const removeSuccess = (state, action) => {
 
 export const setFormValue = (state, action) => {
   const { data } = action
-  return state.merge({ form: data ? {...state.form, ...data} : null })
+  return state.merge({ form: data ? { ...state.form, ...data } : null })
 }
 
-export const reset = (state) => state.merge(INITIAL_STATE)
+export const reset = state => state.merge(INITIAL_STATE)
 
-export const fetchInspectBEGIN = state => state.merge({fetchInspect: true})
+export const fetchInspectBEGIN = state => state.merge({ fetchInspect: true })
 export const fetchInspectEND = (state, action) => {
   console.log('action.data', action.data)
-  const {inspectById, inspectAllIds} = action.data
-  return state.merge({fetchInspect: false, inspectById: {...state.inspectById, ...inspectById}, inspectAllIds: arrayMerge([state.inspectAllIds, inspectAllIds])})
+  const { inspectById, inspectAllIds } = action.data
+  return state.merge({
+    fetchInspect: false,
+    inspectById: { ...state.inspectById, ...inspectById },
+    inspectAllIds: arrayMerge([state.inspectAllIds, inspectAllIds])
+  })
 }
 export const evaluatedInspect = (state, action) => {
   console.log('action.data', action.data)
-  const {inspectById} = action.data
-  return state.merge({fetchInspect: false, inspectById: {...state.inspectById, ...inspectById}})
+  const { inspectById } = action.data
+  return state.merge({
+    fetchInspect: false,
+    inspectById: { ...state.inspectById, ...inspectById }
+  })
 }
 
 // export const singleSuccess = (state, action) => {
@@ -274,7 +321,7 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.PARTICIPANT_FORM_RESET]: doFormReset,
   [Types.PARTICIPANT_SET_FORM_VALUE]: setFormValue,
-  
+
   [Types.PARTICIPANT_FETCH_INSPECT]: fetchInspectBEGIN,
   [Types.PARTICIPANT_FETCH_INSPECT_DONE]: fetchInspectEND,
   [Types.PARTICIPANT_EVALUATED_INSPECT]: evaluatedInspect,

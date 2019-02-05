@@ -39,7 +39,10 @@ test('success', () => {
 })
 
 test('success - single', () => {
-  const state = reducer(INITIAL_STATE, Actions.classparticipantSingleSuccess('hi'))
+  const state = reducer(
+    INITIAL_STATE,
+    Actions.classparticipantSingleSuccess('hi')
+  )
 
   expect(state.payload).toEqual('hi')
   expect(state.single).toEqual('hi')

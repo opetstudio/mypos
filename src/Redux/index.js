@@ -7,31 +7,25 @@ import ReduxPersist from '../Config/ReduxPersist'
 export default () => {
   /* ------------- Assemble The Reducers ------------- */
   const rootReducer = combineReducers({
-
     // begin Ignite-Entity-Filecontent
     filecontent: require('../Containers/Filecontent/redux').reducer,
     // end Ignite-Entity-Filecontent
-    
 
     // begin Ignite-Entity-File
     file: require('../Containers/File/redux').reducer,
     // end Ignite-Entity-File
-    
 
     // begin Ignite-Entity-Participantbadge
     participantbadge: require('../Containers/Participantbadge/redux').reducer,
     // end Ignite-Entity-Participantbadge
-    
 
     // begin Ignite-Entity-Classparticipant
     classparticipant: require('../Containers/Classparticipant/redux').reducer,
     // end Ignite-Entity-Classparticipant
-    
 
     // begin Ignite-Entity-Classes
     classes: require('../Containers/Classes/redux').reducer,
     // end Ignite-Entity-Classes
-    
 
     // begin Ignite-Entity-User
     user: require('../Containers/User/redux').reducer,

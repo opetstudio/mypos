@@ -1,5 +1,5 @@
 export const arrayMerge = (args = []) => {
-//   var args = arguments
+  //   var args = arguments
   var hash = {}
   var arr = []
   for (var i = 0; i < args.length; i++) {

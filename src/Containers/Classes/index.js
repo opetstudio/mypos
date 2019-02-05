@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Immutable from 'seamless-immutable'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-import ClassesActions, {ClassesSelectors} from './redux'
-import BadgeActions, {BadgeSelectors} from '../Badge/redux'
+import ClassesActions, { ClassesSelectors } from './redux'
+import BadgeActions, { BadgeSelectors } from '../Badge/redux'
 import ButtonAction from '../../Components/ButtonAction'
 import LayoutTableData from '../../Components/LayoutTableData'
 import { makeData } from '../../Utils/Utils'
-import {columns} from './columns'
-import LoginActions, {LoginSelectors} from '../Login/redux'
-import {UserSelectors} from '../User/redux'
+import { columns } from './columns'
+import LoginActions, { LoginSelectors } from '../Login/redux'
+import { UserSelectors } from '../User/redux'
 import ParticipantActions from '../Participant/redux'
 
 // const Classes = LayoutTableData
@@ -87,8 +87,7 @@ class TheComponent extends Component {
     getFullnameById: PropTypes.func.isRequired,
     getBadgeNumberById: PropTypes.func.isRequired
   }
-  static defaultProps = {
-  }
+  static defaultProps = {}
   constructor (props) {
     super(props)
     this.state = {
@@ -106,25 +105,39 @@ class TheComponent extends Component {
       updateBatch: this.props.updateBatch,
       searchString: ''
     }
-    this.props.fetchAll({newerModifiedon: this.props.maxModifiedon})
-    this.state.column = this._setupColumn(this.state.column, {updateOne: this.state.updateOne})
-    this.state.allDataArr = this._filterData(Immutable.asMutable(this.props.allDataArr, {deep: true}), this.props.filter)
+    this.props.fetchAll({ newerModifiedon: this.props.maxModifiedon })
+    this.state.column = this._setupColumn(this.state.column, {
+      updateOne: this.state.updateOne
+    })
+    this.state.allDataArr = this._filterData(
+      Immutable.asMutable(this.props.allDataArr, { deep: true }),
+      this.props.filter
+    )
     this._onSearch = this._onSearch.bind(this)
     this._setupColumn = this._setupColumn.bind(this)
   }
-  _setupColumn (column, {updateOne}) {
+  _setupColumn (column, { updateOne }) {
     if (_.isEmpty(column)) return []
     const columnTable = _.cloneDeep(column) || [{}]
-    
-    if (window.location.pathname === `/entity/${this.state.entityName.toLowerCase()}-trash`) {
+
+    if (
+      (window.location.hash || window.location.pathname).replace('#', '') ===
+      `/entity/${this.state.entityName.toLowerCase()}-trash`
+    ) {
       columnTable[0].columns.push({
         Header: 'Action',
         id: 'act',
-        accessor: (o) => {
+        accessor: o => {
           return (
             <div>
-              <ButtonAction redoButton onClick={() => updateOne({status: 'publish'}, o._id)} />
-              <ButtonAction deleteButton onClick={() => updateOne({status: 'remove'}, o._id)} />
+              <ButtonAction
+                redoButton
+                onClick={() => updateOne({ status: 'publish' }, o._id)}
+              />
+              <ButtonAction
+                deleteButton
+                onClick={() => updateOne({ status: 'remove' }, o._id)}
+              />
             </div>
           )
         }
@@ -133,30 +146,42 @@ class TheComponent extends Component {
       columnTable[0].columns.push({
         Header: 'Action',
         id: 'act',
-        accessor: (o) => {
+        accessor: o => {
           return (
             <div>
-              <ButtonAction as={'link'} to={`/entity/${this.state.entityName}/update/${o._id}`} editButton onClick={() => updateOne({status: 'publish'}, o._id)} />
-              <ButtonAction trashButton onClick={() => updateOne({status: 'delete'}, o._id)} />
+              <ButtonAction
+                as={'link'}
+                to={`/entity/${this.state.entityName}/update/${o._id}`}
+                editButton
+                onClick={() => updateOne({ status: 'publish' }, o._id)}
+              />
+              <ButtonAction
+                trashButton
+                onClick={() => updateOne({ status: 'delete' }, o._id)}
+              />
             </div>
           )
         }
       })
     }
-    let fasilitatorIndex = _.findIndex(columnTable[0].columns, (o) => { return o.id === 'fasilitator' })
-    let badgeIndex = _.findIndex(columnTable[0].columns, (o) => { return o.id === 'badge' })
+    let fasilitatorIndex = _.findIndex(columnTable[0].columns, o => {
+      return o.id === 'fasilitator'
+    })
+    let badgeIndex = _.findIndex(columnTable[0].columns, o => {
+      return o.id === 'badge'
+    })
     console.log('fasilitatorIndex', fasilitatorIndex)
     if (fasilitatorIndex !== -1) {
       columnTable[0].columns[fasilitatorIndex] = {
         Header: 'fasilitator',
-        accessor: (d) => this.props.getFullnameById(d.fasilitator),
+        accessor: d => this.props.getFullnameById(d.fasilitator),
         id: 'fasilitator'
       }
     }
     if (badgeIndex !== -1) {
       columnTable[0].columns[badgeIndex] = {
         Header: 'badge',
-        accessor: (d) => this.props.getBadgeNumberById(d.badge),
+        accessor: d => this.props.getBadgeNumberById(d.badge),
         id: 'badge',
         fieldtype: 'select',
         widthfield: 2
@@ -166,16 +191,17 @@ class TheComponent extends Component {
     return columnTable
   }
   _onSearch (searchString) {
-    this.setState({searchString})
+    this.setState({ searchString })
   }
   _filterData (dataArr, filter, searchString = '') {
     const filterInArr = filter && (filter || '').split(',')
     let result = []
-    if (window.location.pathname === `/entity/${this.state.entityName.toLowerCase()}-trash`) result = _.filter(dataArr, (o) => o.status === 'delete')
-    else if (filterInArr && filterInArr.length > 0) result = _.filter(dataArr, (o) => filterInArr.indexOf(o.status) !== -1)
-    else result = _.filter(dataArr, (o) => o.status === 'publish')
+    if (
+      (window.location.hash || window.location.pathname).replace('#', '') ===
+      `/entity/${this.state.entityName.toLowerCase()}-trash`
+    ) { result = _.filter(dataArr, o => o.status === 'delete') } else if (filterInArr && filterInArr.length > 0) { result = _.filter(dataArr, o => filterInArr.indexOf(o.status) !== -1) } else result = _.filter(dataArr, o => o.status === 'publish')
     if (searchString === '') return result
-    return _.filter(result, (o) => {
+    return _.filter(result, o => {
       for (var key in o) {
         const targetString = (o[key] || '').toLowerCase()
         if (targetString.includes(searchString.toLowerCase())) {
@@ -187,37 +213,68 @@ class TheComponent extends Component {
   }
   componentDidUpdate (prevProps, prevState) {
     if (!_.isEqual(prevProps.allDataArr, this.props.allDataArr)) {
-      this.setState({allDataArr: this._filterData(Immutable.asMutable(this.props.allDataArr, {deep: true}), this.props.filter)})
-    }
-    if (!_.isEqual(prevProps.allIds, this.props.allIds) && !_.isEmpty(this.props.allIds)) this.setState({allIds: Immutable.asMutable(this.props.allIds, {deep: true})})
-    if (!_.isEqual(prevState.searchString, this.state.searchString)) {
-      this.setState({allDataArr: this._filterData(Immutable.asMutable(this.props.allDataArr, {deep: true}), this.props.filter, this.state.searchString)})
-    }
-    if (!_.isEqual(prevProps.column, this.props.column) && !_.isEmpty(this.props.column)) {
       this.setState({
-        column: this._setupColumn(this.props.column, {updateOne: this.state.updateOne})
+        allDataArr: this._filterData(
+          Immutable.asMutable(this.props.allDataArr, { deep: true }),
+          this.props.filter
+        )
+      })
+    }
+    if (
+      !_.isEqual(prevProps.allIds, this.props.allIds) &&
+      !_.isEmpty(this.props.allIds)
+    ) {
+      this.setState({
+        allIds: Immutable.asMutable(this.props.allIds, { deep: true })
+      })
+    }
+    if (!_.isEqual(prevState.searchString, this.state.searchString)) {
+      this.setState({
+        allDataArr: this._filterData(
+          Immutable.asMutable(this.props.allDataArr, { deep: true }),
+          this.props.filter,
+          this.state.searchString
+        )
+      })
+    }
+    if (
+      !_.isEqual(prevProps.column, this.props.column) &&
+      !_.isEmpty(this.props.column)
+    ) {
+      this.setState({
+        column: this._setupColumn(this.props.column, {
+          updateOne: this.state.updateOne
+        })
       })
     }
   }
   render () {
-    if (window.localStorage.getItem('isLoggedIn') !== 'true') return <Redirect to='/login' />
-    if (!this.props.allDataArr) return <div><span>Loading</span></div>
-    return <LayoutTableData
-      allIds={this.state.allIds}
-      byId={this.state.byId}
-      entityName={this.state.entityName}
-      allDataArr={this.state.allDataArr}
-      column={this.state.column}
-      defaultPageSize={this.state.defaultPageSize}
-      updateOne={this.state.updateOne}
-      removeOne={this.state.removeOne}
-      updateBatch={this.state.updateBatch}
-      onSearch={this._onSearch}
-      breadcrumb={[
-        {link: '/', label: 'Home'},
-        {link: null, label: 'Classes'}
-      ]}
-    />
+    if (window.localStorage.getItem('isLoggedIn') !== 'true') { return <Redirect to='/login' /> }
+    if (!this.props.allDataArr) {
+      return (
+        <div>
+          <span>Loading</span>
+        </div>
+      )
+    }
+    return (
+      <LayoutTableData
+        allIds={this.state.allIds}
+        byId={this.state.byId}
+        entityName={this.state.entityName}
+        allDataArr={this.state.allDataArr}
+        column={this.state.column}
+        defaultPageSize={this.state.defaultPageSize}
+        updateOne={this.state.updateOne}
+        removeOne={this.state.removeOne}
+        updateBatch={this.state.updateBatch}
+        onSearch={this._onSearch}
+        breadcrumb={[
+          { link: '/', label: 'Home' },
+          { link: null, label: 'Classes' }
+        ]}
+      />
+    )
   }
 }
 
@@ -232,7 +289,9 @@ const mapStateToProps = (state, ownProps) => {
     getBadgeNumberById: BadgeSelectors.getBadgeNumberById(state.badge),
     getFullnameById: UserSelectors.getFullnameById(state.user),
     badgeAllArr: BadgeSelectors.getAllDataArr(state.badge),
-    maxModifiedon: parseInt(BadgeSelectors.getMaxModifiedon(state.classes) || 0),
+    maxModifiedon: parseInt(
+      BadgeSelectors.getMaxModifiedon(state.classes) || 0
+    ),
     defaultPageSize,
     column,
     allDataArr,
@@ -245,18 +304,22 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     // dependences list
-    fetchAllBadge: (query) => dispatch(BadgeActions.badgeRequestAll(query)),
-    fetchAllParticipant: (query) => dispatch(ParticipantActions.participantRequestAll(query)),
+    fetchAllBadge: query => dispatch(BadgeActions.badgeRequestAll(query)),
+    fetchAllParticipant: query =>
+      dispatch(ParticipantActions.participantRequestAll(query)),
     // ignite boilerplate dispatch list
-    fetchAll: (query) => dispatch(ClassesActions.classesRequestAll(query)),
-    deleteRow: (query) => dispatch(ClassesActions.classesDeleteSuccess(query)),
+    fetchAll: query => dispatch(ClassesActions.classesRequestAll(query)),
+    deleteRow: query => dispatch(ClassesActions.classesDeleteSuccess(query)),
     updateOne: (data, id) => dispatch(ClassesActions.classesUpdate(data, id)),
     removeOne: (data, id) => dispatch(ClassesActions.classesRemove(data, id)),
-    updateBatch: (data) => dispatch(ClassesActions.classesUpdateBatch(data))
+    updateBatch: data => dispatch(ClassesActions.classesUpdateBatch(data))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TheComponent)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TheComponent)

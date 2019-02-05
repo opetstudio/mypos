@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import StartupActions from '../Redux/StartupRedux'
 import UserActions from './User/redux'
 import ReduxPersist from '../Config/ReduxPersist'
-import LoginActions, {LoginSelectors} from './Login/redux'
+import LoginActions, { LoginSelectors } from './Login/redux'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import en from 'react-intl/locale-data/en'
 import enTranslationMessages from '../Translations/en.json'
@@ -62,8 +62,11 @@ const mapStateToProps = (state, ownProps) => {
 // wraps dispatch to create nicer functions to call within our component
 const mapDispatchToProps = dispatch => ({
   startup: () => dispatch(StartupActions.startup()),
-  getLoginStatus: (query) => dispatch(LoginActions.loginCheckStatus(query))
+  getLoginStatus: query => dispatch(LoginActions.loginCheckStatus(query))
   // fetchUser: (query) => dispatch(UserActions.userRequest(query))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RootContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RootContainer)

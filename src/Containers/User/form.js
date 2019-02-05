@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {Redirect} from 'react-router-dom'
-import {path, isEmpty, find, pickBy, propEq} from 'ramda'
+import { Redirect } from 'react-router-dom'
+import { path, isEmpty, find, pickBy, propEq } from 'ramda'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Immutable from 'seamless-immutable'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-import UserActions, {UserSelectors} from './redux'
+import UserActions, { UserSelectors } from './redux'
 import LayoutFormData from '../../Components/LayoutFormData'
 import { makeData } from '../../Utils/Utils'
-import {columns} from './columns'
-import {LoginSelectors} from '../Login/redux'
+import { columns } from './columns'
+import { LoginSelectors } from '../Login/redux'
 
 const column = columns
 const defaultPageSize = 10
@@ -49,11 +49,16 @@ class TheComponent extends Component {
   }
   constructor (props) {
     super(props)
-    if (this.props.id && this.props.id !== '') this.props.fetchOne({id: this.props.id})
+    if (this.props.id && this.props.id !== '') { this.props.fetchOne({ id: this.props.id }) }
     this.state = {
       column,
-      multiselectComponent: Immutable.asMutable(this.props.multiselectComponent, {deep: true}),
-      selectoptions: Immutable.asMutable(this.props.selectoptions, {deep: true}),
+      multiselectComponent: Immutable.asMutable(
+        this.props.multiselectComponent,
+        { deep: true }
+      ),
+      selectoptions: Immutable.asMutable(this.props.selectoptions, {
+        deep: true
+      }),
       id: this.props.id,
       dataDetail: this.props.dataDetail,
       submit: this.props.submit,
@@ -66,14 +71,14 @@ class TheComponent extends Component {
       entityName: this.props.entityName,
       formReset: this.props.formReset,
       formData: {
-        ...Immutable.asMutable(this.props.dataDetail, {deep: true})
+        ...Immutable.asMutable(this.props.dataDetail, { deep: true })
       },
       initial: true
     }
     this.onSubmit = this.onSubmit.bind(this)
   }
   onSubmit (event) {
-    this.setState({initial: false})
+    this.setState({ initial: false })
     // alert('Your favorite flavor is: ' + this.state.value)
     // console.log('submit', this.state.form._id)
     let column = ((this.props.column || [])[0] || {}).columns
@@ -95,7 +100,7 @@ class TheComponent extends Component {
       var dataPatch = pickBy((v, k) => {
         let isSubmit = true
         if (_.isEqual(this.props.dataDetail[k], v)) isSubmit = false
-        if (!((find(propEq('id', k))(column) || {}).fieldtype)) isSubmit = false
+        if (!(find(propEq('id', k))(column) || {}).fieldtype) isSubmit = false
         return isSubmit
       }, this.props.formData)
       // console.log('dataPatch   ====>', dataPatch)
@@ -103,7 +108,7 @@ class TheComponent extends Component {
     } else {
       // console.log('dataPatch====>', this.props.formData)
       // create
-      if (!isEmpty(this.props.formData)) this.props.entityCreate(this.props.formData)
+      if (!isEmpty(this.props.formData)) { this.props.entityCreate(this.props.formData) }
     }
     event.preventDefault()
   }
@@ -117,9 +122,14 @@ class TheComponent extends Component {
     return null
   }
   componentDidUpdate (prevProps, prevState, snapshot) {
-    if (!_.isEqual(prevProps.dataDetail, this.props.dataDetail) && !_.isEmpty(this.props.dataDetail)) {
-      let dataDetail = Immutable.asMutable(this.props.dataDetail, {deep: true})
-      this.props.setFormValue({...this.props.formData, ...dataDetail})
+    if (
+      !_.isEqual(prevProps.dataDetail, this.props.dataDetail) &&
+      !_.isEmpty(this.props.dataDetail)
+    ) {
+      let dataDetail = Immutable.asMutable(this.props.dataDetail, {
+        deep: true
+      })
+      this.props.setFormValue({ ...this.props.formData, ...dataDetail })
       this.setState({
         dataDetail,
         formData: {
@@ -129,35 +139,62 @@ class TheComponent extends Component {
       })
     }
 
-    if (!_.isEqual(prevProps.selectoptions, this.props.selectoptions) && !_.isEmpty(this.props.selectoptions)) this.setState({selectoptions: Immutable.asMutable(this.props.selectoptions, {deep: true})})
-    if (!_.isEqual(prevProps.formData, this.props.formData) && !_.isEmpty(this.props.formData)) this.setState({formData: {...this.state.formData, ...Immutable.asMutable(this.props.formData, {deep: true})}})
-    if (prevProps.id !== this.props.id) this.setState({id: this.props.id})
-    if (prevProps.submit !== this.props.submit) this.setState({submit: this.props.submit})
-    if (prevProps.submitFailed !== this.props.submitFailed) this.setState({submitFailed: this.props.submitFailed})
-    if (prevProps.submitSuccess !== this.props.submitSuccess) this.setState({submitSuccess: this.props.submitSuccess})
-    if (prevProps.submitMessage !== this.props.submitMessage) this.setState({submitMessage: this.props.submitMessage})
+    if (
+      !_.isEqual(prevProps.selectoptions, this.props.selectoptions) &&
+      !_.isEmpty(this.props.selectoptions)
+    ) {
+      this.setState({
+        selectoptions: Immutable.asMutable(this.props.selectoptions, {
+          deep: true
+        })
+      })
+    }
+    if (
+      !_.isEqual(prevProps.formData, this.props.formData) &&
+      !_.isEmpty(this.props.formData)
+    ) {
+      this.setState({
+        formData: {
+          ...this.state.formData,
+          ...Immutable.asMutable(this.props.formData, { deep: true })
+        }
+      })
+    }
+    if (prevProps.id !== this.props.id) this.setState({ id: this.props.id })
+    if (prevProps.submit !== this.props.submit) { this.setState({ submit: this.props.submit }) }
+    if (prevProps.submitFailed !== this.props.submitFailed) { this.setState({ submitFailed: this.props.submitFailed }) }
+    if (prevProps.submitSuccess !== this.props.submitSuccess) { this.setState({ submitSuccess: this.props.submitSuccess }) }
+    if (prevProps.submitMessage !== this.props.submitMessage) { this.setState({ submitMessage: this.props.submitMessage }) }
   }
   render () {
-    if (window.localStorage.getItem('isLoggedIn') !== 'true') return <Redirect to='/login' />
-    if (!this.props.dataDetail) return <div><span>Loading</span></div>
-    return <LayoutFormData
-      id={this.state.id}
-      column={this.state.column}
-      formData={this.state.formData}
-      dataDetail={this.state.dataDetail}
-      entityUpdate={this.state.entityUpdate}
-      setFormValue={this.state.setFormValue}
-      submitSuccess={this.state.submitSuccess}
-      submitMessage={this.state.submitMessage}
-      submitFailed={this.state.submitFailed}
-      submit={this.state.submit}
-      initial={this.state.initial}
-      entityName={this.state.entityName}
-      selectoptions={this.state.selectoptions}
-      multiselectComponent={this.state.multiselectComponent}
-      createItemForFieldMultiselect={this.state.createItemForFieldMultiselect}
-      onSubmit={this.onSubmit}
-    />
+    if (window.localStorage.getItem('isLoggedIn') !== 'true') { return <Redirect to='/login' /> }
+    if (!this.props.dataDetail) {
+      return (
+        <div>
+          <span>Loading</span>
+        </div>
+      )
+    }
+    return (
+      <LayoutFormData
+        id={this.state.id}
+        column={this.state.column}
+        formData={this.state.formData}
+        dataDetail={this.state.dataDetail}
+        entityUpdate={this.state.entityUpdate}
+        setFormValue={this.state.setFormValue}
+        submitSuccess={this.state.submitSuccess}
+        submitMessage={this.state.submitMessage}
+        submitFailed={this.state.submitFailed}
+        submit={this.state.submit}
+        initial={this.state.initial}
+        entityName={this.state.entityName}
+        selectoptions={this.state.selectoptions}
+        multiselectComponent={this.state.multiselectComponent}
+        createItemForFieldMultiselect={this.state.createItemForFieldMultiselect}
+        onSubmit={this.onSubmit}
+      />
+    )
   }
 }
 
@@ -168,11 +205,14 @@ const mapStateToProps = (state, ownProps) => {
   // console.log('[form] ownProps', ownProps.match.params.id)
   // const id = ownProps.params.id
   const myProfile = UserSelectors.getProfile(state.user)
-  const scope = _.filter([
-    {key: '1', text: 'root', value: '1'},
-    {key: '2', text: 'admin', value: '5'},
-    {key: '3', text: 'fasilitator', value: '100'}
-  ], (o) => parseInt(o.value || 0) >= parseInt(myProfile.scope || 0))
+  const scope = _.filter(
+    [
+      { key: '1', text: 'root', value: '1' },
+      { key: '2', text: 'admin', value: '5' },
+      { key: '3', text: 'fasilitator', value: '100' }
+    ],
+    o => parseInt(o.value || 0) >= parseInt(myProfile.scope || 0)
+  )
   return {
     // ignite boilerplate state list
     defaultPageSize,
@@ -192,8 +232,8 @@ const mapStateToProps = (state, ownProps) => {
     isLoggedIn: LoginSelectors.isLoggedIn(state.login),
     selectoptions: {
       status: [
-        {key: '1', text: 'publish', value: 'publish'},
-        {key: '2', text: 'draft', value: 'draft'},
+        { key: '1', text: 'publish', value: 'publish' },
+        { key: '2', text: 'draft', value: 'draft' }
         // {key: '3', text: 'delete', value: 'delete'}
       ],
       scope
@@ -203,16 +243,18 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     // ignite boilerplate dispatch list
-    setFormValue: (data) => dispatch(UserActions.userSetFormValue(data)),
-    formReset: (data) => dispatch(UserActions.userFormReset(data)),
-    fetchOne: (query) => dispatch(UserActions.userRequest(query)),
-    entityCreate: (data) => dispatch(UserActions.userCreate(data)),
+    setFormValue: data => dispatch(UserActions.userSetFormValue(data)),
+    formReset: data => dispatch(UserActions.userFormReset(data)),
+    fetchOne: query => dispatch(UserActions.userRequest(query)),
+    entityCreate: data => dispatch(UserActions.userCreate(data)),
     entityUpdate: (data, id) => dispatch(UserActions.userUpdate(data, id))
-
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TheComponent)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TheComponent)

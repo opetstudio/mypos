@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import LayoutUserProfile from '../../Components/LayoutUserProfile'
 import { makeData } from '../../Utils/Utils'
-import LoginActions, {LoginSelectors} from '../Login/redux'
-import {UserSelectors} from '../User/redux'
+import LoginActions, { LoginSelectors } from '../Login/redux'
+import { UserSelectors } from '../User/redux'
 
 // const User = LayoutTableData
-const TheComponent = (props) => window.localStorage.getItem('isLoggedIn') === 'true' ? <LayoutUserProfile {...props} /> : <Redirect to='/login' />
+const TheComponent = props =>
+  window.localStorage.getItem('isLoggedIn') === 'true' ? (
+    <LayoutUserProfile {...props} />
+  ) : (
+    <Redirect to='/login' />
+  )
 
 const mapStateToProps = (state, ownProps) => {
   const params = new URLSearchParams(window.location.search)
@@ -24,10 +29,13 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     // ignite boilerplate dispatch list
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TheComponent)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TheComponent)
