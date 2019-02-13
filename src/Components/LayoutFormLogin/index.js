@@ -10,6 +10,7 @@ import {
   Container
 } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
+import CryptoJS from 'crypto-js'
 
 // var bcrypt = require('bcryptjs')
 // var salt = bcrypt.genSaltSync(1)
@@ -49,6 +50,10 @@ class LayoutFormLogin extends React.Component {
   handleSubmit = () => {
     // console.log('handleSubmit')
     const { username, password } = this.state
+    // encrypt password
+    // let hash = CryptoJS.SHA256(password).toString(CryptoJS.enc.Base64)
+    // let secondHash = CryptoJS.SHA256(hash).toString(CryptoJS.enc.Base64)
+
     const submittedData = {
       grant_type: this.state.grant_type,
       username,

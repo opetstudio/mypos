@@ -24,7 +24,7 @@ export const create = api => ({
       AppConfig.authHeader,
       opt.session.token_type + ' ' + opt.session.access_token
     )
-    return api.get('getUserProfile/' + data.username)
+    return api.get('/getUserProfile/' + data.username)
   },
   getUsers: ({ apiName, baseUrl, newerModifiedon }, opt) => {
     if (!opt.session.token) return {}

@@ -103,7 +103,8 @@ class LoggedInAttribute extends Component {
       )
     }
     if (this.props.isLoggedIn && this.props.attr === 'mainmenu') {
-      let m = ['0', '1', '2', '3', '4']
+      // let m = ['0', '1', '2', '3', '4']
+      let m = ['0', '3']
       return m.map(r => {
         if (r === '0') {
           if (this.props.userScope < 10) {

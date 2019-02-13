@@ -1,6 +1,7 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce'
 import { merge } from 'ramda'
+import ApiElectron from '../Services/ApiElectron'
 
 // our "constructor"
 const create = (baseURL = 'https://jsonplaceholder.typicode.com/') => {
@@ -11,7 +12,7 @@ const create = (baseURL = 'https://jsonplaceholder.typicode.com/') => {
   //
   // Create and configure an apisauce-based api object.
   //
-  const api = apisauce.create({
+  const API_REMOTE = apisauce.create({
     // base URL is read from the "constructor"
     baseURL,
     // here are some default headers
@@ -63,7 +64,26 @@ const create = (baseURL = 'https://jsonplaceholder.typicode.com/') => {
   // private scoped goodies in JavaScript.
   //
   // console.log(api.getBaseURL())
-  api.setHeader('channelid', 'WEB')
+  API_REMOTE.setHeader('channelid', 'WEB')
+  let api = API_REMOTE
+
+  let ipcRenderer = {
+    send: () => {},
+    on: () => {}
+  }
+
+  let server = ''
+  // let neDBDataPath = ''
+
+  if (window.require) {
+    console.log('require adaaaaa')
+    ipcRenderer = window.require('electron').ipcRenderer
+    server = 'electron'
+  } else {
+    console.log('require tidak adaaaaa')
+  }
+  api = (server === 'electron') ? new ApiElectron(ipcRenderer) : API_REMOTE
+
   let apiMerged = {}
   // merge api
 

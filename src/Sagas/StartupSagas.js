@@ -29,4 +29,5 @@ export function * startup (action) {
       }
     })
   }
+  // yield put(ContactActions.contactRequestAll({}))
 }

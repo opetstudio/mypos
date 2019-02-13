@@ -66,6 +66,9 @@ function createWindow () {
       protocol: 'file:',
       slashes: true
     }))
+    if (process.env.DEBUG_PROD === 'true') {
+      mainWindow.webContents.openDevTools()
+    }
   } else {
     // and load the index.html of the app.
     mainWindow.loadURL('http://localhost:3000')
@@ -147,6 +150,9 @@ const route_siswa = require('./server/electron/routes/SiswaRoute')
 const route_util = require('./server/electron/routes/UtilRoute')
 const route_gurustaff = require('./server/electron/routes/GurustaffRoute')
 
+const Middleware = require('./server/electron/middleware')
+const Authentication = require('./server/electron/middleware/Authentication')
+
 ipcMain.on('/user-detail', route_users.userDetail)
 ipcMain.on('/save-user', route_users.saveUser)
 // ipcMain.on('/save-absen', route_absen.saveAbsen);
@@ -164,10 +170,13 @@ ipcMain.on('/openImageApi', route_util.openImageApi)
 ipcMain.on('/closeImageApi', route_util.closeImageApi)
 
 function routeOne (routeName, theRoute) {
-  ipcMain.on(`/${routeName}`, theRoute[routeName])
+  console.log('routeOne ', routeName)
+  ipcMain.on(`/${routeName}`, Middleware([Authentication], routeName, theRoute))
 }
 
 function route (entityName, theRoute) {
+  console.log('create route for entity ', entityName)
+
   routeOne(`${entityName}CreateDataApi`, theRoute)
   routeOne(`${entityName}UpdateDataApi`, theRoute)
   routeOne(`${entityName}DeleteDataApi`, theRoute)
@@ -182,6 +191,12 @@ function route (entityName, theRoute) {
       routeOne(`${entityName}FetchAllExportToCsvApi`, theRoute)
       routeOne(`${entityName}FetchAllExportToXlsxApi`, theRoute)
       routeOne(`${entityName}FetchAllExportToPdfApi`, theRoute)
+      break
+    case 'user':
+      routeOne(`oauthhh`, theRoute)
+      routeOne(`get-login-status`, theRoute)
+      routeOne(`logout`, theRoute)
+      routeOne(`getUserProfile`, theRoute)
       break
     default:
       return true

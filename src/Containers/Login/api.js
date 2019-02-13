@@ -3,24 +3,23 @@ import AppConfig from '../../Config/AppConfig'
 
 export const create = api => ({
   postLogin: (data, opt) => {
-    // console.log('postLogin data', data)
+    console.log('postLogin data', data)
     // api.setHeader('authorization', opt.session.token)
-    const resp = api.post('oauthhh', data)
-    // console.log('resp====>', resp)
+    const resp = api.post('/oauthhh', data)
     return resp
   },
-  getLogin: data => api.get('logins/' + data.id),
+  getLogin: data => api.get('/logins/' + data.id),
   getLogins: ({ apiName, baseUrl, newerModifiedon }) => {
     if (baseUrl) api.setBaseURL(baseUrl)
-    return api.get(apiName || 'logins/', { newerModifiedon })
+    return api.get(apiName || '/logins/', { newerModifiedon })
   },
-  updateLogin: data => api.patch('logins/' + data.id, { login: data }),
+  updateLogin: data => api.patch('/logins/' + data.id, { login: data }),
   removeLogin: (data, opt) => {
     api.setHeader(
       AppConfig.authHeader,
       opt.session.token_type + ' ' + opt.session.access_token
     )
-    return api.get('logout')
+    return api.get('/logout')
   },
   getLoginStatus: (data, opt) => {
     // const auth = opt.session.token_type + ' ' + opt.session.access_token
@@ -31,6 +30,6 @@ export const create = api => ({
       AppConfig.authHeader,
       opt.session.token_type + ' ' + opt.session.access_token
     )
-    return api.get('get-login-status')
+    return api.get('/get-login-status')
   }
 })

@@ -366,7 +366,7 @@ module.exports.openImageApi = function (event, photoPath) {
   // console.log('appRoot==>', appRoot);
   if (fs.existsSync(photoPath)) {
     fs.readFile(photoPath, (err, data) => {
-      const base64data = new Buffer(data)
+      const base64data = Buffer.from(data)
       //  const base64dataStr = base64data.toString('base64');
       //  console.log(base64dataStr);
       console.log('send /openImageApi-response')

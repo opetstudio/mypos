@@ -42,7 +42,7 @@ class DesktopContainer extends Component {
   render () {
     const { children } = this.props
     const { fixed } = this.state
-    console.log('window=', window.location)
+    // console.log('window=', window.location)
     const pathname = (window.location.hash || window.location.pathname).replace(
       '#',
       ''
@@ -53,7 +53,7 @@ class DesktopContainer extends Component {
       pathname === '/' ||
       pathname === '#/' ||
       pathname === '#/home'
-    console.log('pathname=', pathname)
+    // console.log('pathname=', pathname)
 
     // const children = React.Children.map(this.props.children, (child, index) => {
     //   // console.log('cekk===>', child)
@@ -100,8 +100,8 @@ class DesktopContainer extends Component {
             <Segment
               inverted
               textAlign='center'
-              style={{ minHeight: 0, padding: '1em 0em' }}
-              // style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
+              // style={{ minHeight: 0, padding: '1em 0em' }}
+              style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
               vertical
             >
               <Menu
@@ -126,7 +126,7 @@ class DesktopContainer extends Component {
                   <LoggedInAttribute attr='buttonLogout' />
                 </Container>
               </Menu>
-              {/* {isHome ? <HomepageHeading /> : null} */}
+              {isHome ? <HomepageHeading /> : null}
             </Segment>
           </Visibility>
         )}
