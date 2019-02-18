@@ -10,4 +10,4 @@ cd mypos
 # Install dependencies
 npm install
 # Run the desktop app
-npm run start:electreondev
+npm run start:electrondev
