@@ -5,6 +5,7 @@ const _ = require('lodash')
 const { session } = require('electron')
 const erevnaServices = require('erevna-services')
 const Transformation = require('../helper/Transformation')
+const ReceiveRequest = require('../services/ReceiveRequest')
 
 const Datastore = require('nedb')
 const path = require('path')
@@ -64,12 +65,21 @@ function _onload (opt) {
 
 // const dataStore = new Datastore({ filename: path.join(`${tableName}.db`), autoload: true, timestampData: true, onload:_onload, afterSerialization:_afterSerialization, beforeDeserialization:_beforeDeserialization });
 function createDB (pathDb) {
-  return new Datastore({ filename: pathDb, autoload: true, timestampData: true, afterSerialization: utils._afterSerialization, beforeDeserialization: utils._beforeDeserialization })
+  // if (!fs.existsSync(pathDb)) return {}
+  let res
+  try {
+    res = new Datastore({ filename: pathDb, autoload: true, timestampData: true, afterSerialization: utils._afterSerialization, beforeDeserialization: utils._beforeDeserialization })
+  } catch (e) {
+    res = {}
+  }
+  return res
 }
 const dataStore = new Datastore()
 function getDatastore (neDBDataPath, entity) {
   neDBDataPath = neDBDataPath || os.tmpdir()
   var pathDb = path.join(neDBDataPath, `${entity}.db`)
+  // console.log('pathDb=', pathDb)
+  // console.log('dataStore.filename=', dataStore.filename)
   if (pathDb === dataStore.filename) return dataStore
   else return createDB(pathDb)
 }
@@ -81,66 +91,190 @@ function getSessionDatastore (neDBDataPath, entity) {
   else return createDB(pathDb)
 }
 
-// set initial data
+// const DB_USER = getDatastore(config.defaultDataPath, entityName)
+// const DB.session = getSessionDatastore(config.defaultDataPath, 'session')
 
-function setInitialData () {
-  console.log('set initial data for entity ' + entityName)
-}
-
-module.exports[`logout`] = function (event, data) {
-  const responseRoute = `/logout`
-  let neDBDataPath = data.headers.neDBDataPath
-  let entity = data.headers.entity
-  console.log(`${responseRoute} entity=${entity} data=${data} path=${neDBDataPath}`)
+module.exports[`get_logout`] = function (event, request, DB) {
+  const responseRoute = `/get_logout`
+  let neDBDataPath = request.headers.neDBDataPath
+  let entity = request.headers.entity
+  console.log(`${responseRoute} entity=${entity} request=${request} path=${neDBDataPath}`)
   entity = entity || entityName
   neDBDataPath = neDBDataPath || config.defaultDataPath
-  event.sender.send(responseRoute, null, {'headers': {...data.headers},
-    'body': Transformation.response({'status': true, 'responseMessage': 'success'})})
+  const sessionDatastore = DB.session
+  const token = erevnaServices.security.tokenExtractor(request.headers.authorization)
+  // console.log('token===>', token)
+  sessionDatastore.remove({token}, (e, o) => {
+    event.sender.send(responseRoute, null, {'headers': {...request.headers},
+      'body': Transformation.response({'status': true, 'responseMessage': 'success'})})
+  })
 }
-module.exports[`get-login-status`] = function (event, data) {
-  const responseRoute = `/get-login-status`
-  let neDBDataPath = data.headers.neDBDataPath
-  let entity = data.headers.entity
-  console.log(`${responseRoute} entity=${entity} data=${data} path=${neDBDataPath}`)
-  entity = entity || entityName
-  neDBDataPath = neDBDataPath || config.defaultDataPath
-  event.sender.send(responseRoute, null, {'headers': {...data.headers},
-    'body': Transformation.response({'status': true, 'responseMessage': 'success'})})
+module.exports[`get_get-login-status`] = async function (event, request, DB) {
+  request = await ReceiveRequest(request)
+  const sessionDatastore = DB.session
+  sessionDatastore.find({}, (e, o) => {
+    event.sender.send(request.url, null, {'headers': {...request.headers},
+      'body': Transformation.response({'status': true, 'responseMessage': 'success'})})
+  })
 }
-module.exports[`getUserProfile`] = function (event, data) {
-  const responseRoute = `/getUserProfile`
-  let userToken = data.body.params[0]
-  let neDBDataPath = data.headers.neDBDataPath
-  let entity = data.headers.entity
-  console.log(`${responseRoute} entity=${entity} data=${data} path=${neDBDataPath}`)
-  entity = entity || entityName
-  neDBDataPath = neDBDataPath || config.defaultDataPath
-  const sessionDatastore = getSessionDatastore(neDBDataPath, 'session')
-  sessionDatastore.findOne({token: userToken}, (e, o) => {
+module.exports[`get_getUserProfile`] = async function (event, request, DB) {
+  request = await ReceiveRequest(request)
+  const sessionDatastore = DB.session
+  sessionDatastore.findOne({token: request.params[0]}, (e, o) => {
     let resp = {}
     if (e || !o) resp = {}
     else resp = o.userDetail
-    event.sender.send(responseRoute, null, {'headers': {...data.headers},
+    event.sender.send(request.url, null, {'headers': {...request.headers},
       'body': Transformation.response(resp)})
   })
 }
-module.exports[`oauthhh`] = function (event, data) {
-  let neDBDataPath = data.headers.neDBDataPath
-  let entity = data.headers.entity
-  console.log(`oauthhh entity=${entity} data=${data} path=${neDBDataPath}`)
-  // event.sender.send('/oauthhh', 'err', 'doc')
-  const responseRoute = `/oauthhh`
-  entity = entity || entityName
-  neDBDataPath = neDBDataPath || config.defaultDataPath
-  const storage = getDatastore(neDBDataPath, entity)
-  const sessionDatastore = getSessionDatastore(neDBDataPath, 'session')
-  erevnaServices.user.userLogin(storage, data.body, (newToken, userDetail) => {
+module.exports[`get_users`] = async function (event, request, DB) {
+  request = await ReceiveRequest(request)
+  const storage = DB.user
+  const sessionDatastore = DB.session
+  const token = erevnaServices.security.tokenExtractor(request.headers.authorization)
+  // console.log('token===>', token)
+  sessionDatastore.findOne({token}, (e, o) => {
+    // console.log('session====>>>', o)
+    let scope = ((o || {}).userDetail || {}).scope
+    // console.log('scope====>>>', scope)
+    if (e || !o) {
+      let errorCode = 'INVALID_AUTHORIZATION_TOKEN'
+      let errorDetail = erevnaServices.errorCode[errorCode]
+      return event.sender.send(
+        request.url,
+        errorCode,
+        {
+          'headers': {},
+          'body': Transformation.response_error({
+            title: errorCode,
+            status: 401,
+            statusText: errorDetail.statusText,
+            detail: errorDetail.detail,
+            problem: errorCode
+          })
+        })
+    }
+    storage.find({scope: { $gt: scope }}, (e2, o2) => {
+      // console.log('result e2====>>>', e2)
+      // console.log('result o2====>>>', o2)
+      let resp = []
+      if (e2 || !o2) resp = []
+      else resp = o2
+      event.sender.send(request.url, null, {'headers': {...request.headers},
+        'body': Transformation.response({_embedded: { tb_users: resp }})})
+    })
+  })
+}
+
+module.exports[`post_users`] = async function (event, request, DB) {
+  request = await ReceiveRequest(request)
+  const storage = DB.user
+  let dataCreate = erevnaServices.model.user.convertToSchemaForCreate(request.body) || {}
+  let dataNotValid = erevnaServices.model.user.isDataNotValid(dataCreate)
+  if (dataNotValid) {
+    return event.sender.send(
+      request.url,
+      dataNotValid.status,
+      {
+        'headers': {},
+        'body': Transformation.response_error(dataNotValid)
+      })
+  }
+  erevnaServices.security.encryptPassword(dataCreate.password, (encryptedPassword) => {
+    dataCreate.password = encryptedPassword
+    storage.insert(dataCreate, (e2, o2) => {
+      console.log('new user =', o2)
+      if (e2 || !o2) {
+        console.log('error when create new user =', e2)
+        let errorCode = 'GENERAL_ERROR'
+        let errorDetail = erevnaServices.errorCode[errorCode]
+        return event.sender.send(
+          request.url,
+          e2,
+          {
+            'headers': {...request.headers},
+            'body': Transformation.response_error({
+              'type': 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
+              'title': e2.errorType,
+              'status': 500,
+              'detail': e2.key + ' => ' + e2.errorType
+            })
+          })
+      }
+      event.sender.send(request.url, null, {'headers': {...request.headers},
+        'body': Transformation.response_success_create(o2)})
+    })
+  })
+}
+module.exports[`patch_users`] = async function (event, request, DB) {
+  // RECIVE REQUEST
+  request = await ReceiveRequest(request)
+  const storage = DB.user
+  // PROCESS DATA
+  // VALIDASI
+  // CRUD
+  let _id = request.params[0]
+  // console.log('request.body==>', request.body)
+  let dataUpdate = erevnaServices.model.user.convertToSchemaForUpdate(request.body) || {}
+  // console.log('dataUpdate==>', dataUpdate)
+  let dataNotValid = erevnaServices.model.user.isDataNotValid(dataUpdate)
+  if (dataNotValid) {
+    return event.sender.send(
+      request.url,
+      dataNotValid.status,
+      {
+        'headers': {},
+        'body': Transformation.response_error(dataNotValid)
+      })
+  }
+  if (dataUpdate.password && dataUpdate.password !== '') {
+    dataUpdate.password = await (new Promise((resolve) => {
+      erevnaServices.security.encryptPassword(dataUpdate.password, (encryptedPassword) => {
+        resolve(encryptedPassword)
+      })
+    }))
+  }
+  // console.log('dataUpdate==>', dataUpdate)
+  storage.update({ _id: _id }, { $set: dataUpdate }, { multi: true }, (err, numReplaced) => {
+    if (err) {
+      let errorCode = 'GENERAL_ERROR'
+      let errorDetail = erevnaServices.errorCode[errorCode]
+      return event.sender.send(
+        request.url,
+        err,
+        {
+          'headers': {...request.headers},
+          'body': Transformation.response_error({
+            'type': 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
+            'title': errorDetail.detail,
+            'status': 500,
+            'detail': errorDetail.detail
+          })
+        })
+    }
+    storage.findOne({_id: _id}, (e, o) => {
+      let resp = []
+      if (e || !o) resp = []
+      else resp = o
+      event.sender.send(request.url, null, {'headers': {...request.headers},
+        'body': Transformation.response(resp)})
+    })
+  })
+
+  // SEND RESPONSE
+}
+module.exports[`post_oauthhh`] = async function (event, request, DB) {
+  request = await ReceiveRequest(request)
+  const storage = DB.user
+  const sessionDatastore = DB.session
+  erevnaServices.user.userLogin(storage, request.body, (newToken, userDetail) => {
     // console.log(`FetchAllApi entity=${entity} path=${neDBDataPath} err=${err} doc=${doc}`, doc)
     if (!newToken) {
       let errorCode = 'INVALID_USER_OR_PASSWORD'
       let errorDetail = erevnaServices.errorCode[errorCode]
       return event.sender.send(
-        responseRoute,
+        request.url,
         errorCode,
         {
           'headers': {},
@@ -153,9 +287,9 @@ module.exports[`oauthhh`] = function (event, data) {
           })
         })
     } else {
-      sessionDatastore.update({userId: data.body.username}, {token: newToken, userId: data.body.username, userDetail: userDetail}, { upsert: true }, (e, o) => {
-        data.headers.authorization = 'Bearer ' + newToken
-        event.sender.send(responseRoute, null, {'headers': {...data.headers},
+      sessionDatastore.update({userId: request.body.username}, {token: newToken, userId: request.body.username, userDetail: userDetail}, { upsert: true }, (e, o) => {
+        request.headers.authorization = 'Bearer ' + newToken
+        event.sender.send(request.url, null, {'headers': {...request.headers},
           'body': Transformation.response_success_login({
             access_token: newToken,
             refresh_token: newToken,
@@ -174,8 +308,10 @@ module.exports[`oauthhh`] = function (event, data) {
     // event.sender.send(responseRoute, err, JSON.stringify(doc));
   })
 }
-module.exports[`get-login-status`] = function (event, data, neDBDataPath, entity) {
-  console.log(`get-login-status entity=${entity} path=${neDBDataPath}`)
+module.exports[`get-login-status`] = async function (event, request, DB) {
+  request = await ReceiveRequest(request)
+  // const storage = DB.user
+  // const sessionDatastore = DB.session
   event.sender.send('get-login-status', 'err', 'doc')
   // const responseRoute = `/${entityName}FetchAllApiResponse`
   // entity = entity || entityName
@@ -486,47 +622,55 @@ module.exports[`${entityName}DeleteDataApi`] = function (event, arg1, neDBDataPa
 }
 
 // set initial data
+module.exports[`set_init`] = function (DB) {
+  let setInitialData = () => {
+    console.log('set initial data for entity ' + entityName)
+    // const storage = getDatastore(config.defaultDataPath, entityName)
+    const storage = DB.user
+    let userModel = erevnaServices.model.user.schema
+    let dataObj = {}
 
-function setInitialData () {
-  console.log('set initial data for entity ' + entityName)
-  const storage = getDatastore(config.defaultDataPath, entityName)
-  let userModel = erevnaServices.model.user.schema
-  let dataObj = {}
-
-  for (var key in userModel) {
-    const fieldDesc = userModel[key]
-    // console.log('fieldDesc=', fieldDesc)
-    dataObj[key] = fieldDesc['default'] || (fieldDesc['type'] === String ? '' : 0)
-    if (fieldDesc['index']) {
-      let theIndex = fieldDesc['index']
-      if (theIndex['unique']) {
-        // Using a sparse unique index
-        storage.ensureIndex({ fieldName: key, unique: true }, function (err) {
-          if (err) console.log('error when ensureIndex err=', err)
-        })
+    for (var key in userModel) {
+      const fieldDesc = userModel[key]
+      // console.log('fieldDesc=', fieldDesc)
+      dataObj[key] = fieldDesc['default'] || (fieldDesc['type'] === String ? '' : 0)
+      if (fieldDesc['index']) {
+        let theIndex = fieldDesc['index']
+        if (theIndex['unique']) {
+          // Using a sparse unique index
+          storage.ensureIndex({ fieldName: key, unique: true }, function (err) {
+            if (err) console.log('error when ensureIndex err=', err)
+          })
+        }
       }
+
+      if (key === 'id') dataObj[key] = '0000'
+      if (key === 'name') dataObj[key] = 'Super Admin'
+      if (key === 'first_name') dataObj[key] = 'Super'
+      if (key === 'last_name') dataObj[key] = 'Admin'
+      if (key === 'username') dataObj[key] = 'root'
+      if (key === 'password') dataObj[key] = 'toor'
+      if (key === 'scope') dataObj[key] = 1
+      if (key === 'email') dataObj[key] = 'root@xxxxxxx.com'
+      if (key === 'status') dataObj[key] = 'active'
     }
+    // console.log('dataObj=', dataObj)
 
-    if (key === 'id') dataObj[key] = '0000'
-    if (key === 'name') dataObj[key] = 'Super Admin'
-    if (key === 'username') dataObj[key] = 'root'
-    if (key === 'password') dataObj[key] = 'toor'
-    if (key === 'role') dataObj[key] = 1
-    if (key === 'scope') dataObj[key] = 1
-    if (key === 'email') dataObj[key] = 'root@xxxxxxx.com'
-    if (key === 'status') dataObj[key] = 'active'
-  }
-  // console.log('dataObj=', dataObj)
-
-  storage.findOne({ username: dataObj.username }, (err1, doc1) => {
-    if (doc1) return
-    erevnaServices.security.encryptPassword(dataObj.password, (encryptedPassword) => {
-      dataObj.password = encryptedPassword
-      storage.insert(dataObj, (e2, o2) => {
-        console.log('new user =', o2)
+    storage.findOne({ username: dataObj.username }, (err1, doc1) => {
+      if (doc1) return
+      erevnaServices.security.encryptPassword(dataObj.password, (encryptedPassword) => {
+        dataObj.password = encryptedPassword
+        storage.insert(dataObj, (e2, o2) => {
+          console.log('new user =', o2)
+        })
       })
     })
-  })
+  }
+  setInitialData()
 }
+// let log = () => {
+//   var pathDb = path.join(config.defaultDataPath, `user.db`)
+//   console.log(pathDb)
+//   if (!fs.existsSync(pathDb)) setTimeout(log, 1000)
+// }
 
-setInitialData()

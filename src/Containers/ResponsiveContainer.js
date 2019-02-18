@@ -4,13 +4,13 @@ import DesktopContainer from './DesktopContainer'
 import MobileContainer from './MobileContainer'
 
 const ResponsiveContainer = ({ children }) => {
-  // console.log('render ResponsiveContainer width ', window.screen.width)
+  console.log('render ResponsiveContainer width ', window.innerWidth)
   return (
     <div>
-      {window.screen.width >= 769 && (
+      {window.innerWidth >= 769 && (
         <DesktopContainer>{children}</DesktopContainer>
       )}
-      {window.screen.width <= 768 && (
+      {window.innerWidth <= 768 && (
         <MobileContainer>{children}</MobileContainer>
       )}
     </div>

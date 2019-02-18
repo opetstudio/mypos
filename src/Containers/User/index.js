@@ -121,7 +121,7 @@ class TheComponent extends Component {
     if (
       (window.location.hash || window.location.pathname).replace('#', '') ===
       `/entity/${this.state.entityName.toLowerCase()}-trash`
-    ) { result = _.filter(dataArr, o => o.status === 'delete') } else if (filterInArr && filterInArr.length > 0) { result = _.filter(dataArr, o => filterInArr.indexOf(o.status) !== -1) } else result = _.filter(dataArr, o => o.status === 'publish')
+    ) { result = _.filter(dataArr, o => o.status === 'delete') } else if (filterInArr && filterInArr.length > 0) { result = _.filter(dataArr, o => filterInArr.indexOf(o.status) !== -1) } else result = _.filter(dataArr, o => (o.status === 'publish' || o.status === 'active'))
     if (searchString === '') return result
     return _.filter(result, o => {
       for (var key in o) {

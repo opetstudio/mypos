@@ -164,7 +164,7 @@ export function * removeLogin (api, action) {
   const s = yield select(session)
   // // make the call to the api
   const response = yield call(api.removeLogin, data, { session: s })
-
+  console.log('response logout==>', response)
   // // success?
   if (response.ok) {
     let status = path(['data', 'status'], response)

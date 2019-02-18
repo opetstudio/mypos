@@ -1,6 +1,6 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import { arrayMerge } from '../../Utils/helper/datamining'
+import { arrayMerge, cleaningObject } from '../../Utils/helper/datamining'
 import _ from 'lodash'
 
 /* ------------- Types and Action Creators ------------- */
@@ -80,7 +80,7 @@ export const UserSelectors = {
   getData: state => state.data,
   getDetailById: (state, id) => (state.byId || {})[id],
   getAllIds: state => state.allIds,
-  getAllDataArr: state => state.allIds.map(id => (state.byId || {})[id]),
+  getAllDataArr: state => state.allIds.map(id => (state.byId || {})[id] || {}),
   getMaxModifiedon: state => state.maxModifiedon,
   getById: state => state.byId,
   getIsError: state => state.isError,
@@ -130,7 +130,12 @@ export const requestFailed = (state, action) =>
     requestMessage: action.data.requestMessage
   })
 export const requestSuccess = (state, action) => {
-  const { byId, allIds, maxModifiedon } = action.data
+  console.log('user requestSuccess=', action)
+  const data = action.data
+  const allIds = _.compact(data.allIds)
+  const byId = cleaningObject(data.byId)
+  const maxModifiedon = data.maxModifiedon
+  console.log('user requestSuccess byId=', byId)
   // allIds.forEach(r => {
   //   if (byId[r].status === 'delete'){
   //     state.byId.without(r)
@@ -195,6 +200,7 @@ export const doFormSubmitFailed = (state, action) =>
   })
 export const doFormSubmitSuccess = (state, action) => {
   const { byId, allIds } = action.data
+  console.log('user doFormSubmitSuccess', action.data)
   return state.merge({
     formSubmit: false,
     formSubmitFailed: false,
@@ -242,6 +248,7 @@ export const remove = state =>
     formSubmitMessage: 'removing process'
   })
 export const removeSuccess = (state, action) => {
+  console.log('user removeSuccess', action.data)
   // console.log('deleteSuccess==>', action.data.listId)
   // const allIds = _.difference(state.allIds, action.data.listId)
   // const byId = state.byId.without(action.data.listId)

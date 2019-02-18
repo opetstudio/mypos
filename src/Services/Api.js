@@ -76,7 +76,7 @@ const create = (baseURL = 'https://jsonplaceholder.typicode.com/') => {
   // let neDBDataPath = ''
 
   if (window.require) {
-    console.log('require adaaaaa')
+    // console.log('require adaaaaa')
     ipcRenderer = window.require('electron').ipcRenderer
     server = 'electron'
   } else {

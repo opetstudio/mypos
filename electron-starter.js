@@ -1,5 +1,6 @@
 
 const electron = require('electron')
+const os = require('os')
 // const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 // import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 // const Menu = require('menu');
@@ -152,6 +153,42 @@ const route_gurustaff = require('./server/electron/routes/GurustaffRoute')
 
 const Middleware = require('./server/electron/middleware')
 const Authentication = require('./server/electron/middleware/Authentication')
+const RequestReceiver = require('./server/electron/middleware/RequestReceiver')
+
+const utils = require('./server/electron/utils')
+const config = require('./server/electron/config')
+const Datastore = require('nedb')
+
+function createDB (pathDb) {
+  // if (!fs.existsSync(pathDb)) return {}
+  let res
+  try {
+    res = new Datastore({ filename: pathDb, autoload: true, timestampData: true, afterSerialization: utils._afterSerialization, beforeDeserialization: utils._beforeDeserialization })
+  } catch (e) {
+    res = {}
+  }
+  return res
+}
+
+const dataStore = new Datastore()
+function getDatastore (neDBDataPath, entity) {
+  neDBDataPath = neDBDataPath || os.tmpdir()
+  var pathDb = path.join(neDBDataPath, `${entity}.db`)
+  console.log('pathDb=', pathDb)
+  // console.log('dataStore.filename=', dataStore.filename)
+  if (pathDb === dataStore.filename) return dataStore
+  else return createDB(pathDb)
+}
+
+// function getSessionDatastore (neDBDataPath, entity) {
+//   neDBDataPath = neDBDataPath || os.tmpdir()
+//   var pathDb = path.join(neDBDataPath, `${entity}.db`)
+//   if (pathDb === dataStore.filename) return dataStore
+//   else return createDB(pathDb)
+// }
+
+// const DB_USER = getDatastore(config.defaultDataPath, entityName)
+// const DB_SESSION = getSessionDatastore(config.defaultDataPath, 'session')
 
 ipcMain.on('/user-detail', route_users.userDetail)
 ipcMain.on('/save-user', route_users.saveUser)
@@ -169,34 +206,43 @@ ipcMain.on('/siswaDeleteDataApi', route_siswa.siswaDeleteDataApi)
 ipcMain.on('/openImageApi', route_util.openImageApi)
 ipcMain.on('/closeImageApi', route_util.closeImageApi)
 
-function routeOne (routeName, theRoute) {
+const DB = {}
+function routeOne (routeName, theRoute, DB) {
   console.log('routeOne ', routeName)
-  ipcMain.on(`/${routeName}`, Middleware([Authentication], routeName, theRoute))
+  ipcMain.on(`/${routeName}`, Middleware([RequestReceiver, Authentication], routeName, theRoute, DB))
 }
+// open session
+DB['session'] = getDatastore(config.defaultDataPath, 'session')
 
 function route (entityName, theRoute) {
   console.log('create route for entity ', entityName)
+  // create db
+  DB[entityName] = getDatastore(config.defaultDataPath, entityName)
 
-  routeOne(`${entityName}CreateDataApi`, theRoute)
-  routeOne(`${entityName}UpdateDataApi`, theRoute)
-  routeOne(`${entityName}DeleteDataApi`, theRoute)
-  routeOne(`${entityName}FetchAllApi`, theRoute)
+  routeOne(`${entityName}CreateDataApi`, theRoute, DB)
+  routeOne(`${entityName}UpdateDataApi`, theRoute, DB)
+  routeOne(`${entityName}DeleteDataApi`, theRoute, DB)
+  routeOne(`${entityName}FetchAllApi`, theRoute, DB)
 
   switch (entityName) {
     case 'absen':
-      routeOne(`${entityName}FetchAllApiGurustaff`, theRoute)
-      routeOne(`${entityName}FetchAllApiSiswa`, theRoute)
+      routeOne(`${entityName}FetchAllApiGurustaff`, theRoute, DB)
+      routeOne(`${entityName}FetchAllApiSiswa`, theRoute, DB)
       break
     case 'gurustaff':
-      routeOne(`${entityName}FetchAllExportToCsvApi`, theRoute)
-      routeOne(`${entityName}FetchAllExportToXlsxApi`, theRoute)
-      routeOne(`${entityName}FetchAllExportToPdfApi`, theRoute)
+      routeOne(`${entityName}FetchAllExportToCsvApi`, theRoute, DB)
+      routeOne(`${entityName}FetchAllExportToXlsxApi`, theRoute, DB)
+      routeOne(`${entityName}FetchAllExportToPdfApi`, theRoute, DB)
       break
     case 'user':
-      routeOne(`oauthhh`, theRoute)
-      routeOne(`get-login-status`, theRoute)
-      routeOne(`logout`, theRoute)
-      routeOne(`getUserProfile`, theRoute)
+      routeOne(`post_oauthhh`, theRoute, DB)
+      routeOne(`post_users`, theRoute, DB)
+      routeOne(`get_get-login-status`, theRoute, DB)
+      routeOne(`get_logout`, theRoute, DB)
+      routeOne(`get_getUserProfile`, theRoute, DB)
+      routeOne(`get_users`, theRoute, DB)
+      routeOne(`patch_users`, theRoute, DB)
+      theRoute.set_init(DB)
       break
     default:
       return true

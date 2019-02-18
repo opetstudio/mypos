@@ -69,7 +69,7 @@ function getEntityCollection (dataIn, entity, obj) {
       delete r._links
       delete r.password
       if (r.status === 'remove') return null
-      if (r._id === undefined || r._id === 'undefined') return null
+      if (r._id === undefined || r._id === 'undefined' || typeof r._id === 'undefined' || r._id === null) return null
       byId['' + r._id] = obj ? { ...pick(obj, r), _id: r._id } : r
       maxModifiedon = r.modifiedon || 0
       return r._id

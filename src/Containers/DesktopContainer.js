@@ -4,14 +4,14 @@ import { connect } from 'react-redux'
 import {
   Container,
   Menu,
-  Responsive,
+  // Responsive,
   Segment,
   Visibility,
-  Dropdown
-  // Button,
+  // Dropdown,
+  Button,
   // Modal,
   // Header,
-  // Icon
+  Icon
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import LoginActions, { LoginSelectors } from './Login/redux'
@@ -100,7 +100,54 @@ class DesktopContainer extends Component {
             <Segment
               inverted
               textAlign='center'
+              style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
+              vertical
+            >
+              {/* <Segment
+              inverted
+              textAlign='center'
               // style={{ minHeight: 0, padding: '1em 0em' }}
+              style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
+              vertical
+            > */}
+              <Menu
+                fixed={fixed ? 'top' : null}
+                inverted={!fixed}
+                pointing={!fixed}
+                secondary={!fixed}
+                size='small'
+              >
+                {/* <Container> */}
+                <Menu.Item onClick={window.history.back}>
+                  <Icon name='angle left' size={'big'} />
+                </Menu.Item>
+                <Menu.Item as={Link} to='/' active={isHome}>
+                    Home
+                </Menu.Item>
+                <Menu.Item
+                  as={Link}
+                  to='/about'
+                  active={pathname === '/about'}
+                >
+                    About
+                </Menu.Item>
+                <LoggedInAttribute attr='mainmenu' pathname={pathname} />
+                <LoggedInAttribute attr='buttonLogout' pathname={pathname} />
+                {/* </Container> */}
+              </Menu>
+              {isHome ? <HomepageHeading /> : null}
+            </Segment>
+          </Visibility>
+        )}
+        {window.localStorage.getItem('isLoggedIn') !== 'true' && (
+          <Visibility
+            once={false}
+            onBottomPassed={this.showFixedMenu}
+            onBottomPassedReverse={this.hideFixedMenu}
+          >
+            <Segment
+              inverted
+              textAlign='center'
               style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
               vertical
             >
@@ -111,22 +158,9 @@ class DesktopContainer extends Component {
                 secondary={!fixed}
                 size='small'
               >
-                <Container>
-                  <Menu.Item as={Link} to='/' active={isHome}>
-                    Home
-                  </Menu.Item>
-                  <Menu.Item
-                    as={Link}
-                    to='/about'
-                    active={pathname === '/about'}
-                  >
-                    About
-                  </Menu.Item>
-                  <LoggedInAttribute attr='mainmenu' pathname={pathname} />
-                  <LoggedInAttribute attr='buttonLogout' />
-                </Container>
+                <LoggedInAttribute attr='buttonLogout' pathname={pathname} />
+                {/* </Container> */}
               </Menu>
-              {isHome ? <HomepageHeading /> : null}
             </Segment>
           </Visibility>
         )}

@@ -12,7 +12,8 @@ import {
   Checkbox,
   Message,
   Icon,
-  Input
+  Input,
+  Label
 } from 'semantic-ui-react'
 import ReactTable from 'react-table'
 import { path, pick, pickBy, isEmpty, find, propEq } from 'ramda'
@@ -70,7 +71,7 @@ export default class LayoutFormData extends Component {
     this.state = {}
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    console.log('constructor props', this.props)
+    // console.log('constructor props', this.props)
     this.props.formReset({})
     // if (!this.props.id && this.props.id !== '') this.props.formReset({})
   }
@@ -119,6 +120,7 @@ export default class LayoutFormData extends Component {
     // this.props.formReset({})
   }
   handleSubmit (event) {
+    console.log('form submit')
     if (this.props.onSubmit) return this.props.onSubmit(event)
     // alert('Your favorite flavor is: ' + this.state.value)
     // console.log('submit', this.state.form._id)
@@ -227,15 +229,21 @@ export default class LayoutFormData extends Component {
     let opt = options || []
     // if (options) opt = options.map(r => ({key: r._id, text: r.conference_name, value: r.conference_code}))
     if (type === 'input-text') {
-      return (
-        <input
+      let el = []
+      if (name === 'email' || name === 'username') {
+        el.push((<label key={name + value}>{value}</label>))
+      } else {
+        el.push((<input
+          key={name + value}
           type='text'
           name={name}
           placeholder={placeholder}
           value={value}
           onChange={o => this.handleChange(o, name)}
-        />
-      )
+        />))
+      }
+      if (name === 'password') el.push(<Label key={2} pointing='left'>keep empty if don't wanna change</Label>)
+      return el.map(r => r)
     } else if (type === 'file') {
       return (
         <input
@@ -270,12 +278,14 @@ export default class LayoutFormData extends Component {
     }
     // else if (type === 'select') return (<Dropdown placeholder='Skills' name={name} fluid multiple selection options={options} onChange={(o) => this.handleChange(o, name)} />)
     else if (type === 'select') {
+      console.log('field select opt=', opt)
+      console.log('field select value=', value)
       return (
         <Form.Select
           style={selectStyle}
           width={widthfield}
           name={name}
-          value={value}
+          value={'' + value}
           options={opt}
           placeholder={label}
           onChange={(o, obj) => this.handleChange(obj, name, type)}
@@ -297,7 +307,11 @@ export default class LayoutFormData extends Component {
   render () {
     // console.log('[LayoutFormData.render] props', this.props.initial)
     // console.log('[LayoutFormData.render] formData', this.props.formData)
-    const id = path(['match', 'params', 'id', 'formData'], this.props)
+    const id = path(['id'], this.props)
+    const recordId = id
+    // const id = path(['match', 'params', 'id', 'formData'], this.props)
+    // console.log('this.props.formData===>', this.props.formData)
+    // console.log('recordId===>', recordId)
     const MessageIcon = () => (
       <Message
         icon
@@ -339,10 +353,27 @@ export default class LayoutFormData extends Component {
                         colGroup.Action !== 'ACT' &&
                         colGroup.columns.map(col => (
                           <Form.Field inline={isDesktop} key={col.id}>
-                            {col.fieldtype && (
-                              <label style={labelStyle}>{col.Header}</label>
-                            )}
-                            {col.fieldtype !== 'multiselect-component' &&
+                            {/* {(this.props.dataDetail.scope <= 1 && col.fieldtype) && (<label style={labelStyle}>{col.Header}</label>)} */}
+                            {/* {(recordId !== '' && col.fieldtype) && (<label style={labelStyle}>{col.Header}</label>)} */}
+                            {/* {(recordId === '' && col.fieldtype) && (<label style={labelStyle}>{col.Header}</label>)} */}
+                            {col.fieldtype && (<label style={labelStyle}>{col.Header}</label>)}
+
+                            {/* {(recordId !== '' && col.fieldtype !== 'multiselect-component' && col.id !== 'password' && col.id !== 'email' && col.id !== 'username' && col.id !== 'scope') && */}
+                            {(recordId !== '' && col.fieldtype !== 'multiselect-component') &&
+                              this.renderField({
+                                type: col.fieldtype,
+                                name: col.id,
+                                value:
+                                  (this.props.formData || {})[col.id] || '',
+                                widthfield: col.widthfield,
+                                placeholder: col.Header,
+                                label: col.Header,
+                                options: this.props.selectoptions
+                                  ? this.props.selectoptions[col.id]
+                                  : [],
+                                isDesktop
+                              })}
+                            {(recordId === '' && col.fieldtype !== 'multiselect-component') &&
                               this.renderField({
                                 type: col.fieldtype,
                                 name: col.id,

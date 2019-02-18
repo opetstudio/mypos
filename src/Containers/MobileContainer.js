@@ -36,11 +36,22 @@ class MobileContainer extends Component {
   render () {
     const { children } = this.props
     const { sidebarOpened } = this.state
+    // const isHome =
+    //   (window.location.hash || window.location.pathname).replace('#', '') ===
+    //     '/home' ||
+    //   (window.location.hash || window.location.pathname).replace('#', '') ===
+    //     '/'
+
+    const pathname = (window.location.hash || window.location.pathname).replace(
+      '#',
+      ''
+    )
+    // #/entity/participant
     const isHome =
-      (window.location.hash || window.location.pathname).replace('#', '') ===
-        '/home' ||
-      (window.location.hash || window.location.pathname).replace('#', '') ===
-        '/'
+      pathname === '/home' ||
+      pathname === '/' ||
+      pathname === '#/' ||
+      pathname === '#/home'
 
     return (
       // <Responsive {...Responsive.onlyMobile}>
@@ -62,21 +73,14 @@ class MobileContainer extends Component {
           <Menu.Item
             as={Link}
             to='/about'
-            active={
-              (window.location.hash || window.location.pathname).replace(
-                '#',
-                ''
-              ) === '/about'
-            }
+            active={pathname === '/about'}
           >
             {/* <Icon name='gamepad' /> */}
             About
           </Menu.Item>
           <LoggedInAttribute
             attr='mainmenu'
-            pathname={(
-              window.location.hash || window.location.pathname
-            ).replace('#', '')}
+            pathname={pathname}
           />
           <Menu.Item
             name='entity'
@@ -85,9 +89,7 @@ class MobileContainer extends Component {
             }}
             style={{
               backgroundColor:
-                (window.location.hash || window.location.pathname)
-                  .replace('#', '')
-                  .startsWith('/entity') || !this.state.menuEntityToggle
+                pathname.startsWith('/entity') || !this.state.menuEntityToggle
                   ? 'rgba(255, 255, 255, 0.05)'
                   : '#1b1c1d'
             }}
@@ -104,9 +106,7 @@ class MobileContainer extends Component {
             <Menu.Item
               as={Link}
               to='/entity/file'
-              active={(window.location.hash || window.location.pathname)
-                .replace('#', '')
-                .startsWith('/entity/file')}
+              active={pathname === '/entity/file'}
             >
               File
             </Menu.Item>
@@ -116,9 +116,7 @@ class MobileContainer extends Component {
             <Menu.Item
               as={Link}
               to='/entity/conference'
-              active={(window.location.hash || window.location.pathname)
-                .replace('#', '')
-                .startsWith('/entity/conference')}
+              active={pathname === '/entity/conference'}
             >
               Conference
             </Menu.Item>
@@ -128,9 +126,7 @@ class MobileContainer extends Component {
             <Menu.Item
               as={Link}
               to='/entity/badge'
-              active={(window.location.hash || window.location.pathname)
-                .replace('#', '')
-                .startsWith('/entity/badge')}
+              active={pathname === '/entity/badge'}
             >
               Badge
             </Menu.Item>
@@ -146,6 +142,7 @@ class MobileContainer extends Component {
           </div>
           <LoggedInAttribute
             attr='buttonLogout'
+            pathname={pathname}
             onLogout={() => this.setState({ sidebarOpened: false })}
           />
         </Sidebar>

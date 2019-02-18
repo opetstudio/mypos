@@ -8,7 +8,7 @@ export const create = api => ({
       AppConfig.authHeader,
       opt.session.token_type + ' ' + opt.session.access_token
     )
-    return api.post('users', data)
+    return api.post('/users', data)
   },
   getUser: (data, opt) => {
     if (!opt.session.token) return {}
@@ -16,7 +16,7 @@ export const create = api => ({
       AppConfig.authHeader,
       opt.session.token_type + ' ' + opt.session.access_token
     )
-    return api.get('users/' + data.id)
+    return api.get('/users/' + data.id)
   },
   getUserProfile: (data, opt) => {
     if (!opt.session.token) return {}
@@ -33,7 +33,7 @@ export const create = api => ({
       AppConfig.authHeader,
       opt.session.token_type + ' ' + opt.session.access_token
     )
-    return api.get(apiName || 'users', { newerModifiedon })
+    return api.get(apiName || '/users', { newerModifiedon })
   },
   updateUser: (data, id, opt) => {
     if (!opt.session.token) return {}
@@ -42,7 +42,7 @@ export const create = api => ({
       AppConfig.authHeader,
       opt.session.token_type + ' ' + opt.session.access_token
     )
-    return api.patch('users/' + id, data)
+    return api.patch('/users/' + id, data)
   },
   updateUserBatch: (data, opt) => {
     if (!opt.session.token) return {}
@@ -51,7 +51,7 @@ export const create = api => ({
       AppConfig.authHeader,
       opt.session.token_type + ' ' + opt.session.access_token
     )
-    return api.post('users-update-batch', data)
+    return api.post('/users-update-batch', data)
   },
   removeUser: (data, id, opt) => {
     if (!opt.session.token) return {}
@@ -59,6 +59,6 @@ export const create = api => ({
       AppConfig.authHeader,
       opt.session.token_type + ' ' + opt.session.access_token
     )
-    return api.delete('users/' + id, data)
+    return api.delete('/users/' + id, data)
   }
 })

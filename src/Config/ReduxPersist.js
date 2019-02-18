@@ -4,7 +4,7 @@ import immutablePersistenceTransform from '../Services/ImmutablePersistenceTrans
 // More info here:  https://shift.infinite.red/shipping-persistant-reducers-7341691232b1
 const REDUX_PERSIST = {
   active: true,
-  reducerVersion: '157',
+  reducerVersion: '178',
   storeConfig: {
     key: 'root',
     storage: storage, // Come back and replace this at some point

@@ -135,11 +135,13 @@ export function * postUser (api, action) {
 }
 
 export function * updateUser (api, action) {
+  console.log('do updateUser====>>>>>>action=', action)
   const { data, id } = action
   // make the call to the api
   // const params = yield select(theData)
   const s = yield select(session)
   const response = yield call(api.updateUser, data, id, { session: s })
+  console.log('updateUser response=', response)
   if (
     path(['originalError', 'response', 'status'], response) === 401 &&
     path(['originalError', 'response', 'statusText'], response) ===
@@ -149,7 +151,9 @@ export function * updateUser (api, action) {
   if (response.ok) {
     // const { contentDetail, status, msg } = response.data
     // console.log('contentDetail', contentDetail)
-    const { byId, allIds, status } = getEntity(response.data)
+    const entity = getEntity(response.data)
+    console.log('updateUser entity=', entity)
+    const { byId, allIds, status } = entity
     // if (status === 'delete') {
     //   const allDeletedIds = allIds
     //   yield put(UserActions.userDeleteSuccess({listId: allDeletedIds}))
@@ -259,7 +263,7 @@ export function * getUsers (api, action) {
   // make the call to the api
   const s = yield select(session)
   const response = yield call(api.getUsers, data, { session: s })
-  // console.log('responseeeeee===>', response)
+  console.log('getUsers responseeeeee===>', response)
   if (
     path(['originalError', 'response', 'status'], response) === 401 &&
     path(['originalError', 'response', 'statusText'], response) ===
@@ -269,10 +273,12 @@ export function * getUsers (api, action) {
   // success?
   if (response.ok) {
     // const { byId, allIds, maxModifiedon } = response.data
-    const { byId, allIds, maxModifiedon } = getEntityCollection(
+    const entitys = getEntityCollection(
       response.data,
       'tb_users'
     )
+    console.log('getUsers entitys=', entitys)
+    const { byId, allIds, maxModifiedon } = entitys
     yield put(
       UserActions.userRequestSuccess({
         requestMessage: 'success fetch data',

@@ -126,6 +126,7 @@ class TheComponent extends Component {
       !_.isEqual(prevProps.dataDetail, this.props.dataDetail) &&
       !_.isEmpty(this.props.dataDetail)
     ) {
+      // console.log('set form value because dataDetail is exist')
       let dataDetail = Immutable.asMutable(this.props.dataDetail, {
         deep: true
       })
@@ -153,6 +154,7 @@ class TheComponent extends Component {
       !_.isEqual(prevProps.formData, this.props.formData) &&
       !_.isEmpty(this.props.formData)
     ) {
+      // console.log('set form value because propsFormData is exist')
       this.setState({
         formData: {
           ...this.state.formData,
@@ -166,7 +168,13 @@ class TheComponent extends Component {
     if (prevProps.submitSuccess !== this.props.submitSuccess) { this.setState({ submitSuccess: this.props.submitSuccess }) }
     if (prevProps.submitMessage !== this.props.submitMessage) { this.setState({ submitMessage: this.props.submitMessage }) }
   }
+  componentWillUnmount () {
+    // reset form
+    this.state.formReset({})
+  }
   render () {
+    // console.log('===>formData', this.state.formData)
+    // console.log('===>dataDetail', this.state.dataDetail)
     if (window.localStorage.getItem('isLoggedIn') !== 'true') { return <Redirect to='/login' /> }
     if (!this.props.dataDetail) {
       return (
@@ -193,25 +201,30 @@ class TheComponent extends Component {
         multiselectComponent={this.state.multiselectComponent}
         createItemForFieldMultiselect={this.state.createItemForFieldMultiselect}
         onSubmit={this.onSubmit}
+        myProfile={this.props.myProfile}
       />
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  // console.log('ownProps', ownProps)
   const id = path(['match', 'params', 'id'], ownProps)
   const dataDetail = UserSelectors.getDetailById(state.user, id)
+  // console.log('mapStateToProps dataDetail===>', dataDetail)
   // if (id) ownProps.setFormValue(pick(column.map(c => c.fieldtype !== 'input-hidden' && c.id), dataDetail || {}))
   // console.log('[form] ownProps', ownProps.match.params.id)
   // const id = ownProps.params.id
   const myProfile = UserSelectors.getProfile(state.user)
   const scope = _.filter(
     [
-      { key: '1', text: 'root', value: '1' },
-      { key: '2', text: 'admin', value: '5' },
-      { key: '3', text: 'fasilitator', value: '100' }
+      // { key: '1', text: 'root', value: '1' },
+      { key: '2', text: 'super admin', value: '2' },
+      { key: '3', text: 'admin', value: '5' },
+      { key: '4', text: 'fasilitator', value: '100' },
+      { key: '5', text: 'regular user', value: '200' }
     ],
-    o => parseInt(o.value || 0) >= parseInt(myProfile.scope || 0)
+    o => parseInt(o.value || 0) > parseInt(myProfile.scope || 0)
   )
   return {
     // ignite boilerplate state list
@@ -239,7 +252,8 @@ const mapStateToProps = (state, ownProps) => {
       scope
     },
     loginDetail: LoginSelectors.getSingle(state.login),
-    loginToken: LoginSelectors.getToken(state.login)
+    loginToken: LoginSelectors.getToken(state.login),
+    myProfile: myProfile || {}
   }
 }
 

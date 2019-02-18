@@ -5,7 +5,7 @@ export const arrayMerge = (args = []) => {
   for (var i = 0; i < args.length; i++) {
     if (!args[i]) continue
     for (var j = 0; j < args[i].length; j++) {
-      if (hash[args[i][j]] !== true) {
+      if (hash[args[i][j]] !== true && args[i][j] !== null && args[i][j] !== undefined) {
         arr[arr.length] = args[i][j]
         hash[args[i][j]] = true
       }
@@ -30,4 +30,12 @@ export const updateQueryStringParameter = (uri, key, value) => {
   } else {
     return uri + separator + key + '=' + value
   }
+}
+export const cleaningObject = (obj) => {
+  delete obj[undefined]
+  delete obj['undefined']
+  delete obj['']
+  delete obj['null']
+  delete obj[null]
+  return obj
 }

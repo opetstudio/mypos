@@ -7,28 +7,48 @@ class ApiElectron {
     this.ipcRenderer = ipcRenderer
     this.neDBDataPath = ''
   }
-    postAndGetElectron = (path, data = {}) => new Promise((resolve) => {
-      this.ipcRenderer.send(path, {'headers': {...this.headers, neDBDataPath: this.neDBDataPath}, 'body': data})
-      this.ipcRenderer.on(path, (event, e, o) => {
-        console.log('hitElectron on path=' + path + '|o=', o)
+    postAndGetElectron = (opt) => new Promise((resolve) => {
+      const thePackage = {'url': opt.path, 'headers': {...this.headers, neDBDataPath: this.neDBDataPath}, 'body': opt.body, 'params': opt.params}
+      console.log('thePackage', thePackage)
+      this.ipcRenderer.send(opt.path, thePackage)
+      // if (!this.trx[opt.path]) {
+      this.ipcRenderer.once(opt.path, (event, e, o) => {
+        console.log('hitElectron on path=' + opt.path + '|o=', o)
         this.headers.inc = o.headers.inc
         resolve(o.body)
       })
     })
     // static post = this.postAndGetElectron
     // static get = this.postAndGetElectron
+    setupPath (path, method, data) {
+      let pathArr = path.split('/')
+      let result = ''
+      let params = []
+      if (pathArr.length > 1) {
+        result = '/' + method + '_' + pathArr[1]
+        if (pathArr.length > 2) {
+          for (var i = 2; i < pathArr.length; i++) {
+            params.push(pathArr[i])
+          }
+        }
+      }
+      return {
+        path: result,
+        params,
+        body: data
+      }
+    }
     post (path, data = {}) {
-      console.log(`post ${path} data=`, data)
-      return this.postAndGetElectron(path, data)
+      let spath = this.setupPath(path, 'post', data)
+      return this.postAndGetElectron(spath)
+    }
+    patch (path, data = {}) {
+      let spath = this.setupPath(path, 'patch', data)
+      return this.postAndGetElectron(spath)
     }
     get (path, data = {}) {
-      let pathArr = path.split('/')
-      if (pathArr.length > 2) {
-        path = '/' + pathArr[1]
-        data.params = [pathArr[2]]
-      }
-      console.log(`get ${path} data`, data)
-      return this.postAndGetElectron(path, data)
+      let spath = this.setupPath(path, 'get', data)
+      return this.postAndGetElectron(spath)
     }
     setHeader (par, val) {
       this.headers = {
