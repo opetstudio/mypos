@@ -230,20 +230,8 @@ export default class LayoutFormData extends Component {
     // if (options) opt = options.map(r => ({key: r._id, text: r.conference_name, value: r.conference_code}))
     if (type === 'input-text') {
       let el = []
-      if (this.props.id && (name === 'email' || name === 'username')) {
-        el.push((<label key={name + value}>{value}</label>))
-      } else {
-        el.push((<input
-          key={name + value}
-          type='text'
-          name={name}
-          placeholder={placeholder}
-          value={value}
-          onChange={o => this.handleChange(o, name)}
-        />))
-      }
-      if (name === 'password') el.push(<Label key={2} pointing='left'>keep empty if don't wanna change</Label>)
-      return el.map(r => r)
+      if (this.props.id && (name === 'email' || name === 'username')) return (<label key={name + value}>{value}</label>)
+      else return (<input type='text' name={name} placeholder={placeholder} value={value} onChange={(o) => this.handleChange(o, name)} />)
     } else if (type === 'file') {
       return (
         <input
@@ -372,7 +360,11 @@ export default class LayoutFormData extends Component {
                                   ? this.props.selectoptions[col.id]
                                   : [],
                                 isDesktop
-                              })}
+                              })
+                            }
+                            {(col.fieldtype !== 'multiselect-component' && col.id === 'password') &&
+                              <Label key={2} pointing='left'>keep empty if don't wanna change</Label>
+                            }
                             {/* {(recordId === '' && col.fieldtype !== 'multiselect-component') &&
                               this.renderField({
                                 type: col.fieldtype,
