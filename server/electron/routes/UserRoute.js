@@ -638,7 +638,7 @@ module.exports[`set_init`] = function (DB) {
         if (theIndex['unique']) {
           // Using a sparse unique index
           storage.ensureIndex({ fieldName: key, unique: true }, function (err) {
-            if (err) console.log('error when ensureIndex err=', err)
+            if (err) console.log('error when ensureIndex user err=', err)
           })
         }
       }

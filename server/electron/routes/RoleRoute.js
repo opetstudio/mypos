@@ -25,7 +25,7 @@ module.exports[`set_init`] = function (DB) {
         if (theIndex['unique']) {
           // Using a sparse unique index
           storage.ensureIndex({ fieldName: key, unique: true }, function (err) {
-            if (err) console.log('error when ensureIndex err=', err)
+            if (err) console.log('error when ensureIndex role err=', err)
           })
         }
       }
@@ -36,8 +36,8 @@ module.exports[`set_init`] = function (DB) {
       let dataNotValid = erevnaServices.model.role.isDataNotValid(dataCreate)
       if (dataNotValid) return console.log('data not valid = ', v)
       storage.insert(dataCreate, (e2, o2) => {
-        if (e2 || !o2) console.log('error when insert data ', e2)
-        else console.log('success insert data')
+        // if (e2 || !o2) console.log('error when insert data ', e2)
+        // else console.log('success insert data')
       })
     })
   }
@@ -50,11 +50,80 @@ module.exports[`set_init`] = function (DB) {
   ])
 }
 module.exports[`post_roles`] = function (event, request, DB) {
-    console.dir(request)
+  let dataCreate = erevnaServices.model[entityName].convertToSchemaForCreate(request.body) || {}
+  let dataNotValid = erevnaServices.model[entityName].isDataNotValid(dataCreate)
+  if (dataNotValid) {
+    return event.sender.send(
+      request.url,
+      dataNotValid.status,
+      {
+        'headers': {},
+        'body': Transformation.response_error(dataNotValid)
+      })
+  }
+  DB[tableName].insert(dataCreate, (e2, o2) => {
+    if (e2 || !o2) {
+      let errorCode = 'GENERAL_ERROR'
+      let errorDetail = erevnaServices.errorCode[errorCode]
+      return event.sender.send(
+        request.url,
+        e2,
+        {
+          'headers': {...request.headers},
+          'body': Transformation.response_error({
+            'type': 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
+            'title': e2.errorType,
+            'status': 500,
+            'detail': e2.key + ' => ' + e2.errorType
+          })
+        })
+    }
+    event.sender.send(request.url, null, {'headers': {...request.headers},
+      'body': Transformation.response_success_create(o2)})
+  })
 }
 module.exports[`get_roles`] = function (event, request, DB) {
-    console.dir(request)
+    DB[tableName].find({}, (e, o) => {
+        event.sender.send(request.url, null, {'headers': {...request.headers},
+        'body': Transformation.response({'_embedded': { 'tb_role': o }})})
+    })
 }
 module.exports[`patch_roles`] = function (event, request, DB) {
-    console.dir(request)
+    let _id = request.params[0]
+    let dataUpdate = erevnaServices.model[entityName].convertToSchemaForUpdate(request.body) || {}
+    let dataNotValid = erevnaServices.model[entityName].isDataNotValid(dataUpdate)
+    if (dataNotValid) {
+      return event.sender.send(
+        request.url,
+        dataNotValid.status,
+        {
+          'headers': {},
+          'body': Transformation.response_error(dataNotValid)
+        })
+    }
+    DB[tableName].update({ _id: _id }, { $set: dataUpdate }, { multi: true }, (err, numReplaced) => {
+        if (err) {
+            let errorCode = 'GENERAL_ERROR'
+            let errorDetail = erevnaServices.errorCode[errorCode]
+            return event.sender.send(
+            request.url,
+            err,
+            {
+                'headers': {...request.headers},
+                'body': Transformation.response_error({
+                'type': 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
+                'title': errorDetail.detail,
+                'status': 500,
+                'detail': errorDetail.detail
+                })
+            })
+        }
+        DB[tableName].findOne({_id: _id}, (e, o) => {
+            let resp = []
+            if (e || !o) resp = []
+            else resp = o
+            event.sender.send(request.url, null, {'headers': {...request.headers},
+            'body': Transformation.response(resp)})
+        })
+    })
 }

@@ -6,6 +6,7 @@ import ClassesActions from '../Classes/redux'
 import ConferenceActions from '../Conference/redux'
 import ClassparticipantActions from '../Classparticipant/redux'
 import BadgeActions from '../Badge/redux'
+import RoleActions from '../Role/redux'
 import {
   getAttributes,
   mapAttributes,
@@ -153,6 +154,7 @@ export function * updateLogin (api, action) {
 function * doLogout () {
   yield put(LoginActions.loginRemoveSuccess({}))
   yield put(UserActions.userReset())
+  yield put(RoleActions.roleReset())
   yield put(ParticipantActions.participantReset())
   yield put(ClassesActions.classesReset())
   yield put(ConferenceActions.conferenceReset())
