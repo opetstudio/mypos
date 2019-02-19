@@ -1,6 +1,16 @@
 export default {
   // Functions return fixtures
 
+    // begin Ignite-Entity-Role
+    postRole: () => { return { ok: true, data: '21' } },
+    getRole: () => { return { ok: true, data: '21' } },
+    getRoles: () => { return { ok: true, data: '21' } },
+    updateRole: () => { return { ok: true, data: '21' } },
+    updateRoleBatch: () => { return { ok: true, data: '21' } },
+    removeRole: () => { return { ok: true } },
+    // end Ignite-Entity-Role
+    
+
   // begin Ignite-Entity-Filecontent
   postFilecontent: () => {
     return { ok: true, data: '21' }

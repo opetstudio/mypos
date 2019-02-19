@@ -146,6 +146,7 @@ exports.pong = arg => {
 }
 const route_users = require('./server/electron/routes/UsersRoute')
 const route_user = require('./server/electron/routes/UserRoute')
+const route_role = require('./server/electron/routes/RoleRoute')
 const route_absen = require('./server/electron/routes/AbsenRoute')
 const route_siswa = require('./server/electron/routes/SiswaRoute')
 const route_util = require('./server/electron/routes/UtilRoute')
@@ -244,6 +245,12 @@ function route (entityName, theRoute) {
       routeOne(`patch_users`, theRoute, DB)
       theRoute.set_init(DB)
       break
+    case 'role':
+      routeOne(`post_${entityName}s`, theRoute, DB)
+      routeOne(`get_${entityName}s`, theRoute, DB)
+      routeOne(`patch_${entityName}s`, theRoute, DB)
+      theRoute.set_init(DB)
+      break
     default:
       return true
   }
@@ -252,4 +259,5 @@ function route (entityName, theRoute) {
 route('gurustaff', route_gurustaff)
 route('absen', route_absen)
 route('user', route_user)
+route('role', route_role)
 // route('absen', route_absen);

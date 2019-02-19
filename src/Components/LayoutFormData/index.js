@@ -230,7 +230,7 @@ export default class LayoutFormData extends Component {
     // if (options) opt = options.map(r => ({key: r._id, text: r.conference_name, value: r.conference_code}))
     if (type === 'input-text') {
       let el = []
-      if (name === 'email' || name === 'username') {
+      if (this.props.id && (name === 'email' || name === 'username')) {
         el.push((<label key={name + value}>{value}</label>))
       } else {
         el.push((<input
@@ -307,9 +307,9 @@ export default class LayoutFormData extends Component {
   render () {
     // console.log('[LayoutFormData.render] props', this.props.initial)
     // console.log('[LayoutFormData.render] formData', this.props.formData)
-    const id = path(['id'], this.props)
-    const recordId = id
-    // const id = path(['match', 'params', 'id', 'formData'], this.props)
+    // const id = path(['id'], this.props)
+    // const recordId = id
+    const id = path(['match', 'params', 'id', 'formData'], this.props)
     // console.log('this.props.formData===>', this.props.formData)
     // console.log('recordId===>', recordId)
     const MessageIcon = () => (
@@ -359,7 +359,7 @@ export default class LayoutFormData extends Component {
                             {col.fieldtype && (<label style={labelStyle}>{col.Header}</label>)}
 
                             {/* {(recordId !== '' && col.fieldtype !== 'multiselect-component' && col.id !== 'password' && col.id !== 'email' && col.id !== 'username' && col.id !== 'scope') && */}
-                            {(recordId !== '' && col.fieldtype !== 'multiselect-component') &&
+                            {(col.fieldtype !== 'multiselect-component') &&
                               this.renderField({
                                 type: col.fieldtype,
                                 name: col.id,
@@ -373,7 +373,7 @@ export default class LayoutFormData extends Component {
                                   : [],
                                 isDesktop
                               })}
-                            {(recordId === '' && col.fieldtype !== 'multiselect-component') &&
+                            {/* {(recordId === '' && col.fieldtype !== 'multiselect-component') &&
                               this.renderField({
                                 type: col.fieldtype,
                                 name: col.id,
@@ -386,7 +386,7 @@ export default class LayoutFormData extends Component {
                                   ? this.props.selectoptions[col.id]
                                   : [],
                                 isDesktop
-                              })}
+                              })} */}
                             {col.fieldtype === 'multiselect-component' &&
                               this.props.multiselectComponent && (
                                 <FormFieldMultiselect

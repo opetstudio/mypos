@@ -13,6 +13,12 @@ import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
 // --- import list page entyty ---
 
+    // begin Ignite-Entity-Role
+    import Role from '../Containers/Role'
+    import RoleForm from '../Containers/Role/form'
+    // end Ignite-Entity-Role
+    
+
 // begin Ignite-Entity-Filecontent
 import Filecontent from '../Containers/Filecontent'
 import FilecontentForm from '../Containers/Filecontent/form'
@@ -103,6 +109,14 @@ class NavigationRouter extends Component {
             <Route exact path='/' component={RootScreen} />
             <Route exact path='/profile' component={PageProfile} />
             {/* ---- list page entity ---- */}
+
+    {/* begin Ignite-Entity-Role */}
+    <Route exact path='/entity/role' component={Role} />
+    <Route exact path='/entity/role-trash' component={Role} />
+    <Route exact path='/entity/role/create' component={RoleForm} />
+    <Route exact path='/entity/role/update/:id' component={RoleForm} />
+    {/* end Ignite-Entity-Role */}
+    
 
             {/* begin Ignite-Entity-Filecontent */}
             <Route exact path='/entity/filecontent' component={Filecontent} />

@@ -9,6 +9,11 @@ import AppConfig from '../Config/AppConfig'
 
 // Types /* ------------- Types ------------- */
 
+    // begin Ignite-Entity-Role
+    import { RoleTypes } from '../Containers/Role/redux'
+    // end Ignite-Entity-Role
+    
+
 // begin Ignite-Entity-Filecontent
 import { FilecontentTypes } from '../Containers/Filecontent/redux'
 // end Ignite-Entity-Filecontent
@@ -51,6 +56,11 @@ import { LoginTypes } from '../Containers/Login/redux'
 
 import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
+
+    // begin Ignite-Entity-Role
+    import { postRole, getRoles, getRole, updateRole, removeRole, updateRoleBatch} from '../Containers/Role/sagas'
+    // end Ignite-Entity-Role
+    
 
 // begin Ignite-Entity-Filecontent
 import {
@@ -190,6 +200,16 @@ const api = DebugConfig.useFixtures ? FixtureAPI : API.create(host)
 export default function * root () {
   yield all([
     // some sagas only receive an action
+
+    // begin Ignite-Entity-Role
+    takeLatest(RoleTypes.ROLE_CREATE, postRole, api),
+    takeLatest(RoleTypes.ROLE_REQUEST, getRole, api),
+    takeLatest(RoleTypes.ROLE_REQUEST_ALL, getRoles, api),
+    takeLatest(RoleTypes.ROLE_UPDATE, updateRole, api),
+    takeLatest(RoleTypes.ROLE_UPDATE_BATCH, updateRoleBatch, api),
+    takeLatest(RoleTypes.ROLE_REMOVE, removeRole, api),
+    // end Ignite-Entity-Role
+    
 
     // begin Ignite-Entity-Filecontent
     takeLatest(FilecontentTypes.FILECONTENT_CREATE, postFilecontent, api),

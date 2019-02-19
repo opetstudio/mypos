@@ -231,15 +231,15 @@ class LoggedInAttribute extends Component {
               >
                 {/* ---list new entity--- */}
 
-                {/* begin Ignite-Entity-Conference */}
-                <Dropdown.Item as={Link} to='/entity/conference' open>
-                  Conference
+                {/* begin Ignite-Entity-Role */}
+                <Dropdown.Item as={Link} to='/entity/role' open>
+                  Role
                 </Dropdown.Item>
-                {/* end Ignite-Entity-Conference */}
+                {/* end Ignite-Entity-Role */}
 
                 {/* begin Ignite-Entity-Badge */}
                 <Dropdown.Item as={Link} to='/entity/badge' open>
-                  Badge
+                  Badgess
                 </Dropdown.Item>
                 {/* end Ignite-Entity-Badge */}
 

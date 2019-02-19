@@ -13,7 +13,7 @@ export const columns = [
         accessor: 'username',
         id: 'username',
         fieldtype: 'input-text',
-        widthfield: 2
+        widthfield: 2,
       },
       {
         Header: 'email',

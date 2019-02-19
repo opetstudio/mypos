@@ -122,6 +122,7 @@ class TheComponent extends Component {
     return null
   }
   componentDidUpdate (prevProps, prevState, snapshot) {
+    console.log('componentDidUpdate')
     if (
       !_.isEqual(prevProps.dataDetail, this.props.dataDetail) &&
       !_.isEmpty(this.props.dataDetail)

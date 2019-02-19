@@ -7,6 +7,11 @@ import ReduxPersist from '../Config/ReduxPersist'
 export default () => {
   /* ------------- Assemble The Reducers ------------- */
   const rootReducer = combineReducers({
+
+    // begin Ignite-Entity-Role
+    role: require('../Containers/Role/redux').reducer,
+    // end Ignite-Entity-Role
+    
     // begin Ignite-Entity-Filecontent
     filecontent: require('../Containers/Filecontent/redux').reducer,
     // end Ignite-Entity-Filecontent
