@@ -222,7 +222,7 @@ const mapStateToProps = (state, ownProps) => {
       // { key: '1', text: 'root', value: '1' },
       { key: '2', text: 'super admin', value: '2' },
       { key: '3', text: 'admin', value: '5' },
-      { key: '4', text: 'fasilitator', value: '100' },
+      // { key: '4', text: 'fasilitator', value: '100' },
       { key: '5', text: 'regular user', value: '200' }
     ],
     o => parseInt(o.value || 0) > parseInt(myProfile.scope || 0)

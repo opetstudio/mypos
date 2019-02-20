@@ -49,7 +49,8 @@ class TheComponent extends Component {
       updateOne: this.props.updateOne,
       removeOne: this.props.removeOne,
       updateBatch: this.props.updateBatch,
-      searchString: ''
+      searchString: '',
+      pathname: (window.location.hash || window.location.pathname).replace('#', '')
     }
     this.props.fetchAll({ newerModifiedon: this.props.maxModifiedon })
     this.state.column = this._setupColumn(this.state.column, {
@@ -65,10 +66,7 @@ class TheComponent extends Component {
   _setupColumn (column, { updateOne }) {
     if (_.isEmpty(column)) return []
     const columnTable = _.cloneDeep(column) || [{}]
-    if (
-      (window.location.hash || window.location.pathname).replace('#', '') ===
-      `/entity/${this.state.entityName.toLowerCase()}-trash`
-    ) {
+    if (this.state.pathname === `/entity/${this.state.entityName.toLowerCase()}-trash`) {
       columnTable[0].columns.push({
         Header: 'Action',
         id: 'act',
@@ -118,16 +116,18 @@ class TheComponent extends Component {
   _filterData (dataArr, filter, searchString = '') {
     const filterInArr = filter && (filter || '').split(',')
     let result = []
-    if (
-      (window.location.hash || window.location.pathname).replace('#', '') ===
-      `/entity/${this.state.entityName.toLowerCase()}-trash`
-    ) { result = _.filter(dataArr, o => o.status === 'delete') } else if (filterInArr && filterInArr.length > 0) { result = _.filter(dataArr, o => filterInArr.indexOf(o.status) !== -1) } else result = _.filter(dataArr, o => (o.status === 'publish' || o.status === 'active'))
+    if (this.state.pathname === `/entity/${this.state.entityName.toLowerCase()}-trash`) {
+      result = _.filter(dataArr, o => o.status === 'delete')
+    } else if (filterInArr && filterInArr.length > 0) { result = _.filter(dataArr, o => filterInArr.indexOf(o.status) !== -1) } else result = _.filter(dataArr, o => (o.status === 'publish' || o.status === 'active'))
     if (searchString === '') return result
     return _.filter(result, o => {
       for (var key in o) {
-        const targetString = (o[key] || '').toLowerCase()
-        if (targetString.includes(searchString.toLowerCase())) {
-          return true
+        const theString = '' + o[key] || ''
+        if (theString !== '' && (typeof theString === 'string' || typeof theString === 'number')) {
+          const targetString = theString.toLowerCase()
+          if (targetString.includes(searchString.toLowerCase())) {
+            return true
+          }
         }
       }
       return false

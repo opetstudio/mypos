@@ -295,11 +295,11 @@ export default class LayoutFormData extends Component {
   render () {
     // console.log('[LayoutFormData.render] props', this.props.initial)
     // console.log('[LayoutFormData.render] formData', this.props.formData)
-    // const id = path(['id'], this.props)
+    const id = path(['id'], this.props)
     // const recordId = id
-    const id = path(['match', 'params', 'id', 'formData'], this.props)
+    // const id = path(['match', 'params', 'id', 'formData'], this.props)
     // console.log('this.props.formData===>', this.props.formData)
-    // console.log('recordId===>', recordId)
+    // console.log('props===>', this.props)
     const MessageIcon = () => (
       <Message
         icon
@@ -362,7 +362,7 @@ export default class LayoutFormData extends Component {
                                 isDesktop
                               })
                             }
-                            {(col.fieldtype !== 'multiselect-component' && col.id === 'password') &&
+                            {(col.fieldtype !== 'multiselect-component' && col.id === 'password' && id) &&
                               <Label key={2} pointing='left'>keep empty if don't wanna change</Label>
                             }
                             {/* {(recordId === '' && col.fieldtype !== 'multiselect-component') &&

@@ -32,7 +32,7 @@ module.exports[`set_init`] = function (DB) {
     }
     initData.forEach((v, k) => {
       let dataCreate = erevnaServices.model.role.convertToSchemaForCreate(v) || {}
-    //   console.log('dataCreate===>', dataCreate)
+      //   console.log('dataCreate===>', dataCreate)
       let dataNotValid = erevnaServices.model.role.isDataNotValid(dataCreate)
       if (dataNotValid) return console.log('data not valid = ', v)
       storage.insert(dataCreate, (e2, o2) => {
@@ -83,47 +83,47 @@ module.exports[`post_roles`] = function (event, request, DB) {
   })
 }
 module.exports[`get_roles`] = function (event, request, DB) {
-    DB[tableName].find({}, (e, o) => {
-        event.sender.send(request.url, null, {'headers': {...request.headers},
-        'body': Transformation.response({'_embedded': { 'tb_role': o }})})
-    })
+  DB[tableName].find({}, (e, o) => {
+    event.sender.send(request.url, null, {'headers': {...request.headers},
+      'body': Transformation.response({'_embedded': { 'tb_role': o }})})
+  })
 }
 module.exports[`patch_roles`] = function (event, request, DB) {
-    let _id = request.params[0]
-    let dataUpdate = erevnaServices.model[entityName].convertToSchemaForUpdate(request.body) || {}
-    let dataNotValid = erevnaServices.model[entityName].isDataNotValid(dataUpdate)
-    if (dataNotValid) {
+  let _id = request.params[0]
+  let dataUpdate = erevnaServices.model[entityName].convertToSchemaForUpdate(request.body) || {}
+  let dataNotValid = erevnaServices.model[entityName].isDataNotValid(dataUpdate)
+  if (dataNotValid) {
+    return event.sender.send(
+      request.url,
+      dataNotValid.status,
+      {
+        'headers': {},
+        'body': Transformation.response_error(dataNotValid)
+      })
+  }
+  DB[tableName].update({ _id: _id }, { $set: dataUpdate }, { multi: true }, (err, numReplaced) => {
+    if (err) {
+      let errorCode = 'GENERAL_ERROR'
+      let errorDetail = erevnaServices.errorCode[errorCode]
       return event.sender.send(
         request.url,
-        dataNotValid.status,
+        err,
         {
-          'headers': {},
-          'body': Transformation.response_error(dataNotValid)
+          'headers': {...request.headers},
+          'body': Transformation.response_error({
+            'type': 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
+            'title': errorDetail.detail,
+            'status': 500,
+            'detail': errorDetail.detail
+          })
         })
     }
-    DB[tableName].update({ _id: _id }, { $set: dataUpdate }, { multi: true }, (err, numReplaced) => {
-        if (err) {
-            let errorCode = 'GENERAL_ERROR'
-            let errorDetail = erevnaServices.errorCode[errorCode]
-            return event.sender.send(
-            request.url,
-            err,
-            {
-                'headers': {...request.headers},
-                'body': Transformation.response_error({
-                'type': 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
-                'title': errorDetail.detail,
-                'status': 500,
-                'detail': errorDetail.detail
-                })
-            })
-        }
-        DB[tableName].findOne({_id: _id}, (e, o) => {
-            let resp = []
-            if (e || !o) resp = []
-            else resp = o
-            event.sender.send(request.url, null, {'headers': {...request.headers},
-            'body': Transformation.response(resp)})
-        })
+    DB[tableName].findOne({_id: _id}, (e, o) => {
+      let resp = []
+      if (e || !o) resp = []
+      else resp = o
+      event.sender.send(request.url, null, {'headers': {...request.headers},
+        'body': Transformation.response(resp)})
     })
+  })
 }

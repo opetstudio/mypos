@@ -87,9 +87,9 @@ class DesktopContainer extends Component {
     //     </Modal.Actions>
     //   </Modal>
     // )
-
     return (
       // <Responsive {...Responsive.onlyComputer}>
+      
       <div>
         {window.localStorage.getItem('isLoggedIn') === 'true' && (
           <Visibility
@@ -100,7 +100,8 @@ class DesktopContainer extends Component {
             <Segment
               inverted
               textAlign='center'
-              style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
+              style={{ minHeight: 0, padding: '0em 0em' }}
+              // style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
               vertical
             >
               {/* <Segment
@@ -111,12 +112,21 @@ class DesktopContainer extends Component {
               vertical
             > */}
               <Menu
+                // style={{backgroundColor: 'red', WebkitAppRegion: 'drag', WebkitUserSelect: 'none'}}
+                fixed={fixed ? 'top' : null}
+                inverted
+                // inverted={false}
+                // pointing={!fixed}
+                // secondary={!fixed}
+                size='small'
+              >
+              {/* <Menu
                 fixed={fixed ? 'top' : null}
                 inverted={!fixed}
                 pointing={!fixed}
                 secondary={!fixed}
                 size='small'
-              >
+              > */}
                 {/* <Container> */}
                 <Menu.Item onClick={window.history.back}>
                   <Icon name='angle left' size={'big'} />
@@ -135,7 +145,7 @@ class DesktopContainer extends Component {
                 <LoggedInAttribute attr='buttonLogout' pathname={pathname} />
                 {/* </Container> */}
               </Menu>
-              {isHome ? <HomepageHeading /> : null}
+              {/* {isHome ? <HomepageHeading /> : null} */}
             </Segment>
           </Visibility>
         )}

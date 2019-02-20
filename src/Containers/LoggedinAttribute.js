@@ -98,51 +98,70 @@ class LoggedInAttribute extends Component {
           </Modal.Actions>
         </Modal>
       )
-      let m = [0, 1]
+      let m = [1]
       return m.map(r => {
-        if (r === 0 && this.props.isLoggedIn) {
-          return (
-            <Menu.Item
-              key={this.props.attr + r}
-              as={Link}
-              to='/profile'
-              active={this.props.pathname.startsWith('/profile')}
-            >
-              Profile
-            </Menu.Item>
-          )
-        }
+        // if (r === 0 && this.props.isLoggedIn) {
+        //   return (
+        //     <Menu.Item
+        //       key={this.props.attr + r}
+        //       as={Link}
+        //       to='/profile'
+        //       active={this.props.pathname.startsWith('/profile')}
+        //     >
+        //       Profile
+        //     </Menu.Item>
+        //   )
+        // }
         if (r === 1) {
-          let mm = [0, 1, 2]
+          let mm = [0]
           return (
             <Menu.Menu key={this.props.attr + r} position='right'>
               <div>{ModalBasic()}</div>
               {
                 mm.map(r => {
                   if (r === 0 && this.props.isLoggedIn) {
-                    return <Menu.Item key={r} onClick={() => this.logoutDialog(!this.state.showLogoutDialog)}>
-                      <Icon name='sign out' size={'large'} />
-                      
-                    </Menu.Item>
-                  } else if (r === 1 && window.require) {
-                    return <Menu.Item key={r} onClick={() => {
-                      if (remote !== null) {
-                        remote.getCurrentWindow().minimize()
-                      }
-                    }}>
-                      <Icon name='window minimize' size={'large'} />
-                    </Menu.Item>
-                  } else if (r === 2 && window.require) {
-                    return <Menu.Item key={r} onClick={() => this.closewindowDialog(!this.state.showLogoutDialog)}>
-                      <Icon name='window close' size={'large'} />
-                    </Menu.Item>
+                    return (<Dropdown key={this.props.attr + r} item simple icon={(<Icon name='user circle' size={'big'} />)} text={`user: ${this.props.username}`}>
+                      <Dropdown.Menu
+                        // open={(window.location.hash || window.location.pathname).replace('#','') === '/about'}
+                      >
+                        <Dropdown.Item
+                          as={Link}
+                          to='/profile'
+                          active={this.props.pathname.startsWith('/profile')}
+                          open>
+                          <Icon name='user circle' size={'large'} />
+                          Profile
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={() => this.closewindowDialog(!this.state.showLogoutDialog)}>
+                          <Icon name='sign out' size={'large'} />
+                          Logout
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>)
                   }
+                  // if (r === 0 && this.props.isLoggedIn) {
+                  //   return <Menu.Item key={r} onClick={() => this.logoutDialog(!this.state.showLogoutDialog)}>
+                  //     <Icon name='sign out' size={'large'} />
+
+                  //   </Menu.Item>
+                  // } else if (r === 1 && window.require) {
+                  //   return <Menu.Item key={r} onClick={() => {
+                  //     if (remote !== null) {
+                  //       remote.getCurrentWindow().minimize()
+                  //     }
+                  //   }}>
+                  //     <Icon name='window minimize' size={'large'} />
+                  //   </Menu.Item>
+                  // } else if (r === 2 && window.require) {
+                  //   return <Menu.Item key={r} onClick={() => this.closewindowDialog(!this.state.showLogoutDialog)}>
+                  //     <Icon name='window close' size={'large'} />
+                  //   </Menu.Item>
+                  // }
                 })
               }
             </Menu.Menu>
           )
         }
-        
       })
       // return (
       //   <Menu.Menu position='right'>
@@ -223,7 +242,7 @@ class LoggedInAttribute extends Component {
             </Menu.Item>
           )
         }
-        if (r === '3' && window.screen.width >= 769) {
+        if (r === '3' && window.screen.width >= 769 && this.props.userScope < 10) {
           return (
             <Dropdown key={this.props.attr + r} item simple text='Master Data'>
               <Dropdown.Menu
@@ -238,9 +257,9 @@ class LoggedInAttribute extends Component {
                 {/* end Ignite-Entity-Role */}
 
                 {/* begin Ignite-Entity-Badge */}
-                <Dropdown.Item as={Link} to='/entity/badge' open>
+                {/* <Dropdown.Item as={Link} to='/entity/badge' open>
                   Badgess
-                </Dropdown.Item>
+                </Dropdown.Item> */}
                 {/* end Ignite-Entity-Badge */}
 
                 {/* <Dropdown.Item
@@ -261,9 +280,11 @@ class LoggedInAttribute extends Component {
 }
 
 const mapStateToProps = state => {
+  const userDetail = UserSelectors.getProfile(state.user)
   return {
     isLoggedIn: LoginSelectors.isLoggedIn(state.login),
-    userScope: (UserSelectors.getProfile(state.user) || {}).scope
+    userScope: userDetail.scope,
+    username: userDetail.username
   }
 }
 

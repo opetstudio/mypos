@@ -119,6 +119,7 @@ export function * removeRole (api, action) {
 
 export function * getRoles (api, action) {
   const { data } = action
+  
   // make the call to the api
   const s = yield select(session)
   const response = yield call(api.getRoles, data, {session: s})

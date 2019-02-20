@@ -58,7 +58,7 @@ function createWindow () {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1120, height: 800, frame: false, minWidth: 800, minHeight: 800 })
+    width: 1120, height: 800, frame: true, minWidth: 800, minHeight: 800 })
   // and load the index.html of the app.
   if (env === 'production') {
     mainWindow.loadURL(url.format({

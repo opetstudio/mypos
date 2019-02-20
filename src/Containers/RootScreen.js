@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl'
 import { Redirect } from 'react-router-dom'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
-import PageHomeLayout from '../Components/PageHomeLayout'
+import PointofsaleLayout from '../Components/PointofsaleLayout'
 import LoginActions, { LoginSelectors } from './Login/redux'
 import UserActions from './User/redux'
 
@@ -33,7 +33,7 @@ export class RootScreen extends React.Component {
 
 const TheComponent = props =>
   window.localStorage.getItem('isLoggedIn') === 'true' ? (
-    <PageHomeLayout {...props} />
+    <PointofsaleLayout {...props} />
   ) : (
     <Redirect to='/login' />
   )

@@ -85,6 +85,7 @@ export default class LayoutTableData extends Component {
     // console.log('LayoutFormData data', data)
     // const columns = this.props.column || getColumns(data)
     const entityName = (this.props.entityName || '').toLowerCase()
+    const pathname = (window.location.hash || window.location.pathname).replace('#', '')
     this.state = {
       allIds: this.props.allIds,
       byId: this.props.byId,
@@ -105,7 +106,8 @@ export default class LayoutTableData extends Component {
       parentDetail: Immutable.asMutable(this.props.parentDetail, {
         deep: true
       }),
-      breadcrumb: this.props.breadcrumb
+      breadcrumb: this.props.breadcrumb,
+      pathname: pathname
     }
   }
   setupDataSource (theData, column, filter, entityName) {
@@ -460,7 +462,7 @@ export default class LayoutTableData extends Component {
                 </Grid.Column>
               </Grid.Row>
             )}
-            {parentDetail && (
+            {(parentDetail && parentDetail.length > 0) && (
               <Grid.Row>
                 <Grid.Column>
                   <ParentDetail dataArr={parentDetail} />
@@ -483,12 +485,14 @@ export default class LayoutTableData extends Component {
                         />
                       </div>
                     </div>
+                    
                     {/* </Menu.Item> */}
                     {/* <Menu.Item>
                       <div><span>{this.props.entityName}</span></div>
                     </Menu.Item> */}
                   </Menu.Menu>
                   <Menu.Menu position='right'>
+                    <Menu.Item header>{this.state.pathname}</Menu.Item>
                     <Responsive
                       icon='bars'
                       as={Dropdown}
