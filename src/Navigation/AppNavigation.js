@@ -13,6 +13,11 @@ import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
 // --- import list page entyty ---
 
+    // begin Ignite-Entity-Pointofsale
+    import Pointofsale from '../Containers/Pointofsale'
+    // end Ignite-Entity-Pointofsale
+    
+
     // begin Ignite-Entity-Role
     import Role from '../Containers/Role'
     import RoleForm from '../Containers/Role/form'
@@ -106,9 +111,14 @@ class NavigationRouter extends Component {
       <Router>
         <AppContainer checkLogedStatus={this.props.checkLogedStatus}>
           <ResponsiveContainer>
-            <Route exact path='/' component={RootScreen} />
+            <Route exact path='/' component={Pointofsale} />
             <Route exact path='/profile' component={PageProfile} />
             {/* ---- list page entity ---- */}
+
+    {/* begin Ignite-Entity-Pointofsale */}
+    <Route exact path='/entity/pointofsale' component={Pointofsale} />
+    {/* end Ignite-Entity-Pointofsale */}
+    
 
     {/* begin Ignite-Entity-Role */}
     <Route exact path='/entity/role' component={Role} />

@@ -1,6 +1,16 @@
 export default {
   // Functions return fixtures
 
+    // begin Ignite-Entity-Pointofsale
+    postPointofsale: () => { return { ok: true, data: '21' } },
+    getPointofsale: () => { return { ok: true, data: '21' } },
+    getPointofsales: () => { return { ok: true, data: '21' } },
+    updatePointofsale: () => { return { ok: true, data: '21' } },
+    updatePointofsaleBatch: () => { return { ok: true, data: '21' } },
+    removePointofsale: () => { return { ok: true } },
+    // end Ignite-Entity-Pointofsale
+    
+
     // begin Ignite-Entity-Role
     postRole: () => { return { ok: true, data: '21' } },
     getRole: () => { return { ok: true, data: '21' } },

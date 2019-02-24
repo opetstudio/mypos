@@ -13,7 +13,7 @@ import {
   // Responsive,
   Segment,
   Message,
-  Checkbox, Form, Menu
+  Checkbox, Form, Menu, Table, Dropdown, Icon
   // Sidebar,
   // Visibility
 } from 'semantic-ui-react'
@@ -55,74 +55,9 @@ class PageHomeLayout extends Component {
             <Grid.Column width={10}>
               <div>
                 <Segment attached='top'>
-                  <Grid doubling columns={5}>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                  </Grid>
-                  <Grid doubling columns={5}>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                  </Grid>
-                  <Grid doubling columns={5}>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                  </Grid>
-                  <Grid doubling columns={5}>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-                    </Grid.Column>
-                  </Grid>
+                  {activeItemBottomMenu === '1' && this.props.favoriteItemContent}
+                  {activeItemBottomMenu === '2' && this.props.libraryItemContent}
+                  {activeItemBottomMenu === '3' && this.props.customItemContent}
                 </Segment>
                 <Menu attached='bottom' tabular>
                   <Menu.Item name='1' active={activeItemBottomMenu === '1'} onClick={this.handleItemClick}>
@@ -139,20 +74,46 @@ class PageHomeLayout extends Component {
                 </Menu>
               </div>
             </Grid.Column>
-            <Grid.Column width={6}><Form>
-              <Form.Field>
-                <label>First Name</label>
-                <input placeholder='First Name' />
-              </Form.Field>
-              <Form.Field>
-                <label>Last Name</label>
-                <input placeholder='Last Name' />
-              </Form.Field>
-              <Form.Field>
-                <Checkbox label='I agree to the Terms and Conditions' />
-              </Form.Field>
-              <Button type='submit'>Submit</Button>
-            </Form></Grid.Column>
+            <Grid.Column width={6}>
+              <div>
+                <Menu attached='top' inverted>
+                  <Menu.Item as='a'><Icon name={'user'} /></Menu.Item>
+                  <Menu fluid vertical inverted>
+                    <Menu.Item style={{textAlign: 'center'}} as='a'>New Customer</Menu.Item>
+                  </Menu>
+                  <Menu.Item as='a' position={'right'}><Icon name={'bars'} /></Menu.Item>
+                </Menu>
+                <Table attached>
+                  {/* <Table.Header>
+                    <Table.HeaderCell>Header</Table.HeaderCell>
+                    <Table.HeaderCell>Header</Table.HeaderCell>
+                    <Table.HeaderCell>Header</Table.HeaderCell>
+                  </Table.Header> */}
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell>Cell</Table.Cell>
+                      <Table.Cell>Cell</Table.Cell>
+                      <Table.Cell>Cell</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>Cell</Table.Cell>
+                      <Table.Cell>Cell</Table.Cell>
+                      <Table.Cell>Cell</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>Cell</Table.Cell>
+                      <Table.Cell>Cell</Table.Cell>
+                      <Table.Cell>Cell</Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+                <Segment attached='bottom' inverted>
+                  Charge Rp. 76.500
+                </Segment>
+              </div>
+
+
+            </Grid.Column>
           </Grid>
         </Segment>
         {/* <Segment inverted vertical style={{ padding: '5em 0em' }}> */}

@@ -87,6 +87,11 @@ const create = (baseURL = 'https://jsonplaceholder.typicode.com/') => {
   let apiMerged = {}
   // merge api
 
+    // begin Ignite-Entity-Pointofsale
+    apiMerged = merge(apiMerged, require('../Containers/Pointofsale/api').create(api))
+    // end Ignite-Entity-Pointofsale
+    
+
     // begin Ignite-Entity-Role
     apiMerged = merge(apiMerged, require('../Containers/Role/api').create(api))
     // end Ignite-Entity-Role

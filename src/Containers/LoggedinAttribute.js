@@ -130,9 +130,9 @@ class LoggedInAttribute extends Component {
                           active={this.props.pathname.startsWith('/profile')}
                           open>
                           <Icon name='user circle' size={'large'} />
-                          Profile
+                          My Profile
                         </Dropdown.Item>
-                        <Dropdown.Item onClick={() => this.closewindowDialog(!this.state.showLogoutDialog)}>
+                        <Dropdown.Item onClick={() => this.logoutDialog(!this.state.showLogoutDialog)}>
                           <Icon name='sign out' size={'large'} />
                           Logout
                         </Dropdown.Item>
@@ -249,7 +249,7 @@ class LoggedInAttribute extends Component {
               // open={(window.location.hash || window.location.pathname).replace('#','') === '/about'}
               >
                 {/* ---list new entity--- */}
-
+                
                 {/* begin Ignite-Entity-Role */}
                 <Dropdown.Item as={Link} to='/entity/role' open>
                   Role

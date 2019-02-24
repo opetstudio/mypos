@@ -9,6 +9,11 @@ import AppConfig from '../Config/AppConfig'
 
 // Types /* ------------- Types ------------- */
 
+    // begin Ignite-Entity-Pointofsale
+    import { PointofsaleTypes } from '../Containers/Pointofsale/redux'
+    // end Ignite-Entity-Pointofsale
+    
+
     // begin Ignite-Entity-Role
     import { RoleTypes } from '../Containers/Role/redux'
     // end Ignite-Entity-Role
@@ -56,6 +61,11 @@ import { LoginTypes } from '../Containers/Login/redux'
 
 import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
+
+    // begin Ignite-Entity-Pointofsale
+    import { postPointofsale, getPointofsales, getPointofsale, updatePointofsale, removePointofsale, updatePointofsaleBatch} from '../Containers/Pointofsale/sagas'
+    // end Ignite-Entity-Pointofsale
+    
 
     // begin Ignite-Entity-Role
     import { postRole, getRoles, getRole, updateRole, removeRole, updateRoleBatch} from '../Containers/Role/sagas'
@@ -200,6 +210,16 @@ const api = DebugConfig.useFixtures ? FixtureAPI : API.create(host)
 export default function * root () {
   yield all([
     // some sagas only receive an action
+
+    // begin Ignite-Entity-Pointofsale
+    takeLatest(PointofsaleTypes.POINTOFSALE_CREATE, postPointofsale, api),
+    takeLatest(PointofsaleTypes.POINTOFSALE_REQUEST, getPointofsale, api),
+    takeLatest(PointofsaleTypes.POINTOFSALE_REQUEST_ALL, getPointofsales, api),
+    takeLatest(PointofsaleTypes.POINTOFSALE_UPDATE, updatePointofsale, api),
+    takeLatest(PointofsaleTypes.POINTOFSALE_UPDATE_BATCH, updatePointofsaleBatch, api),
+    takeLatest(PointofsaleTypes.POINTOFSALE_REMOVE, removePointofsale, api),
+    // end Ignite-Entity-Pointofsale
+    
 
     // begin Ignite-Entity-Role
     takeLatest(RoleTypes.ROLE_CREATE, postRole, api),

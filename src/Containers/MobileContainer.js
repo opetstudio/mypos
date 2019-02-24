@@ -102,6 +102,17 @@ class MobileContainer extends Component {
           >
             {/* ---list new entity--- */}
 
+    {/* begin Ignite-Entity-Pointofsale */}
+    <Menu.Item
+      as={Link}
+      to='/entity/pointofsale'
+      active={pathname === '/entity/pointofsale'}
+    >
+    Pointofsale
+    </Menu.Item>
+    {/* end Ignite-Entity-Pointofsale */}
+    
+
             {/* begin Ignite-Entity-Role */}
             <Menu.Item
               as={Link}
