@@ -10,9 +10,11 @@ import UserActions, { UserSelectors } from './redux'
 import LayoutFormData from '../../Components/LayoutFormData'
 import { makeData } from '../../Utils/Utils'
 import { columns } from './columns'
+import { columns as roleColumns } from '../Role/columns'
 import { LoginSelectors } from '../Login/redux'
 
 const column = columns
+const columnOptions = _.cloneDeep(roleColumns)
 const defaultPageSize = 10
 
 // const TheComponent = (props) => (window.localStorage.getItem('isLoggedIn') === 'true' ? <LayoutFormData {...props} /> : <Redirect to='/login' />)
@@ -50,12 +52,25 @@ class TheComponent extends Component {
   constructor (props) {
     super(props)
     if (this.props.id && this.props.id !== '') { this.props.fetchOne({ id: this.props.id }) }
+    this.setupMultiselectComponent = this.setupMultiselectComponent.bind(this)
+    // const allRoles = _.filter(
+    //   Immutable.asMutable(this.props.allRoles, { deep: true }),
+    //   o => o.status !== 'remove'
+    // )
+    // let allClassParticipant = Immutable.asMutable(
+    //   this.props.allClassParticipant,
+    //   { deep: true }
+    // )
+    // const multiselectComponent = this.setupMultiselectComponent({
+    //   options: allRoles,
+    //   allClassParticipant
+    // })
     this.state = {
       column,
-      multiselectComponent: Immutable.asMutable(
-        this.props.multiselectComponent,
-        { deep: true }
-      ),
+      // multiselectComponent: Immutable.asMutable(
+      //   this.props.multiselectComponent,
+      //   { deep: true }
+      // ),
       selectoptions: Immutable.asMutable(this.props.selectoptions, {
         deep: true
       }),
@@ -173,6 +188,15 @@ class TheComponent extends Component {
     // reset form
     this.state.formReset({})
   }
+  setupMultiselectComponent ({ options, allRoles }) {
+    const multiselectComponent = {
+      user_roles: {
+        data: options,
+        column: columnOptions
+      }
+    }
+    return multiselectComponent
+  }
   render () {
     // console.log('===>formData', this.state.formData)
     // console.log('===>dataDetail', this.state.dataDetail)
@@ -203,6 +227,11 @@ class TheComponent extends Component {
         createItemForFieldMultiselect={this.state.createItemForFieldMultiselect}
         onSubmit={this.onSubmit}
         myProfile={this.props.myProfile}
+        breadcrumb={[
+          { link: '/', label: 'Home' },
+          { link: '/entity/user', label: 'User Management' },
+          { link: null, label: 'User Form' }
+        ]}
       />
     )
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import Immutable from 'seamless-immutable'
 import {
   Container,
   Image,
@@ -20,6 +21,7 @@ import { path, pick, pickBy, isEmpty, find, propEq } from 'ramda'
 import { Redirect } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
+import BreadcrumbCustom from '../BreadcrumbCustom'
 import FormFieldMultiselect from '../FormFieldMultiselect'
 import AppConfig from '../../Config/AppConfig'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -48,7 +50,8 @@ export default class LayoutFormData extends Component {
     submitFailed: PropTypes.bool,
     submitSuccess: PropTypes.bool,
     submitMessage: PropTypes.string.isRequired,
-    initial: PropTypes.bool.isRequired
+    initial: PropTypes.bool.isRequired,
+    breadcrumb: PropTypes.array
   }
 
   // Defaults for props
@@ -68,7 +71,9 @@ export default class LayoutFormData extends Component {
   }
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      breadcrumb: this.props.breadcrumb
+    }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     // console.log('constructor props', this.props)
@@ -116,6 +121,16 @@ export default class LayoutFormData extends Component {
   //   // if (this.props.id) this.props.setFormValue(pick(column.map(c => c.fieldtype !== 'input-hidden' && c.id), p.dataDetail || {}))
   //   // this.setState(st)
   // }
+  componentDidUpdate (prevProps, prevState) {
+    if (
+      !_.isEqual(prevProps.breadcrumb, this.props.breadcrumb) &&
+      !_.isEmpty(this.props.breadcrumb)
+    ) {
+      this.setState({
+        breadcrumb: Immutable.asMutable(this.props.breadcrumb, { deep: true })
+      })
+    }
+  }
   componentWillUnmount () {
     // this.props.formReset({})
   }
@@ -328,6 +343,13 @@ export default class LayoutFormData extends Component {
       <div>
         <Container>
           <Grid container style={{ padding: '1em 0em' }}>
+            {this.state.breadcrumb && (
+              <Grid.Row>
+                <Grid.Column>
+                  <BreadcrumbCustom breadcrumb={this.state.breadcrumb} />
+                </Grid.Column>
+              </Grid.Row>
+            )}
             <Grid.Row>
               <Grid.Column>
                 {this.props.submitMessage !== '' && !this.props.initial && (
