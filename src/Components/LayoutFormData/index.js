@@ -315,7 +315,7 @@ export default class LayoutFormData extends Component {
     const id = path(['id'], this.props)
     // const recordId = id
     // const id = path(['match', 'params', 'id', 'formData'], this.props)
-    // console.log('this.props.formData===>', this.props.formData)
+    console.log('this.props.formData===>', this.props.formData)
     // console.log('props===>', this.props)
     const MessageIcon = () => (
       <Message
@@ -403,19 +403,23 @@ export default class LayoutFormData extends Component {
                                   : [],
                                 isDesktop
                               })} */}
-                            {col.fieldtype === 'multiselect-component' &&
-                              this.props.multiselectComponent && (
-                                <FormFieldMultiselect
-                                  options={(this.props.multiselectComponent[col.id] || {}).data || []}
-                                  columns={(this.props.multiselectComponent[col.id] || {}).column || {}}
-                                  columnTable={(this.props.multiselectComponent[col.id] || {}).columnTable}
-                                  selected={this.props.formData[col.id] || []}
-                                  onSubmitSelected={listSelectedId => this.handleChange({ value: listSelectedId }, col.id, col.fieldtype)}
-                                  createItemForFieldMultiselect={
-                                    this.props.createItemForFieldMultiselect
-                                  }
-                                />
-                              )}
+                            {/* {col.fieldtype === 'multiselect-component' && (this.props.multiselectComponent && !this.props.multiselect) &&
+                              (<FormFieldMultiselect
+                                options={(this.props.multiselectComponent[col.id] || {}).data || []}
+                                columns={(this.props.multiselectComponent[col.id] || {}).column || {}}
+                                columnTable={(this.props.multiselectComponent[col.id] || {}).columnTable}
+                                selected={this.props.formData[col.id] || []}
+                                onSubmitSelected={listSelectedId => this.handleChange({ value: listSelectedId }, col.id, col.fieldtype)}
+                                createItemForFieldMultiselect={
+                                  this.props.createItemForFieldMultiselect
+                                }
+                              />
+                              )} */}
+                            
+                            {(col.fieldtype === 'multiselect-component' && this.props.multiselect) &&
+                              this.props.multiselect[col.id]({currentSelected: (this.props.formData || {})[col.id] || [], onSubmitSelected: listSelectedId => this.handleChange({ value: listSelectedId }, col.id, col.fieldtype)})
+                              // (this.props.multiselect[col.id]({onSubmitSelected: listSelectedId => this.handleChange({ value: listSelectedId }, col.id, col.fieldtype)}))
+                            }
                           </Form.Field>
                         ))
                     )}

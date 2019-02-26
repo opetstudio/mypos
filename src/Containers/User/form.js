@@ -18,6 +18,8 @@ import LayoutFormData from '../../Components/LayoutFormData'
 import { columns } from './columns'
 import { LoginSelectors } from '../Login/redux'
 
+import RoleMultiselect from '../Userrole/Multiselect'
+
 // BEGIN MULTISELECT ROLE
 const columnOptions = _.cloneDeep(roleColumns)
 // END MULTISELECT ROLE
@@ -67,6 +69,7 @@ class TheComponent extends Component {
     if (this.props.id && this.props.id !== '') { this.props.fetchOne({ id: this.props.id }) }
     // BEGIN MULTISELECT ROLE
     this.setupMultiselectComponent = this.setupMultiselectComponent.bind(this)
+    this.setFormValue = this.setFormValue.bind(this)
     this.props.fetchAllRole({})
     this.props.fetchAllUserRole({
       params: { user_id: (this.props.dataDetail || {})['_id'] }
@@ -224,7 +227,7 @@ class TheComponent extends Component {
         }
       })
     }
-    
+
     if (prevProps.id !== this.props.id) this.setState({ id: this.props.id })
     if (prevProps.submit !== this.props.submit) { this.setState({ submit: this.props.submit }) }
     if (prevProps.submitFailed !== this.props.submitFailed) { this.setState({ submitFailed: this.props.submitFailed }) }
@@ -268,6 +271,12 @@ class TheComponent extends Component {
     }
     return multiselectComponent
   }
+  setFormValue (data) {
+    this.props.setFormValue({
+      ...Immutable.asMutable(this.props.dataDetail, { deep: true }),
+      ...data
+    })
+  }
   render () {
     // console.log('===>user state====>>>>', this.state)
     // console.log('===>dataDetail', this.state.dataDetail)
@@ -294,10 +303,22 @@ class TheComponent extends Component {
         initial={this.state.initial}
         entityName={this.state.entityName}
         selectoptions={this.state.selectoptions}
+        multiselect={{
+          user_roles: ({currentSelected, onSubmitSelected}) => {
+            // console.log('accesss=====>>', currentSelected)
+            return <RoleMultiselect
+              userId={this.state.id}
+              redirect={this.props.history.push}
+              formData={currentSelected}
+              onSubmitSelected={onSubmitSelected}
+              setFormValue={this.setFormValue}
+            />
+          }
+        }}
 
         // BEGIN MULTISELECT ROLE
-        multiselectComponent={this.state.multiselectComponent}
-        createItemForFieldMultiselect={this.state.createItemForFieldMultiselect}
+        // multiselectComponent={this.state.multiselectComponent}
+        // createItemForFieldMultiselect={this.state.createItemForFieldMultiselect}
         // BEGIN MULTISELECT ROLE
 
         onSubmit={this.onSubmit}
@@ -338,9 +359,9 @@ const mapStateToProps = (state, ownProps) => {
     allUserroles: UserroleSelectors.getAllDataArr(state.userrole),
     allRoles: RoleSelectors.getAllDataArr(state.role),
     allRoleIdByUserId: UserroleSelectors.getAllRoleIdByUserId(state.userrole, id),
+    redirect: ownProps.history.push,
     // END MULTISELECT ROLE
 
-    redirect: ownProps.history.push,
     defaultPageSize,
     column,
     dataDetail,
