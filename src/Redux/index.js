@@ -8,6 +8,11 @@ export default () => {
   /* ------------- Assemble The Reducers ------------- */
   const rootReducer = combineReducers({
 
+    // begin Ignite-Entity-Userrole
+    userrole: require('../Containers/Userrole/redux').reducer,
+    // end Ignite-Entity-Userrole
+    
+
     // begin Ignite-Entity-Pointofsale
     pointofsale: require('../Containers/Pointofsale/redux').reducer,
     // end Ignite-Entity-Pointofsale

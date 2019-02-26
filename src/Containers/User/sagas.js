@@ -1,6 +1,8 @@
 import { call, put, select } from 'redux-saga/effects'
+import Immutable from 'seamless-immutable'
 import UserActions from './redux'
 import LoginActions from '../Login/redux'
+import UserroleActions, { UserroleSelectors } from '../Userrole/redux'
 import {
   getAttributes,
   getEntity,
@@ -21,6 +23,8 @@ export const theData = state => state.user.data
 export const theMulti = state => state.user.multi
 export const theUserPrefs = state => state.user.preferences
 export const transformedData = response => getAttributes(response.data)
+export const getUserRoleState = state => state.userrole
+export const getUserFormValue = state => state.user.form
 
 export function * getUser (api, action) {
   // console.log('[UserSaga] getUser action=', action)
@@ -301,3 +305,76 @@ export function * getUsers (api, action) {
     )
   }
 }
+// BEGIN MULTISELECT ROLE
+export function * doDeleteRole (api, action) {
+  console.log('[UserSaga] doDeleteRole action=', action)
+  const { data } = action
+  const s = yield select(session)
+  // make the call to the api
+  const response = yield call(api.doDeleteRole, data, { session: s })
+  console.log('responseeeeee', response)
+  if (
+    path(['originalError', 'response', 'status'], response) === 401 &&
+    path(['originalError', 'response', 'statusText'], response) ===
+      'Unauthorized'
+  ) { return yield put(LoginActions.loginRemoveSuccess({})) }
+  // success?
+  if (response.ok) {
+    // You might need to change the response here - do this with a 'transform',
+    // located in ../Transforms/. Otherwise, just pass the data back from the api.
+    // const { contentDetail } = response.data
+    // const {byId, allIds} = getEntity(response.data)
+    // yield put(ClassesActions.classesRequestSuccess({requestMessage: 'success fetch data', byId, allIds}))
+    let userId = path(['data', 'user_id'], response)
+    let roleId = path(['data', 'role_id'], response)
+    let status = path(['data', 'status'], response)
+    // let participantId = path(['data', 'participant_id'], response)
+    // let status = path(['data', 'status'], response)
+    // const classParticipantList = yield select((state) => )
+    // ClassparticipantSelectors.getAllParticipantIdByClassId(state.classparticipant, classId)
+    // yield put(ClassparticipantActions.)
+    // const classParticipantId = yield select(getClassParticipantState)
+    // const classParticipantId = yield select(classParticipantState)
+    // getAllDataArr
+    if (status) {
+      const clsPartSt = yield select(getUserRoleState)
+      const userFormValue = yield select(getUserFormValue)
+      // console.log('clsPartSt==>', clsPartSt)
+      const allUserRole = UserroleSelectors.getAllDataArr(clsPartSt)
+      const allUserRoleMutable = Immutable.asMutable(allUserRole, { deep: true })
+
+      // console.log('allUserRole==>', allUserRoleMutable)
+      // console.log('classId==>', classId)
+      // console.log('participantId==>', participantId)
+      const userroleId = ((
+        _.filter(allUserRoleMutable, {
+          user_id: userId,
+          role_id: roleId
+        }) || []
+      ).map(o => o._id) || [0])[0]
+      // console.log('classParticipantId==>', classParticipantId)
+      yield put(
+        UserroleActions.userroleRemoveSuccess({
+          id: userroleId
+        })
+      )
+      const currentUserRole = Immutable.asMutable(
+        userFormValue['user_roles'] || [],
+        { deep: true }
+      )
+      console.log('userFormValue==>', userFormValue)
+      console.log('currentUserRole==>', currentUserRole)
+      currentUserRole.splice(currentUserRole.indexOf(userId), 1)
+      yield put(
+        UserActions.userSetFormValue({
+          user_roles: currentUserRole
+        })
+      )
+    }
+    yield put(UserActions.userDeleteRoleDone(response.data))
+  } else {
+    // yield put(ClassesActions.classesRequestFailed({requestMessage: 'failed fetch data'}))
+    yield put(UserActions.userDeleteRoleDone(response.data))
+  }
+}
+// END MULTISELECT ROLE

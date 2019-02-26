@@ -1,6 +1,16 @@
 export default {
   // Functions return fixtures
 
+    // begin Ignite-Entity-Userrole
+    postUserrole: () => { return { ok: true, data: '21' } },
+    getUserrole: () => { return { ok: true, data: '21' } },
+    getUserroles: () => { return { ok: true, data: '21' } },
+    updateUserrole: () => { return { ok: true, data: '21' } },
+    updateUserroleBatch: () => { return { ok: true, data: '21' } },
+    removeUserrole: () => { return { ok: true } },
+    // end Ignite-Entity-Userrole
+    
+
     // begin Ignite-Entity-Pointofsale
     postPointofsale: () => { return { ok: true, data: '21' } },
     getPointofsale: () => { return { ok: true, data: '21' } },

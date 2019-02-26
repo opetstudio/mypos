@@ -249,7 +249,6 @@ class LoggedInAttribute extends Component {
               // open={(window.location.hash || window.location.pathname).replace('#','') === '/about'}
               >
                 {/* ---list new entity--- */}
-                
                 {/* begin Ignite-Entity-Role */}
                 <Dropdown.Item as={Link} to='/entity/role' open>
                   Role

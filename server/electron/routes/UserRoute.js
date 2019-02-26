@@ -165,6 +165,11 @@ module.exports[`get_users`] = async function (event, request, DB) {
     })
   })
 }
+module.exports[`post_user-delete-role`] = async function (event, request, DB) {
+  // const storage = DB.user
+  event.sender.send(request.url, null, {'headers': {...request.headers},
+    'body': Transformation.response({user_id: request.body.userId, role_id: request.body.roleId, status: true})})
+}
 
 module.exports[`post_users`] = async function (event, request, DB) {
   request = await ReceiveRequest(request)

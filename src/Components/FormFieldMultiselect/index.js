@@ -104,7 +104,7 @@ class FormFieldMultiselect extends React.Component {
         optionsData: _.filter(this.state.options, o => {
           for (var key in o) {
             // console.log('key' + key + ':', o[key])
-            const targetString = (o[key] || '').toLowerCase()
+            const targetString = ('' + o[key] || '').toLowerCase()
             if (
               targetString.includes(this.state.searchOptionsString) &&
               this.state.selected.indexOf(o._id) === -1
@@ -141,7 +141,7 @@ class FormFieldMultiselect extends React.Component {
     }
   }
   toggleSelection = (keys, shift, row) => {
-    console.log('key======>', keys)
+    // console.log('key======>', keys)
     let key = (keys.split('-') || ['', ''])[1]
     if (key === '') return
     /*
@@ -273,6 +273,7 @@ class FormFieldMultiselect extends React.Component {
             <Button
               primary
               onClick={() => {
+                // console.log('==selected item===>', this.state.selection)
                 this.props.onSubmitSelected(this.state.selection)
                 this.setState({ modalIsOpen: false })
               }}

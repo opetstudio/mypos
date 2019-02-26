@@ -113,7 +113,8 @@ class DesktopContainer extends Component {
             > */}
               <Menu
                 // style={{backgroundColor: 'red', WebkitAppRegion: 'drag', WebkitUserSelect: 'none'}}
-                fixed={fixed ? 'top' : null}
+                // fixed={fixed ? 'top' : null}
+                // fixed={fixed ? 'top' : null}
                 inverted
                 // inverted={false}
                 // pointing={!fixed}

@@ -151,6 +151,7 @@ const route_absen = require('./server/electron/routes/AbsenRoute')
 const route_siswa = require('./server/electron/routes/SiswaRoute')
 const route_util = require('./server/electron/routes/UtilRoute')
 const route_gurustaff = require('./server/electron/routes/GurustaffRoute')
+const route_userrole = require('./server/electron/routes/UserroleRoute')
 
 const Middleware = require('./server/electron/middleware')
 const Authentication = require('./server/electron/middleware/Authentication')
@@ -243,6 +244,7 @@ function route (entityName, theRoute) {
       routeOne(`get_getUserProfile`, theRoute, DB)
       routeOne(`get_users`, theRoute, DB)
       routeOne(`patch_users`, theRoute, DB)
+      routeOne(`post_user-delete-role`, theRoute, DB)
       theRoute.set_init(DB)
       break
     case 'role':
@@ -260,4 +262,5 @@ route('gurustaff', route_gurustaff)
 route('absen', route_absen)
 route('user', route_user)
 route('role', route_role)
+route('userrole', route_userrole)
 // route('absen', route_absen);

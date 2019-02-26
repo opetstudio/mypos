@@ -9,15 +9,17 @@ import AppConfig from '../Config/AppConfig'
 
 // Types /* ------------- Types ------------- */
 
-    // begin Ignite-Entity-Pointofsale
-    import { PointofsaleTypes } from '../Containers/Pointofsale/redux'
-    // end Ignite-Entity-Pointofsale
-    
+// begin Ignite-Entity-Userrole
+import { UserroleTypes } from '../Containers/Userrole/redux'
+// end Ignite-Entity-Userrole
 
-    // begin Ignite-Entity-Role
-    import { RoleTypes } from '../Containers/Role/redux'
-    // end Ignite-Entity-Role
-    
+// begin Ignite-Entity-Pointofsale
+import { PointofsaleTypes } from '../Containers/Pointofsale/redux'
+// end Ignite-Entity-Pointofsale
+
+// begin Ignite-Entity-Role
+import { RoleTypes } from '../Containers/Role/redux'
+// end Ignite-Entity-Role
 
 // begin Ignite-Entity-Filecontent
 import { FilecontentTypes } from '../Containers/Filecontent/redux'
@@ -62,15 +64,17 @@ import { LoginTypes } from '../Containers/Login/redux'
 import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
 
-    // begin Ignite-Entity-Pointofsale
-    import { postPointofsale, getPointofsales, getPointofsale, updatePointofsale, removePointofsale, updatePointofsaleBatch} from '../Containers/Pointofsale/sagas'
-    // end Ignite-Entity-Pointofsale
-    
+// begin Ignite-Entity-Userrole
+import { postUserrole, getUserroles, getUserrole, updateUserrole, removeUserrole, updateUserroleBatch} from '../Containers/Userrole/sagas'
+// end Ignite-Entity-Userrole
 
-    // begin Ignite-Entity-Role
-    import { postRole, getRoles, getRole, updateRole, removeRole, updateRoleBatch} from '../Containers/Role/sagas'
-    // end Ignite-Entity-Role
-    
+// begin Ignite-Entity-Pointofsale
+import { postPointofsale, getPointofsales, getPointofsale, updatePointofsale, removePointofsale, updatePointofsaleBatch} from '../Containers/Pointofsale/sagas'
+// end Ignite-Entity-Pointofsale
+
+// begin Ignite-Entity-Role
+import { postRole, getRoles, getRole, updateRole, removeRole, updateRoleBatch} from '../Containers/Role/sagas'
+// end Ignite-Entity-Role
 
 // begin Ignite-Entity-Filecontent
 import {
@@ -137,7 +141,8 @@ import {
   updateUser,
   removeUser,
   updateUserBatch,
-  getUserProfile
+  getUserProfile,
+  doDeleteRole
 } from '../Containers/User/sagas'
 // end Ignite-Entity-User
 
@@ -211,6 +216,15 @@ export default function * root () {
   yield all([
     // some sagas only receive an action
 
+    // begin Ignite-Entity-Userrole
+    takeLatest(UserroleTypes.USERROLE_CREATE, postUserrole, api),
+    takeLatest(UserroleTypes.USERROLE_REQUEST, getUserrole, api),
+    takeLatest(UserroleTypes.USERROLE_REQUEST_ALL, getUserroles, api),
+    takeLatest(UserroleTypes.USERROLE_UPDATE, updateUserrole, api),
+    takeLatest(UserroleTypes.USERROLE_UPDATE_BATCH, updateUserroleBatch, api),
+    takeLatest(UserroleTypes.USERROLE_REMOVE, removeUserrole, api),
+    // end Ignite-Entity-Userrole
+
     // begin Ignite-Entity-Pointofsale
     takeLatest(PointofsaleTypes.POINTOFSALE_CREATE, postPointofsale, api),
     takeLatest(PointofsaleTypes.POINTOFSALE_REQUEST, getPointofsale, api),
@@ -219,7 +233,6 @@ export default function * root () {
     takeLatest(PointofsaleTypes.POINTOFSALE_UPDATE_BATCH, updatePointofsaleBatch, api),
     takeLatest(PointofsaleTypes.POINTOFSALE_REMOVE, removePointofsale, api),
     // end Ignite-Entity-Pointofsale
-    
 
     // begin Ignite-Entity-Role
     takeLatest(RoleTypes.ROLE_CREATE, postRole, api),
@@ -229,7 +242,6 @@ export default function * root () {
     takeLatest(RoleTypes.ROLE_UPDATE_BATCH, updateRoleBatch, api),
     takeLatest(RoleTypes.ROLE_REMOVE, removeRole, api),
     // end Ignite-Entity-Role
-    
 
     // begin Ignite-Entity-Filecontent
     takeLatest(FilecontentTypes.FILECONTENT_CREATE, postFilecontent, api),
@@ -346,6 +358,7 @@ export default function * root () {
     takeLatest(UserTypes.USER_UPDATE, updateUser, api),
     takeLatest(UserTypes.USER_UPDATE_BATCH, updateUserBatch, api),
     takeLatest(UserTypes.USER_REMOVE, removeUser, api),
+    takeLatest(UserTypes.USER_DELETE_ROLE, doDeleteRole, api),
     // end Ignite-Entity-User
 
     // begin Ignite-Entity-Participant
