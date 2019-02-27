@@ -60,12 +60,12 @@ export const create = api => ({
       opt.session.token_type + ' ' + opt.session.access_token
     )
     return api.delete('/users/' + id, data)
-  },
-  doDeleteRole: (data, opt) => {
-    api.setHeader(
-      AppConfig.authHeader,
-      opt.session.token_type + ' ' + opt.session.access_token
-    )
-    return api.post('/user-delete-role', data)
   }
+  // doDeleteRole: (data, opt) => {
+  //   api.setHeader(
+  //     AppConfig.authHeader,
+  //     opt.session.token_type + ' ' + opt.session.access_token
+  //   )
+  //   return api.post('/user-delete-role', data)
+  // }
 })

@@ -11,6 +11,7 @@ import RoleActions, { RoleSelectors } from '../Role/redux'
 import UserroleActions, { UserroleSelectors } from '../Userrole/redux'
 import { columns as roleColumns } from '../Role/columns'
 import FormFieldMultiselect from '../../Components/FormFieldMultiselect'
+import { Label, Icon } from 'semantic-ui-react';
 
 const columnOptions = _.cloneDeep(roleColumns)
 
@@ -117,12 +118,17 @@ class Multiselect extends Component {
           columnSelected[0].columns.push({
             Header: 'Delete',
             id: 'Del',
-            accessor: o => {
+            accessor: (o) => {
               return (
                 <ButtonAction
                   deleteButton
                   onClick={() => opt.onClickDeleteButton(o._id)}
                 />
+              )
+            },
+            contentLabel: (o) => {
+              return (
+                <Label key={o._id}>{o.role_name}<Icon onClick={() => opt.onClickDeleteButton(o._id)} name='delete' /></Label>
               )
             }
           })
@@ -149,6 +155,7 @@ class Multiselect extends Component {
           createItemForFieldMultiselect={
             this.state.createItemForFieldMultiselect
           }
+          template='2'
         />
       )
     }
@@ -157,7 +164,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     allUserroles: UserroleSelectors.getAllDataArr(state.userrole),
     allRoles: RoleSelectors.getAllDataArr(state.role),
-    allRoleIdByUserId: UserroleSelectors.getAllRoleIdByUserId(state.userrole, ownProps.userId),
+    allRoleIdByUserId: UserroleSelectors.getAllRoleIdByUserId(state.userrole, ownProps.userId)
     // redirect: ownProps.history.push
   }
 }
@@ -165,7 +172,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllRole: query => dispatch(RoleActions.roleRequestAll(query)),
     fetchAllUserRole: query => dispatch(UserroleActions.userroleRequestAll(query)),
-    deleteRole: data => dispatch(UserActions.userDeleteRole(data))
+    deleteRole: data => dispatch(UserroleActions.userroleDeleteRole(data))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Multiselect)

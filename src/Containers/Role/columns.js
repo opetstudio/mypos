@@ -12,7 +12,8 @@ export const columns = [
         Header: 'role_rank',
         accessor: 'role_rank',
         id: 'role_rank',
-        fieldtype: 'input-text'
+        fieldtype: 'input-text',
+        show: false
       }
     ]
   }

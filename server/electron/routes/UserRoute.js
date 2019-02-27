@@ -160,17 +160,34 @@ module.exports[`get_users`] = async function (event, request, DB) {
       let resp = []
       if (e2 || !o2) resp = []
       else resp = o2
+      // resp.forEach((v) => {
+      //   DB.userrole.findOne({user_id: v._id}, (e3, o3) => {
+
+      //   })
+      // })
       event.sender.send(request.url, null, {'headers': {...request.headers},
         'body': Transformation.response({_embedded: { tb_users: resp }})})
     })
   })
 }
-module.exports[`post_user-delete-role`] = async function (event, request, DB) {
-  // const storage = DB.user
-  event.sender.send(request.url, null, {'headers': {...request.headers},
-    'body': Transformation.response({user_id: request.body.userId, role_id: request.body.roleId, status: true})})
+function batchInsertUserrole (userId, userroleIdArr, DB) {
+  userroleIdArr.forEach((v) => {
+    let userroleData = {role_id: v, user_id: userId}
+    let insertUserRole = () => new Promise((resolve) => {
+      let userroleDataCreate = erevnaServices.model.userrole.convertToSchemaForCreate(userroleData) || {}
+      let userroleDataCreateNotValid = erevnaServices.model.userrole.isDataNotValid(userroleDataCreate)
+      if (userroleDataCreateNotValid) return resolve(false)
+      DB.userrole.insert(userroleDataCreate, (e3, o3) => {
+        if (e3 || !o3) return resolve(false)
+        return resolve(true)
+      })
+    })
+    insertUserRole().then((r) => {
+      if (r) console.log('success insert userrole')
+      else console.log('failed insert userrole')
+    })
+  })
 }
-
 module.exports[`post_users`] = async function (event, request, DB) {
   request = await ReceiveRequest(request)
   const storage = DB.user
@@ -205,6 +222,12 @@ module.exports[`post_users`] = async function (event, request, DB) {
               'detail': e2.key + ' => ' + e2.errorType
             })
           })
+      }
+      // add userrole
+      let insertUserRole = true
+      let userroleIdArr = request.body.user_roles
+      if (userroleIdArr) {
+        batchInsertUserrole(o2._id, userroleIdArr, DB)
       }
       event.sender.send(request.url, null, {'headers': {...request.headers},
         'body': Transformation.response_success_create(o2)})
@@ -261,6 +284,12 @@ module.exports[`patch_users`] = async function (event, request, DB) {
       let resp = []
       if (e || !o) resp = []
       else resp = o
+      // add userrole
+      let insertUserRole = true
+      let userroleIdArr = request.body.user_roles
+      if (userroleIdArr) {
+        batchInsertUserrole(_id, userroleIdArr, DB)
+      }
       event.sender.send(request.url, null, {'headers': {...request.headers},
         'body': Transformation.response(resp)})
     })

@@ -6,6 +6,7 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import UserActions, { UserSelectors } from './redux'
+import UserroleActions from '../Userrole/redux'
 import ButtonAction from '../../Components/ButtonAction'
 import LayoutTableData from '../../Components/LayoutTableData'
 import { makeData } from '../../Utils/Utils'
@@ -53,6 +54,7 @@ class TheComponent extends Component {
       pathname: (window.location.hash || window.location.pathname).replace('#', '')
     }
     this.props.fetchAll({ newerModifiedon: this.props.maxModifiedon })
+  
     this.state.column = this._setupColumn(this.state.column, {
       updateOne: this.state.updateOne
     })
@@ -228,7 +230,8 @@ const mapDispatchToProps = dispatch => {
     deleteRow: query => dispatch(UserActions.userDeleteSuccess(query)),
     updateOne: (data, id) => dispatch(UserActions.userUpdate(data, id)),
     removeOne: (data, id) => dispatch(UserActions.userRemove(data, id)),
-    updateBatch: data => dispatch(UserActions.userUpdateBatch(data))
+    updateBatch: data => dispatch(UserActions.userUpdateBatch(data)),
+    userroleFetchAll: query => dispatch(UserroleActions.userroleRequestAll(query))
   }
 }
 

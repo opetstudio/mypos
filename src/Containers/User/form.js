@@ -6,13 +6,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Immutable from 'seamless-immutable'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-import ButtonAction from '../../Components/ButtonAction'
 import UserActions, { UserSelectors } from './redux'
-// BEGIN MULTISELECT ROLE
-import RoleActions, { RoleSelectors } from '../Role/redux'
-import UserroleActions, { UserroleSelectors } from '../Userrole/redux'
-import { columns as roleColumns } from '../Role/columns'
-// END MULTISELECT ROLE
 import LayoutFormData from '../../Components/LayoutFormData'
 // import { makeData } from '../../Utils/Utils'
 import { columns } from './columns'
@@ -20,9 +14,6 @@ import { LoginSelectors } from '../Login/redux'
 
 import RoleMultiselect from '../Userrole/Multiselect'
 
-// BEGIN MULTISELECT ROLE
-const columnOptions = _.cloneDeep(roleColumns)
-// END MULTISELECT ROLE
 const column = columns
 const defaultPageSize = 10
 
@@ -36,11 +27,6 @@ class TheComponent extends Component {
     submit: PropTypes.bool.isRequired,
     formData: PropTypes.object.isRequired,
     dataDetail: PropTypes.object.isRequired,
-    // BEGIN MULTISELECT ROLE
-    allRoleIdByUserId: PropTypes.array.isRequired,
-    multiselectComponent: PropTypes.object,
-    deleteRole: PropTypes.func.isRequired,
-    // END MULTISELECT ROLE
     formReset: PropTypes.func.isRequired,
     entityUpdate: PropTypes.func.isRequired,
     entityCreate: PropTypes.func.isRequired,
@@ -55,8 +41,6 @@ class TheComponent extends Component {
     formData: {},
     dataDetail: {},
     // BEGIN MULTISELECT ROLE
-    allRoleIdByUserId: [],
-    multiselectComponent: {},
     deleteRole: () => {},
     // END MULTISELECT ROLE
     formReset: () => {},
@@ -67,26 +51,9 @@ class TheComponent extends Component {
   constructor (props) {
     super(props)
     if (this.props.id && this.props.id !== '') { this.props.fetchOne({ id: this.props.id }) }
-    // BEGIN MULTISELECT ROLE
-    this.setupMultiselectComponent = this.setupMultiselectComponent.bind(this)
-    this.setFormValue = this.setFormValue.bind(this)
-    this.props.fetchAllRole({})
-    this.props.fetchAllUserRole({
-      params: { user_id: (this.props.dataDetail || {})['_id'] }
-    })
-    const allRoles = _.filter(Immutable.asMutable(this.props.allRoles, { deep: true }), o => o.status !== 'remove')
-    let allUserroles = Immutable.asMutable(this.props.allUserroles, { deep: true })
-    const multiselectComponent = this.setupMultiselectComponent({ options: allRoles, allUserroles })
-    // END MULTISELECT ROLE
     this.state = {
       column,
-      // BEGIN MULTISELECT ROLE
-      allRoles,
-      allUserroles,
-      createItemForFieldMultiselect: () => this.props.redirect('/entity/role/create'),
-      multiselectComponent,
       deleteRole: this.props.deleteRole,
-      // END MULTISELECT ROLE
       selectoptions: Immutable.asMutable(this.props.selectoptions, { deep: true }),
       id: this.props.id,
       dataDetail: this.props.dataDetail,
@@ -107,15 +74,6 @@ class TheComponent extends Component {
     this.onSubmit = this.onSubmit.bind(this)
     if (this.props.id && this.props.id !== '') {
       this.props.fetchOne({ id: this.props.id })
-      // BEGIN MULTISELECT ROLE
-      this.props.setFormValue({
-        ...Immutable.asMutable(this.props.dataDetail, { deep: true }),
-        user_roles: Immutable.asMutable(
-          this.props.allRoleIdByUserId,
-          { deep: true }
-        )
-      })
-      // END MULTISELECT ROLE
     }
   }
   onSubmit (event) {
@@ -163,7 +121,7 @@ class TheComponent extends Component {
     return null
   }
   componentDidUpdate (prevProps, prevState, snapshot) {
-    console.log('componentDidUpdate')
+    // console.log('componentDidUpdate')
     if (!_.isEqual(prevProps.dataDetail, this.props.dataDetail) && !_.isEmpty(this.props.dataDetail)) {
       // console.log('set form value because dataDetail is exist')
       let dataDetail = Immutable.asMutable(this.props.dataDetail, {deep: true})
@@ -176,45 +134,6 @@ class TheComponent extends Component {
         }
       })
     }
-
-    // BEGIN MULTISELECT ROLE
-
-    // update state form value
-    if (!_.isEqual(prevProps.allRoleIdByUserId, this.props.allRoleIdByUserId) && !_.isEmpty(this.props.allRoleIdByUserId)) {
-      const currentFormUserRoles = Immutable.asMutable(this.props.formData.user_roles || [], { deep: true })
-      this.props.setFormValue({
-        ...this.props.formData,
-        user_roles: _.uniq([
-          ...currentFormUserRoles,
-          ...this.props.allRoleIdByUserId
-        ])
-      })
-    }
-    // update state allRoles
-    if (!_.isEqual(prevProps.allRoles, this.props.allRoles) && !_.isEmpty(this.props.allRoles)) {
-      let allRoles = _.filter(Immutable.asMutable(this.props.allRoles, { deep: true }), o => o.status !== 'remove')
-      this.setState({ allRoles })
-    }
-    // update state allUserroles
-    if (!_.isEqual(prevProps.allUserroles, this.props.allUserroles) && !_.isEmpty(this.props.allUserroles)) {
-      let allUserroles = Immutable.asMutable(this.props.allUserroles, { deep: true })
-      this.setState({ allUserroles })
-    }
-
-    if ((prevState.allUserroles !== this.state.allUserroles && !_.isEmpty(this.state.allUserroles)) || (prevState.allRoles !== this.state.allRoles && !_.isEmpty(this.state.allRoles))) {
-      const allRoles = this.state.allRoles
-      const allUserroles = this.state.allUserroles
-      const multiselectComponent = this.setupMultiselectComponent({
-        options: allRoles,
-        allUserroles
-      })
-      this.setState({
-        multiselectComponent
-      })
-    }
-
-    // END MULTISELECT ROLE
-
     if (!_.isEqual(prevProps.selectoptions, this.props.selectoptions) && !_.isEmpty(this.props.selectoptions)) {
       this.setState({ selectoptions: Immutable.asMutable(this.props.selectoptions, {deep: true}) })
     }
@@ -237,39 +156,6 @@ class TheComponent extends Component {
   componentWillUnmount () {
     // reset form
     this.state.formReset({})
-  }
-
-  setupMultiselectComponent ({ options, allUserroles }) {
-    // console.log('setupMultiselectComponent====>options=', options)
-    const multiselectComponent = {
-      user_roles: {
-        data: options,
-        column: columnOptions,
-        columnTable: (opt => {
-          const columnSelected = _.cloneDeep(roleColumns) || [{}]
-          columnSelected[0].columns.push({
-            Header: 'Delete',
-            id: 'Del',
-            accessor: o => {
-              return (
-                <ButtonAction
-                  deleteButton
-                  onClick={() => opt.onClickDeleteButton(o._id)}
-                />
-              )
-            }
-          })
-          return columnSelected
-        })({
-          onClickDeleteButton: roleId =>
-            this.state.deleteRole({
-              userId: this.state.id,
-              roleId: roleId
-            })
-        })
-      }
-    }
-    return multiselectComponent
   }
   setFormValue (data) {
     this.props.setFormValue({
@@ -315,12 +201,6 @@ class TheComponent extends Component {
             />
           }
         }}
-
-        // BEGIN MULTISELECT ROLE
-        // multiselectComponent={this.state.multiselectComponent}
-        // createItemForFieldMultiselect={this.state.createItemForFieldMultiselect}
-        // BEGIN MULTISELECT ROLE
-
         onSubmit={this.onSubmit}
         myProfile={this.props.myProfile}
         breadcrumb={[
@@ -354,14 +234,6 @@ const mapStateToProps = (state, ownProps) => {
   )
   return {
     // ignite boilerplate state list
-
-    // BEGIN MULTISELECT ROLE
-    allUserroles: UserroleSelectors.getAllDataArr(state.userrole),
-    allRoles: RoleSelectors.getAllDataArr(state.role),
-    allRoleIdByUserId: UserroleSelectors.getAllRoleIdByUserId(state.userrole, id),
-    redirect: ownProps.history.push,
-    // END MULTISELECT ROLE
-
     defaultPageSize,
     column,
     dataDetail,
@@ -393,12 +265,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return {
     // ignite boilerplate dispatch list
-
-    // BEGIN MULTISELECT ROLE
-    fetchAllRole: query => dispatch(RoleActions.roleRequestAll(query)),
-    fetchAllUserRole: query => dispatch(UserroleActions.userroleRequestAll(query)),
-    deleteRole: data => dispatch(UserActions.userDeleteRole(data)),
-    // END MULTISELECT ROLE
     setFormValue: data => dispatch(UserActions.userSetFormValue(data)),
     formReset: data => dispatch(UserActions.userFormReset(data)),
     fetchOne: query => dispatch(UserActions.userRequest(query)),

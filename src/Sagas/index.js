@@ -65,7 +65,7 @@ import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
 
 // begin Ignite-Entity-Userrole
-import { postUserrole, getUserroles, getUserrole, updateUserrole, removeUserrole, updateUserroleBatch} from '../Containers/Userrole/sagas'
+import { postUserrole, getUserroles, getUserrole, updateUserrole, removeUserrole, updateUserroleBatch, doDeleteRole} from '../Containers/Userrole/sagas'
 // end Ignite-Entity-Userrole
 
 // begin Ignite-Entity-Pointofsale
@@ -141,8 +141,7 @@ import {
   updateUser,
   removeUser,
   updateUserBatch,
-  getUserProfile,
-  doDeleteRole
+  getUserProfile
 } from '../Containers/User/sagas'
 // end Ignite-Entity-User
 
@@ -223,6 +222,7 @@ export default function * root () {
     takeLatest(UserroleTypes.USERROLE_UPDATE, updateUserrole, api),
     takeLatest(UserroleTypes.USERROLE_UPDATE_BATCH, updateUserroleBatch, api),
     takeLatest(UserroleTypes.USERROLE_REMOVE, removeUserrole, api),
+    takeLatest(UserroleTypes.USERROLE_DELETE_ROLE, doDeleteRole, api),
     // end Ignite-Entity-Userrole
 
     // begin Ignite-Entity-Pointofsale
@@ -358,7 +358,6 @@ export default function * root () {
     takeLatest(UserTypes.USER_UPDATE, updateUser, api),
     takeLatest(UserTypes.USER_UPDATE_BATCH, updateUserBatch, api),
     takeLatest(UserTypes.USER_REMOVE, removeUser, api),
-    takeLatest(UserTypes.USER_DELETE_ROLE, doDeleteRole, api),
     // end Ignite-Entity-User
 
     // begin Ignite-Entity-Participant

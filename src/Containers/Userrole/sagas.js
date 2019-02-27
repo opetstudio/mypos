@@ -1,5 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
-import UserroleActions from './redux'
+import Immutable from 'seamless-immutable'
+import UserActions from '../User/redux'
+import UserroleActions, {UserroleSelectors} from './redux'
 import LoginActions from '../Login/redux'
 import { getAttributes, getEntity, getEntityCollection, getEntityBatch } from '../../Transforms/TransformAttributes'
 import { merge, path } from 'ramda'
@@ -12,6 +14,8 @@ export const theData = state => state.userrole.data
 export const theMulti = state => state.userrole.multi
 export const theUserPrefs = state => state.user.preferences
 export const transformedData = response => getAttributes(response.data)
+export const getUserRoleState = state => state.userrole
+export const getUserFormValue = state => state.user.form
 
 export function * getUserrole (api, action) {
   console.log('[UserroleSaga] getUserrole action=', action)
@@ -138,5 +142,38 @@ export function * getUserroles (api, action) {
     yield put(UserroleActions.userroleDeleteSuccess({listId: allDeletedIds}))
   } else {
     yield put(UserroleActions.userroleRequestFailed({requestMessage: 'failed fetch data'}))
+  }
+}
+export function * doDeleteRole (api, action) {
+  const { data } = action
+  console.log('doDeleteRole=====>', data)
+  const s = yield select(session)
+  // make the call to the api
+  const response = yield call(api.doDeleteUserRole, data, { session: s })
+  if (path(['originalError', 'response', 'status'], response) === 401 && path(['originalError', 'response', 'statusText'], response) === 'Unauthorized') {
+    return yield put(LoginActions.loginRemoveSuccess({}))
+  }
+  if (response.ok) {
+    let userId = path(['data', 'user_id'], response)
+    let roleId = path(['data', 'role_id'], response)
+    let status = path(['data', 'status'], response)
+    if (status) {
+      const userRoleState = yield select(getUserRoleState)
+      const userFormValue = yield select(getUserFormValue)
+      const allUserRole = UserroleSelectors.getAllDataArr(userRoleState)
+      const allUserRoleMutable = Immutable.asMutable(allUserRole, { deep: true })
+      const userroleId = ((_.filter(allUserRoleMutable, {user_id: userId, role_id: roleId}) || []).map(o => o._id) || [0])[0]
+      yield put(UserroleActions.userroleRemoveSuccess({id: userroleId}))
+      const currentUserRole = Immutable.asMutable(userFormValue['user_roles'] || [], { deep: true })
+      currentUserRole.splice(currentUserRole.indexOf(roleId), 1)
+      yield put(
+        UserActions.userSetFormValue({
+          user_roles: currentUserRole
+        })
+      )
+    }
+    yield put(UserroleActions.userroleDeleteRoleDone(response.data))
+  } else {
+    yield put(UserroleActions.userroleDeleteRoleDone(response.data))
   }
 }

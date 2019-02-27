@@ -244,13 +244,19 @@ function route (entityName, theRoute) {
       routeOne(`get_getUserProfile`, theRoute, DB)
       routeOne(`get_users`, theRoute, DB)
       routeOne(`patch_users`, theRoute, DB)
-      routeOne(`post_user-delete-role`, theRoute, DB)
       theRoute.set_init(DB)
       break
     case 'role':
       routeOne(`post_${entityName}s`, theRoute, DB)
       routeOne(`get_${entityName}s`, theRoute, DB)
       routeOne(`patch_${entityName}s`, theRoute, DB)
+      theRoute.set_init(DB)
+      break
+    case 'userrole':
+      routeOne(`post_${entityName}s`, theRoute, DB)
+      routeOne(`get_${entityName}s`, theRoute, DB)
+      routeOne(`patch_${entityName}s`, theRoute, DB)
+      routeOne(`post_userrole-delete-role`, theRoute, DB)
       theRoute.set_init(DB)
       break
     default:

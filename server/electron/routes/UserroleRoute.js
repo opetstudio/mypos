@@ -31,13 +31,13 @@ module.exports[`set_init`] = function (DB) {
       }
     }
     initData.forEach((v, k) => {
-      let dataCreate = erevnaServices.model.userrole.convertToSchemaForCreate(v) || {}
-      let dataNotValid = erevnaServices.model.user.isDataNotValid(dataCreate)
-      if (dataNotValid) return console.log('data not valid = ', v)
-      storage.insert(dataCreate, (e2, o2) => {
-        if (e2 || !o2) console.log('error when insert data ', e2)
-        else console.log('success insert data')
-      })
+      // let dataCreate = erevnaServices.model.userrole.convertToSchemaForCreate(v) || {}
+      // let dataNotValid = erevnaServices.model.userrole.isDataNotValid(dataCreate)
+      // if (dataNotValid) return console.log('data not valid = ', v)
+      // storage.insert(dataCreate, (e2, o2) => {
+      //   if (e2 || !o2) console.log('error when insert data ', e2)
+      //   else console.log('success insert data')
+      // })
     })
   }
   setInitialData([
@@ -51,6 +51,12 @@ module.exports[`set_init`] = function (DB) {
 module.exports[`post_userroles`] = function (event, request, DB) {
 }
 module.exports[`get_userroles`] = function (event, request, DB) {
+  
 }
 module.exports[`patch_userroles`] = function (event, request, DB) {
+}
+module.exports[`post_userrole-delete-role`] = async function (event, request, DB) {
+  // const storage = DB.user
+  event.sender.send(request.url, null, {'headers': {...request.headers},
+    'body': Transformation.response({user_id: request.body.userId, role_id: request.body.roleId, status: true})})
 }

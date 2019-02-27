@@ -25,7 +25,11 @@ const { Types, Creators } = createActions({
 
   userroleRemoveFailed: ['data'],
   userroleRemoveSuccess: ['data'],
+  // BEGIN MULTISELECT ROLE
+  userroleDeleteRole: ['data'],
+  userroleDeleteRoleDone: ['data'],
 
+  // END MULTISELECT ROLE
   userroleSetFormValue: ['data'],
 
   userroleFormReset: ['data'],
@@ -67,7 +71,10 @@ export const INITIAL_STATE = Immutable({
   update: false,
   updateSuccess: false,
   updateFailed: false,
-  updateMessage: ''
+  updateMessage: '',
+  // BEGIN MULTISELECT ROLE
+  deleteRoleOnprogress: false
+  // END MULTISELECT ROLE
 
 })
 
@@ -228,6 +235,11 @@ export const setFormValue = (state, action) => {
 
 export const reset = (state) => state.merge(INITIAL_STATE)
 
+// BEGIN MULTISELECT ROLE
+export const doDeleteRole = state => state.merge({ deleteRoleOnprogress: true })
+export const doDeleteRoleDone = (state, action) => state.merge({ deleteRoleOnprogress: false })
+// END MULTISELECT ROLE
+
 // export const singleSuccess = (state, action) => {
 //   // const { payload } = action
 
@@ -265,6 +277,11 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.USERROLE_FORM_RESET]: doFormReset,
   [Types.USERROLE_SET_FORM_VALUE]: setFormValue,
+
+  // BEGIN MULTISELECT ROLE
+  [Types.USERROLE_DELETE_ROLE]: doDeleteRole,
+  [Types.USERROLE_DELETE_ROLE_DONE]: doDeleteRoleDone,
+  // END MULTISELECT ROLE
 
   [Types.USERROLE_UPDATE]: doFormSubmit,
   [Types.USERROLE_UPDATE_BATCH]: doFormSubmit,

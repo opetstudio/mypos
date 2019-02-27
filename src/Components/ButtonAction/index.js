@@ -75,10 +75,10 @@ class ButtonAction extends React.Component {
         <Button
           size='mini'
           as={as}
-          icon
           onClick={this.props.onClick}
           to={this.props.to}
         >
+          {this.props.buttonLabel}
           <Icon name='delete' />
         </Button>
       )

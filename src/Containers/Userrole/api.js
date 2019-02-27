@@ -29,5 +29,12 @@ export const create = (api) => ({
   removeUserrole: (data, id, opt) => {
     api.setHeader(AppConfig.authHeader, opt.session.token_type + ' ' + opt.session.access_token)
     return api.delete('/userroles/' + id, data)
+  },
+  doDeleteUserRole: (data, opt) => {
+    api.setHeader(
+      AppConfig.authHeader,
+      opt.session.token_type + ' ' + opt.session.access_token
+    )
+    return api.post('/userrole-delete-role', data)
   }
 })

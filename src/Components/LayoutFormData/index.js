@@ -283,8 +283,8 @@ export default class LayoutFormData extends Component {
     }
     // else if (type === 'select') return (<Dropdown placeholder='Skills' name={name} fluid multiple selection options={options} onChange={(o) => this.handleChange(o, name)} />)
     else if (type === 'select') {
-      console.log('field select opt=', opt)
-      console.log('field select value=', value)
+      // console.log('field select opt=', opt)
+      // console.log('field select value=', value)
       return (
         <Form.Select
           style={selectStyle}
@@ -315,7 +315,7 @@ export default class LayoutFormData extends Component {
     const id = path(['id'], this.props)
     // const recordId = id
     // const id = path(['match', 'params', 'id', 'formData'], this.props)
-    console.log('this.props.formData===>', this.props.formData)
+    // console.log('this.props.formData===>', this.props.formData)
     // console.log('props===>', this.props)
     const MessageIcon = () => (
       <Message
@@ -341,6 +341,7 @@ export default class LayoutFormData extends Component {
     const isDesktop = window.screen.width >= minDesktopScreenWidth
     const labelStyle = isDesktop ? { width: 200, textAlign: 'right' } : {}
     const buttonStyle = isDesktop ? { position: 'relative', left: 210 } : {}
+    const multiselectTemplate1Style = isDesktop ? { position: 'relative', top: -23, left: 210 } : {}
     return (
       <div>
         <Container>
@@ -417,7 +418,7 @@ export default class LayoutFormData extends Component {
                               )} */}
                             
                             {(col.fieldtype === 'multiselect-component' && this.props.multiselect) &&
-                              this.props.multiselect[col.id]({currentSelected: (this.props.formData || {})[col.id] || [], onSubmitSelected: listSelectedId => this.handleChange({ value: listSelectedId }, col.id, col.fieldtype)})
+                              <div style={multiselectTemplate1Style}>{this.props.multiselect[col.id]({currentSelected: (this.props.formData || {})[col.id] || [], onSubmitSelected: listSelectedId => this.handleChange({ value: listSelectedId }, col.id, col.fieldtype)})}</div>
                               // (this.props.multiselect[col.id]({onSubmitSelected: listSelectedId => this.handleChange({ value: listSelectedId }, col.id, col.fieldtype)}))
                             }
                           </Form.Field>
