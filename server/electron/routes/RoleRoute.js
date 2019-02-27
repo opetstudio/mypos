@@ -3,6 +3,7 @@ const os = require('os')
 const _ = require('lodash')
 const erevnaServices = require('erevna-services')
 const Transformation = require('../helper/Transformation')
+const Pagination = require('../helper/Pagination')
 const ReceiveRequest = require('../services/ReceiveRequest')
 
 const Datastore = require('nedb')
@@ -82,10 +83,11 @@ module.exports[`post_roles`] = function (event, request, DB) {
       'body': Transformation.response_success_create(o2)})
   })
 }
+
 module.exports[`get_roles`] = function (event, request, DB) {
-  DB[tableName].find({}, (e, o) => {
+  Pagination(request, 'tb_role', DB[tableName], {}, (resp) => {
     event.sender.send(request.url, null, {'headers': {...request.headers},
-      'body': Transformation.response({'_embedded': { 'tb_role': o }})})
+      'body': Transformation.response(resp)})
   })
 }
 module.exports[`patch_roles`] = function (event, request, DB) {

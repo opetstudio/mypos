@@ -4,6 +4,7 @@ const os = require('os')
 const _ = require('lodash')
 const erevnaServices = require('erevna-services')
 const Transformation = require('../helper/Transformation')
+const Pagination = require('../helper/Pagination')
 const ReceiveRequest = require('../services/ReceiveRequest')
 
 const Datastore = require('nedb')
@@ -129,7 +130,6 @@ module.exports[`get_getUserProfile`] = async function (event, request, DB) {
 }
 module.exports[`get_users`] = async function (event, request, DB) {
   request = await ReceiveRequest(request)
-  const storage = DB.user
   const sessionDatastore = DB.session
   const token = erevnaServices.security.tokenExtractor(request.headers.authorization)
   // console.log('token===>', token)
@@ -154,19 +154,10 @@ module.exports[`get_users`] = async function (event, request, DB) {
           })
         })
     }
-    storage.find({scope: { $gt: scope }}, (e2, o2) => {
-      // console.log('result e2====>>>', e2)
-      // console.log('result o2====>>>', o2)
-      let resp = []
-      if (e2 || !o2) resp = []
-      else resp = o2
-      // resp.forEach((v) => {
-      //   DB.userrole.findOne({user_id: v._id}, (e3, o3) => {
-
-      //   })
-      // })
+    let whereCondition = {scope: { $gt: scope }}
+    Pagination(request, 'tb_users', DB.user, whereCondition, (resp) => {
       event.sender.send(request.url, null, {'headers': {...request.headers},
-        'body': Transformation.response({_embedded: { tb_users: resp }})})
+        'body': Transformation.response(resp)})
     })
   })
 }

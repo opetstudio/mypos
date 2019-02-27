@@ -53,8 +53,8 @@ class TheComponent extends Component {
       searchString: '',
       pathname: (window.location.hash || window.location.pathname).replace('#', '')
     }
-    this.props.fetchAll({ newerModifiedon: this.props.maxModifiedon })
-  
+    this.fetchData = this.fetchData.bind(this)
+    // this.fetchAll = this.fetchAll.bind(this)
     this.state.column = this._setupColumn(this.state.column, {
       updateOne: this.state.updateOne
     })
@@ -171,8 +171,19 @@ class TheComponent extends Component {
         })
       })
     }
+    // if (prevProps.pageCount !== this.props.pageCount) this.setState({pageCount: this.props.pageCount})
+    // if (prevProps.pageSize !== this.props.pageSize) this.setState({pageSize: this.props.pageSize})
+  }
+  fetchData (state, instance) {
+    console.log('fetchData==>', state)
+    let status = 'publish'
+    if (this.state.pathname === `/entity/${this.state.entityName.toLowerCase()}-trash`) {
+      status = 'delete'
+    }
+    this.state.fetchAll({ status, page: state.page, pageSize: state.pageSize, sorted: state.sorted, filtered: state.filtered, newerModifiedon: this.state.maxModifiedon })
   }
   render () {
+    // console.log('user.index pageCount===>'+this.props.pageCount+'|'+this.state.pageCount)
     if (window.localStorage.getItem('isLoggedIn') !== 'true') { return <Redirect to='/login' /> }
     if (!this.props.allDataArr) {
       return (
@@ -197,6 +208,9 @@ class TheComponent extends Component {
           { link: '/', label: 'Home' },
           { link: null, label: 'User Management' }
         ]}
+        fetchData={this.fetchData}
+        pages={this.props.pageCount}
+        pageSize={this.props.pageSize}
       />
     )
   }
@@ -219,7 +233,9 @@ const mapStateToProps = (state, ownProps) => {
     entityName: 'User',
     isLoggedIn: LoginSelectors.isLoggedIn(state.login),
     loginToken: LoginSelectors.getToken(state.login),
-    filter
+    filter,
+    pageCount: UserSelectors.getPageCount(state.user),
+    pageSize: UserSelectors.getPageSize(state.user)
   }
 }
 

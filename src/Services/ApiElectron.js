@@ -20,7 +20,7 @@ class ApiElectron {
     })
     // static post = this.postAndGetElectron
     // static get = this.postAndGetElectron
-    setupPath (path, method, data) {
+    setupPath (path, method, data, bodyGet) {
       let pathArr = path.split('/')
       let result = ''
       let params = []
@@ -35,7 +35,7 @@ class ApiElectron {
       return {
         path: result,
         params,
-        body: data
+        body: bodyGet || data
       }
     }
     post (path, data = {}) {
@@ -46,8 +46,8 @@ class ApiElectron {
       let spath = this.setupPath(path, 'patch', data)
       return this.postAndGetElectron(spath)
     }
-    get (path, data = {}) {
-      let spath = this.setupPath(path, 'get', data)
+    get (path, data = {}, bodyGet) {
+      let spath = this.setupPath(path, 'get', data, bodyGet)
       return this.postAndGetElectron(spath)
     }
     setHeader (par, val) {

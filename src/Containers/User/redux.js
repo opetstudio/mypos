@@ -70,7 +70,10 @@ export const INITIAL_STATE = Immutable({
   update: false,
   updateSuccess: false,
   updateFailed: false,
-  updateMessage: ''
+  updateMessage: '',
+
+  pageCount: 0,
+  pageSize: 10
 })
 
 /* ------------- Selectors ------------- */
@@ -104,7 +107,10 @@ export const UserSelectors = {
   getFormSubmitSuccess: state => state.formSubmitSuccess,
   getFormSubmitFailed: state => state.formSubmitFailed,
   getFormSubmitMessage: state => state.formSubmitMessage,
-  getNewRecordId: state => state.newRecordId
+  getNewRecordId: state => state.newRecordId,
+
+  getPageCount: state => state.pageCount,
+  getPageSize: state => state.pageSize
 
   // getUpdate: state => state.formSubmit,
   // getUpdateSuccess: state => state.formSubmitSuccess,
@@ -134,6 +140,8 @@ export const requestSuccess = (state, action) => {
   const allIds = _.compact(data.allIds)
   const byId = cleaningObject(data.byId)
   const maxModifiedon = data.maxModifiedon
+  const pageCount = data.pageCount
+  const pageSize = data.pageSize
   console.log('user requestSuccess byId=', byId)
   // allIds.forEach(r => {
   //   if (byId[r].status === 'delete'){
@@ -145,9 +153,13 @@ export const requestSuccess = (state, action) => {
     requestFailed: false,
     requestSuccess: true,
     requestMessage: action.data.requestMessage,
-    byId: { ...state.byId, ...byId },
-    allIds: arrayMerge([state.allIds, allIds]),
-    maxModifiedon: maxModifiedon || state.maxModifiedon
+    // byId: { ...state.byId, ...byId },
+    // allIds: arrayMerge([state.allIds, allIds]),
+    byId,
+    allIds,
+    maxModifiedon: maxModifiedon || state.maxModifiedon,
+    pageCount,
+    pageSize
   })
 }
 export const requestProfileSuccess = (state, action) => {

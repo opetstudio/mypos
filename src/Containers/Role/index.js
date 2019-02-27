@@ -53,7 +53,7 @@ class TheComponent extends Component {
       searchString: '',
       pathname: (window.location.hash || window.location.pathname).replace('#', '')
     }
-    this.props.fetchAll({newerModifiedon: this.props.maxModifiedon})
+    this.fetchData = this.fetchData.bind(this)
     this.state.column = this._setupColumn(this.state.column, {updateOne: this.state.updateOne})
     this.state.allDataArr = this._filterData(Immutable.asMutable(this.props.allDataArr, {deep: true}), this.props.filter)
     this._onSearch = this._onSearch.bind(this)
@@ -128,6 +128,16 @@ class TheComponent extends Component {
         column: this._setupColumn(this.props.column, {updateOne: this.state.updateOne})
       })
     }
+    // if (prevProps.pageCount !== this.props.pageCount) this.setState({pageCount: this.props.pageCount})
+    // if (prevProps.pageSize !== this.props.pageSize) this.setState({pageSize: this.props.pageSize})
+  }
+  fetchData (state, instance) {
+    console.log('fetchData==>', state)
+    let status = 'publish'
+    if (this.state.pathname === `/entity/${this.state.entityName.toLowerCase()}-trash`) {
+      status = 'delete'
+    }
+    this.state.fetchAll({ status, page: state.page, pageSize: state.pageSize, sorted: state.sorted, filtered: state.filtered, newerModifiedon: this.state.maxModifiedon })
   }
   render () {
     if (window.localStorage.getItem('isLoggedIn') !== 'true') return <Redirect to='/login' />
@@ -148,6 +158,9 @@ class TheComponent extends Component {
         { link: null, label: 'Master Data' },
         { link: null, label: 'Role' }
       ]}
+      fetchData={this.fetchData}
+      pages={this.props.pageCount}
+      pageSize={this.props.pageSize}
     />
   }
 }
@@ -169,7 +182,9 @@ const mapStateToProps = (state, ownProps) => {
     entityName: 'Role',
     isLoggedIn: LoginSelectors.isLoggedIn(state.login),
     loginToken: LoginSelectors.getToken(state.login),
-    filter
+    filter,
+    pageCount: RoleSelectors.getPageCount(state.role),
+    pageSize: RoleSelectors.getPageSize(state.role)
   }
 }
 

@@ -281,6 +281,7 @@ export function * getUsers (api, action) {
       response.data,
       'tb_users'
     )
+    let { page_count: pageCount, page_size: pageSize } = response.data
     console.log('getUsers entitys=', entitys)
     const { byId, allIds, maxModifiedon } = entitys
     yield put(
@@ -288,7 +289,9 @@ export function * getUsers (api, action) {
         requestMessage: 'success fetch data',
         byId,
         allIds,
-        maxModifiedon
+        maxModifiedon,
+        pageCount,
+        pageSize
       })
     )
     const allDeletedIds = (

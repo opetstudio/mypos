@@ -129,8 +129,10 @@ export function * getRoles (api, action) {
   // success?
   if (response.ok) {
     // const { byId, allIds, maxModifiedon } = response.data
-    const {byId, allIds, maxModifiedon} = getEntityCollection(response.data, 'tb_role')
-    yield put(RoleActions.roleRequestSuccess({requestMessage: 'success fetch data', byId, allIds, maxModifiedon}))
+    let { page_count: pageCount, page_size: pageSize } = response.data
+    const entitys = getEntityCollection(response.data, 'tb_role')
+    const { byId, allIds, maxModifiedon } = entitys
+    yield put(RoleActions.roleRequestSuccess({requestMessage: 'success fetch data', byId, allIds, maxModifiedon, pageCount, pageSize}))
     const allDeletedIds = ((_.filter(allIds.map(r => byId[r]), { 'status': 'delete' })) || []).map(r => r._id)
     allDeletedIds.push(undefined)
     allDeletedIds.push('undefined')

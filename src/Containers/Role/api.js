@@ -10,7 +10,8 @@ export const create = (api) => ({
     api.setHeader(AppConfig.authHeader, opt.session.token_type + ' ' + opt.session.access_token)
     return api.get('/roles/' + data.id)
   },
-  getRoles: ({ apiName, baseUrl, newerModifiedon }, opt) => {
+  getRoles: (data, opt) => {
+    let { apiName, baseUrl, newerModifiedon } = data
     if (!opt.session.token) return {}
     if (baseUrl) api.setBaseURL(baseUrl)
     api.setHeader(
@@ -20,7 +21,7 @@ export const create = (api) => ({
 
     // if (baseUrl) api.setBaseURL(baseUrl)
     // api.setHeader(AppConfig.authHeader, opt.session.token_type + ' ' + opt.session.access_token)
-    return api.get(apiName || '/roles', { newerModifiedon })
+    return api.get(apiName || '/roles', { newerModifiedon }, data)
   },
   updateRole: (data, id, opt) => {
     console.log('hit api updateRole', data)

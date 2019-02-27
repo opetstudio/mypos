@@ -26,14 +26,15 @@ export const create = api => ({
     )
     return api.get('/getUserProfile/' + data.username)
   },
-  getUsers: ({ apiName, baseUrl, newerModifiedon }, opt) => {
+  getUsers: (data, opt) => {
+    let { apiName, baseUrl, newerModifiedon } = data
     if (!opt.session.token) return {}
     if (baseUrl) api.setBaseURL(baseUrl)
     api.setHeader(
       AppConfig.authHeader,
       opt.session.token_type + ' ' + opt.session.access_token
     )
-    return api.get(apiName || '/users', { newerModifiedon })
+    return api.get(apiName || '/users', {newerModifiedon}, data)
   },
   updateUser: (data, id, opt) => {
     if (!opt.session.token) return {}
