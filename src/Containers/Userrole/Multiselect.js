@@ -109,7 +109,7 @@ class Multiselect extends Component {
 
     // END MULTISELECT ROLE
     }
-    setupMultiselectComponent ({options, allUserroles}) {
+    setupMultiselectComponent ({options}) {
       const multiselectComponent = {
         data: options,
         column: columnOptions,
