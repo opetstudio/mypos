@@ -8,11 +8,12 @@ import {
   Segment,
   Visibility,
   // Dropdown,
-  Button,
+  Image,
   // Modal,
   // Header,
   Responsive,
-  Icon
+  Icon,
+  Header
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import LoginActions, { LoginSelectors } from './Login/redux'
@@ -100,6 +101,13 @@ class DesktopContainer extends Component {
       // <Responsive {...Responsive.onlyComputer}>
 
       <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+        {/* <div><Segment inverted><Container>
+          <Header as='h1'> <Image size={'huge'} src='https://www.prisdac.org/sites/default/files/logoprisdac_1.png' style={{ marginRight: '1em' }} />Prisma SDAC Jakarta</Header>
+          <p>
+            Reaching The Soul, Keeping The Soul, Recovery The Soul
+          </p>
+        </Container>
+        </Segment></div> */}
         {window.localStorage.getItem('isLoggedIn') === 'true' && (
           <Visibility
             once={false}
@@ -167,48 +175,61 @@ class DesktopContainer extends Component {
           >
             <Segment
               inverted
-              textAlign='center'
-              style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
+              // textAlign='center'
+              style={{ minHeight: isHome ? 700 : 0, padding: '0em 0em' }}
               vertical
             >
-              <Menu
-                fixed={fixed ? 'top' : null}
-                inverted={!fixed}
-                pointing={!fixed}
-                secondary={!fixed}
-                size='large'
-              >
+              <div style={{ paddingTop: '1em', backgroundColor: 'green' }}>
                 <Container>
-                  {/* {window.history.back && <Menu.Item onClick={window.history.back}>
-                    <Icon name='angle left' size={'big'} />
-                  </Menu.Item>} */}
-                  <Menu.Item as={Link} to='/' active={isHome}>Home</Menu.Item>
-                  {/* <Menu.Item
-                  as={Link}
-                  to='/about'
-                  active={pathname === '/about'}
+                  <Header as='h1'> <Image size={'huge'} src='https://www.prisdac.org/sites/default/files/logoprisdac_1.png' style={{ marginRight: '1em' }} />Prisma SDAC Jakarta</Header>
+                  <p>
+                  Reaching The Soul, Keeping The Soul, Recovery The Soul
+                  </p>
+                </Container>
+                <Menu
+                  fixed={fixed ? 'top' : null}
+                  inverted={!fixed}
+                  pointing={!fixed}
+                  secondary={!fixed}
+                  size='large'
+                  style={{ borderWidth: '0px' }}
                 >
-                    About
-                </Menu.Item> */}
-                  {/* <LoggedInAttribute attr='buttonLogout' pathname={pathname} /> */}
-                  <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item>
-                  <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
-                  <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item>
-                  <LoggedInAttribute
-                    attr='buttonLogin'
-                    pathname={pathname}
-                    onLogout={() => this.setState({ sidebarOpened: false })}
-                    fixed={fixed}
-                  />
-                  {/* <Menu.Item position='right'>
-                    <Button as='a' inverted={!fixed}>
-                    Log in
-                    </Button>
-                    <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
-                    Sign Up
-                    </Button>
+                  <Container>
+                    {/* {window.history.back && <Menu.Item onClick={window.history.back}>
+                      <Icon name='angle left' size={'big'} />
+                    </Menu.Item>} */}
+                    {/* <Menu.Item>
+                      <Image size={'mini'} src='https://react.semantic-ui.com/logo.png' style={{ marginRight: '1.5em' }} />
+                      Prisma SDAC Jakarta
+                    </Menu.Item> */}
+                    <Menu.Item as={Link} to='/' active={isHome}>Home</Menu.Item>
+                    {/* <Menu.Item
+                    as={Link}
+                    to='/about'
+                    active={pathname === '/about'}
+                  >
+                      About
                   </Menu.Item> */}
-                </Container></Menu>
+                    {/* <LoggedInAttribute attr='buttonLogout' pathname={pathname} /> */}
+                    <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item>
+                    <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
+                    <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item>
+                    <LoggedInAttribute
+                      attr='buttonLogin'
+                      pathname={pathname}
+                      onLogout={() => this.setState({ sidebarOpened: false })}
+                      fixed={fixed}
+                    />
+                    {/* <Menu.Item position='right'>
+                      <Button as='a' inverted={!fixed}>
+                      Log in
+                      </Button>
+                      <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
+                      Sign Up
+                      </Button>
+                    </Menu.Item> */}
+                  </Container></Menu></div>
+              
               {isHome ? <HomepageHeading /> : null}
             </Segment>
           </Visibility>
