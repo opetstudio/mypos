@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-// import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
-import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+// import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
 
 // Import Screens for the Router
 // prettier-ignore
