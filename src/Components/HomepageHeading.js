@@ -25,7 +25,7 @@ const HomepageHeading = ({ mobile }) => (
         marginTop: mobile ? '0.5em' : '1.5em'
       }}
     />
-    {/* <Button
+    <Button
       primary
       size='huge'
       href='https://opetstudio.blogspot.co.id'
@@ -33,7 +33,7 @@ const HomepageHeading = ({ mobile }) => (
     >
       Get Started
       <Icon name='right arrow' />
-    </Button> */}
+    </Button>
   </Container>
 )
 

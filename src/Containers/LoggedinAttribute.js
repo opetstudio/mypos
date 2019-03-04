@@ -287,6 +287,34 @@ class LoggedInAttribute extends Component {
           )
         }
       })
+    } else if (!this.props.isLoggedIn && this.props.attr === 'buttonLogin') {
+      return [1].map(r => {
+        if (r === 0) {
+          return (<Menu.Item key={r} onClick={this.handleToggle}>
+            <Icon name='sidebar' />
+          </Menu.Item>)
+        }
+        if (r === 1 && this.props.mobile) {
+          return <Menu.Item key={r} position='right'>
+            <Button as='a' inverted>
+                    Log in
+            </Button>
+            <Button as='a' inverted style={{ marginLeft: '0.5em' }}>
+                    Sign Up
+            </Button>
+          </Menu.Item>
+        }
+        if (r === 1 && !this.props.mobile) {
+          return <Menu.Item position='right'>
+            <Button as='a' inverted={!this.props.fixed}>
+            Log in
+            </Button>
+            <Button as='a' inverted={!this.props.fixed} primary={this.props.fixed} style={{ marginLeft: '0.5em' }}>
+            Sign Up
+            </Button>
+          </Menu.Item>
+        }
+      })
     }
     return null
   }

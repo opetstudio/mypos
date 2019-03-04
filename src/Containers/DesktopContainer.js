@@ -11,12 +11,19 @@ import {
   Button,
   // Modal,
   // Header,
+  Responsive,
   Icon
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import LoginActions, { LoginSelectors } from './Login/redux'
 import HomepageHeading from '../Components/HomepageHeading'
 import LoggedInAttribute from './LoggedinAttribute'
+
+const getWidth = () => {
+  const isSSR = typeof window === 'undefined'
+
+  return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+}
 
 class DesktopContainer extends Component {
   constructor (props) {
@@ -54,7 +61,7 @@ class DesktopContainer extends Component {
       pathname === '#/' ||
       pathname === '#/home'
 
-    isHome = false
+    // isHome = false
     // console.log('pathname=', pathname)
 
     // const children = React.Children.map(this.props.children, (child, index) => {
@@ -92,7 +99,7 @@ class DesktopContainer extends Component {
     return (
       // <Responsive {...Responsive.onlyComputer}>
 
-      <div>
+      <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
         {window.localStorage.getItem('isLoggedIn') === 'true' && (
           <Visibility
             once={false}
@@ -161,48 +168,55 @@ class DesktopContainer extends Component {
             <Segment
               inverted
               textAlign='center'
-              style={{ minHeight: 0, padding: '0em 0em' }}
-              // style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
+              style={{ minHeight: 700, padding: '1em 0em' }}
               vertical
             >
               <Menu
-                // style={{backgroundColor: 'red', WebkitAppRegion: 'drag', WebkitUserSelect: 'none'}}
-                // fixed={fixed ? 'top' : null}
-                // fixed={fixed ? 'top' : null}
-                inverted
-                // inverted={false}
-                // pointing={!fixed}
-                // secondary={!fixed}
-                size='small'
-              >
-                {/* <Menu
                 fixed={fixed ? 'top' : null}
                 inverted={!fixed}
                 pointing={!fixed}
                 secondary={!fixed}
-                size='small'
-              > */}
-                <Menu.Item onClick={window.history.back}>
-                  <Icon name='angle left' size={'big'} />
-                </Menu.Item>
-                <Menu.Item as={Link} to='/' active={isHome}>
+                size='large'
+              >
+                <Container>
+                  <Menu.Item onClick={window.history.back}>
+                    <Icon name='angle left' size={'big'} />
+                  </Menu.Item>
+                  <Menu.Item as={Link} to='/' active={isHome}>
                     Home
-                </Menu.Item>
-                <Menu.Item
+                  </Menu.Item>
+                  {/* <Menu.Item
                   as={Link}
                   to='/about'
                   active={pathname === '/about'}
                 >
                     About
-                </Menu.Item>
-                {/* <LoggedInAttribute attr='buttonLogout' pathname={pathname} /> */}
-                {/* </Container> */}
-              </Menu>
+                </Menu.Item> */}
+                  {/* <LoggedInAttribute attr='buttonLogout' pathname={pathname} /> */}
+                  <Menu.Item as='a'>Events</Menu.Item>
+                  <Menu.Item as='a'>Articles</Menu.Item>
+                  <Menu.Item as='a'>News</Menu.Item>
+                  <LoggedInAttribute
+                    attr='buttonLogin'
+                    pathname={pathname}
+                    onLogout={() => this.setState({ sidebarOpened: false })}
+                    fixed={fixed}
+                  />
+                  {/* <Menu.Item position='right'>
+                    <Button as='a' inverted={!fixed}>
+                    Log in
+                    </Button>
+                    <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
+                    Sign Up
+                    </Button>
+                  </Menu.Item> */}
+                </Container></Menu>
+              <HomepageHeading />
             </Segment>
           </Visibility>
         )}
         {children}
-      </div>
+      </Responsive>
       // </Responsive>
     )
   }

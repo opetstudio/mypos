@@ -9,11 +9,18 @@ import {
   Sidebar,
   Dropdown,
   Label,
-  Input
+  Input,
+  Button
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import HomepageHeading from '../Components/HomepageHeading'
 import LoggedInAttribute from './LoggedinAttribute'
+
+const getWidth = () => {
+  const isSSR = typeof window === 'undefined'
+
+  return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+}
 
 class MobileContainer extends Component {
   constructor (props) {
@@ -21,21 +28,25 @@ class MobileContainer extends Component {
     this.state = {
       menuEntityToggle: true
     }
-    this.handlePusherClick = this.handlePusherClick.bind(this)
+    // this.handlePusherClick = this.handlePusherClick.bind(this)
+    this.handleSidebarHide = this.handleSidebarHide.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
   }
 
-  handlePusherClick () {
-    const { sidebarOpened } = this.state
+  // handlePusherClick () {
+  //   const { sidebarOpened } = this.state
 
-    if (sidebarOpened) this.setState({ sidebarOpened: false })
-  }
+  //   if (sidebarOpened) this.setState({ sidebarOpened: false })
+  // }
 
-  handleToggle = () =>
-    this.setState({ sidebarOpened: !this.state.sidebarOpened })
+  handleSidebarHide = () => this.setState({ sidebarOpened: false })
+
+  handleToggle = () => this.setState({ sidebarOpened: true })
 
   render () {
     const { children } = this.props
     const { sidebarOpened } = this.state
+    
     // const isHome =
     //   (window.location.hash || window.location.pathname).replace('#', '') ===
     //     '/home' ||
@@ -55,146 +66,55 @@ class MobileContainer extends Component {
 
     return (
       // <Responsive {...Responsive.onlyMobile}>
-      // <Responsive>
-      <Sidebar.Pushable as={Segment}>
+      <Responsive
+        as={Sidebar.Pushable}
+        getWidth={getWidth}
+        maxWidth={Responsive.onlyMobile.maxWidth}
+      >
         <Sidebar
           as={Menu}
-          animation='overlay'
-          icon='labeled'
+          animation='push'
           inverted
+          onHide={this.handleSidebarHide}
           vertical
           visible={sidebarOpened}
-          width='thin'
         >
-          <Menu.Item as={Link} to='/' active={isHome}>
-            {/* <Icon name='home' /> */}
+          <Menu.Item as='a' active>
             Home
           </Menu.Item>
-          <Menu.Item
-            as={Link}
-            to='/about'
-            active={pathname === '/about'}
-          >
-            {/* <Icon name='gamepad' /> */}
-            About
-          </Menu.Item>
-          <LoggedInAttribute
-            attr='mainmenu'
-            pathname={pathname}
-          />
-          <Menu.Item
-            name='entity'
-            onClick={() => {
-              this.setState({ menuEntityToggle: !this.state.menuEntityToggle })
-            }}
-            style={{
-              backgroundColor:
-                pathname.startsWith('/entity') || !this.state.menuEntityToggle
-                  ? 'rgba(255, 255, 255, 0.05)'
-                  : '#1b1c1d'
-            }}
-          >
-            Master Data
-          </Menu.Item>
-          <div
-            style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
-            hidden={this.state.menuEntityToggle}
-          >
-            {/* ---list new entity--- */}
-
-    {/* begin Ignite-Entity-Pointofsale */}
-    <Menu.Item
-      as={Link}
-      to='/entity/pointofsale'
-      active={pathname === '/entity/pointofsale'}
-    >
-    Pointofsale
-    </Menu.Item>
-    {/* end Ignite-Entity-Pointofsale */}
-    
-
-            {/* begin Ignite-Entity-Role */}
-            <Menu.Item
-              as={Link}
-              to='/entity/role'
-              active={pathname === '/entity/role'}
-            >
-              Role
-            </Menu.Item>
-            {/* end Ignite-Entity-Role */}
-
-            {/* begin Ignite-Entity-File */}
-            <Menu.Item
-              as={Link}
-              to='/entity/file'
-              active={pathname === '/entity/file'}
-            >
-              File
-            </Menu.Item>
-            {/* end Ignite-Entity-File */}
-
-            {/* begin Ignite-Entity-Conference */}
-            <Menu.Item
-              as={Link}
-              to='/entity/conference'
-              active={pathname === '/entity/conference'}
-            >
-              Conference
-            </Menu.Item>
-            {/* end Ignite-Entity-Conference */}
-
-            {/* begin Ignite-Entity-Badge */}
-            <Menu.Item
-              as={Link}
-              to='/entity/badge'
-              active={pathname === '/entity/badge'}
-            >
-              Badge
-            </Menu.Item>
-            {/* end Ignite-Entity-Badge */}
-
-            {/* <Menu.Item
-                as={Link}
-                to='/entity/entity1'
-                active={((window.location.hash || window.location.pathname).replace('#','')).startsWith('/entity/entity1')}
-              >
-                Entity1
-              </Menu.Item> */}
-          </div>
-          <LoggedInAttribute
-            attr='buttonLogout'
-            pathname={pathname}
-            onLogout={() => this.setState({ sidebarOpened: false })}
-          />
+          <Menu.Item as='a'>Events</Menu.Item>
+          <Menu.Item as='a'>Articles</Menu.Item>
+          <Menu.Item as='a'>News</Menu.Item>
+          <Menu.Item as='a'>Log in</Menu.Item>
+          <Menu.Item as='a'>Sign Up</Menu.Item>
         </Sidebar>
 
-        <Sidebar.Pusher
-          dimmed={sidebarOpened}
-          onClick={this.handlePusherClick}
-          style={{ minHeight: '100vh' }}
-        >
-          {window.localStorage.getItem('isLoggedIn') === 'true' && (
-            <Segment
-              inverted
-              textAlign='center'
-              style={{ minHeight: isHome ? 350 : 0, padding: '1em 0em' }}
-              vertical
-            >
-              <Container>
-                <Menu inverted pointing secondary size='large'>
-                  <Menu.Item onClick={this.handleToggle}>
-                    <Icon name='sidebar' />
-                    Dashboard
-                  </Menu.Item>
-                </Menu>
-              </Container>
-              {isHome ? <HomepageHeading mobile /> : null}
-            </Segment>
-          )}
+        <Sidebar.Pusher dimmed={sidebarOpened}>
+          <Segment
+            inverted
+            textAlign='center'
+            style={{ minHeight: 350, padding: '1em 0em' }}
+            vertical
+          >
+            <Container>
+              <Menu inverted pointing secondary size='large'>
+                <Menu.Item onClick={this.handleToggle}>
+                  <Icon name='sidebar' />
+                </Menu.Item>
+                <LoggedInAttribute
+                  attr='buttonLogin'
+                  pathname={pathname}
+                  onLogout={() => this.setState({ sidebarOpened: false })}
+                  mobile
+                />
+              </Menu>
+            </Container>
+            <HomepageHeading mobile />
+          </Segment>
+
           {children}
         </Sidebar.Pusher>
-      </Sidebar.Pushable>
-      // </Responsive>
+      </Responsive>
     )
   }
 }
