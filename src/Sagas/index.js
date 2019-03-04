@@ -64,6 +64,11 @@ import { LoginTypes } from '../Containers/Login/redux'
 import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
 
+    // begin Ignite-Entity-Event
+    import { postEvent, getEvents, getEvent, updateEvent, removeEvent, updateEventBatch} from '../Containers/Event/sagas'
+    // end Ignite-Entity-Event
+    
+
 // begin Ignite-Entity-Userrole
 import { postUserrole, getUserroles, getUserrole, updateUserrole, removeUserrole, updateUserroleBatch, doDeleteRole} from '../Containers/Userrole/sagas'
 // end Ignite-Entity-Userrole
@@ -214,6 +219,16 @@ const api = DebugConfig.useFixtures ? FixtureAPI : API.create(host)
 export default function * root () {
   yield all([
     // some sagas only receive an action
+
+    // begin Ignite-Entity-Event
+    takeLatest(EventTypes.EVENT_CREATE, postEvent, api),
+    takeLatest(EventTypes.EVENT_REQUEST, getEvent, api),
+    takeLatest(EventTypes.EVENT_REQUEST_ALL, getEvents, api),
+    takeLatest(EventTypes.EVENT_UPDATE, updateEvent, api),
+    takeLatest(EventTypes.EVENT_UPDATE_BATCH, updateEventBatch, api),
+    takeLatest(EventTypes.EVENT_REMOVE, removeEvent, api),
+    // end Ignite-Entity-Event
+    
 
     // begin Ignite-Entity-Userrole
     takeLatest(UserroleTypes.USERROLE_CREATE, postUserrole, api),

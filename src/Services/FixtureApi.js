@@ -1,6 +1,16 @@
 export default {
   // Functions return fixtures
 
+    // begin Ignite-Entity-Event
+    postEvent: () => { return { ok: true, data: '21' } },
+    getEvent: () => { return { ok: true, data: '21' } },
+    getEvents: () => { return { ok: true, data: '21' } },
+    updateEvent: () => { return { ok: true, data: '21' } },
+    updateEventBatch: () => { return { ok: true, data: '21' } },
+    removeEvent: () => { return { ok: true } },
+    // end Ignite-Entity-Event
+    
+
     // begin Ignite-Entity-Userrole
     postUserrole: () => { return { ok: true, data: '21' } },
     getUserrole: () => { return { ok: true, data: '21' } },
