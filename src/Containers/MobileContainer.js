@@ -82,18 +82,20 @@ class MobileContainer extends Component {
           <Menu.Item as='a' active>
             Home
           </Menu.Item>
-          <Menu.Item as='a'>Events</Menu.Item>
-          <Menu.Item as='a'>Articles</Menu.Item>
-          <Menu.Item as='a'>News</Menu.Item>
+          <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item>
+          <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
+          <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item>
           <Menu.Item as='a'>Log in</Menu.Item>
           <Menu.Item as='a'>Sign Up</Menu.Item>
+          {/* ---list new entity--- */}
+    
         </Sidebar>
 
         <Sidebar.Pusher dimmed={sidebarOpened}>
           <Segment
             inverted
             textAlign='center'
-            style={{ minHeight: 350, padding: '1em 0em' }}
+            style={{ minHeight: isHome ? 350 : 0, padding: '1em 0em' }}
             vertical
           >
             <Container>
@@ -109,7 +111,7 @@ class MobileContainer extends Component {
                 />
               </Menu>
             </Container>
-            <HomepageHeading mobile />
+            {isHome ? <HomepageHeading mobile /> : null}
           </Segment>
 
           {children}

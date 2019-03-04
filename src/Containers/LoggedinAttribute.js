@@ -263,6 +263,7 @@ class LoggedInAttribute extends Component {
               // open={(window.location.hash || window.location.pathname).replace('#','') === '/about'}
               >
                 {/* ---list new entity--- */}
+
                 {/* begin Ignite-Entity-Role */}
                 <Dropdown.Item as={Link} to='/entity/role' open>
                   Role
@@ -305,7 +306,7 @@ class LoggedInAttribute extends Component {
           </Menu.Item>
         }
         if (r === 1 && !this.props.mobile) {
-          return <Menu.Item position='right'>
+          return <Menu.Item key={r} position='right'>
             <Button as='a' inverted={!this.props.fixed}>
             Log in
             </Button>

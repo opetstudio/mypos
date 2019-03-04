@@ -8,6 +8,16 @@ export default () => {
   /* ------------- Assemble The Reducers ------------- */
   const rootReducer = combineReducers({
 
+    // begin Ignite-Entity-News
+    news: require('../Containers/News/redux').reducer,
+    // end Ignite-Entity-News
+    
+
+    // begin Ignite-Entity-Article
+    article: require('../Containers/Article/redux').reducer,
+    // end Ignite-Entity-Article
+    
+
     // begin Ignite-Entity-Event
     event: require('../Containers/Event/redux').reducer,
     // end Ignite-Entity-Event

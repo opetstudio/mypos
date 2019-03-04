@@ -13,7 +13,16 @@ import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
 // --- import list page entyty ---
 
+    // begin Ignite-Entity-News
+    import News from '../Containers/News'
+    import NewsForm from '../Containers/News/form'
+    // end Ignite-Entity-News
+    
+
 import PrisdacHome from '../Containers/PrisdacHome'
+import PageEvent from '../Containers/Event/PageEvent'
+import PageArticle from '../Containers/Article/PageArticle'
+import PageNews from '../Containers/News/PageNews'
 
     // begin Ignite-Entity-Pointofsale
     import Pointofsale from '../Containers/Pointofsale'
@@ -117,7 +126,18 @@ class NavigationRouter extends Component {
             <Route exact path='/home' component={PrisdacHome} />
             <Route exact path='/point-of-sale' component={Pointofsale} />
             <Route exact path='/profile' component={PageProfile} />
+            <Route exact path='/event' component={PageEvent} />
+            <Route exact path='/article' component={PageArticle} />
+            <Route exact path='/news' component={PageNews} />
             {/* ---- list page entity ---- */}
+
+    {/* begin Ignite-Entity-News */}
+    <Route exact path='/entity/news' component={News} />
+    <Route exact path='/entity/news-trash' component={News} />
+    <Route exact path='/entity/news/create' component={NewsForm} />
+    <Route exact path='/entity/news/update/:id' component={NewsForm} />
+    {/* end Ignite-Entity-News */}
+    
 
     {/* begin Ignite-Entity-Pointofsale */}
     <Route exact path='/entity/pointofsale' component={Pointofsale} />

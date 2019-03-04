@@ -9,10 +9,12 @@ import UserActions, { UserSelectors } from '../User/redux'
 // import FavoriteItemContent from './favoriteItemContent'
 // import LibraryItemContent from './libraryItemContent'
 // import CustomItemContent from './customItemContent'
+import Footer1 from '../Footer/footer1'
 
 // const User = LayoutTableData
 const TheComponent = props => (
   <PrisdacHomeLayout
+    footer={(<Footer1 />)}
     {...props}
   />
 )

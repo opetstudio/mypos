@@ -1,6 +1,26 @@
 export default {
   // Functions return fixtures
 
+    // begin Ignite-Entity-News
+    postNews: () => { return { ok: true, data: '21' } },
+    getNews: () => { return { ok: true, data: '21' } },
+    getNewss: () => { return { ok: true, data: '21' } },
+    updateNews: () => { return { ok: true, data: '21' } },
+    updateNewsBatch: () => { return { ok: true, data: '21' } },
+    removeNews: () => { return { ok: true } },
+    // end Ignite-Entity-News
+    
+
+    // begin Ignite-Entity-Article
+    postArticle: () => { return { ok: true, data: '21' } },
+    getArticle: () => { return { ok: true, data: '21' } },
+    getArticles: () => { return { ok: true, data: '21' } },
+    updateArticle: () => { return { ok: true, data: '21' } },
+    updateArticleBatch: () => { return { ok: true, data: '21' } },
+    removeArticle: () => { return { ok: true } },
+    // end Ignite-Entity-Article
+    
+
     // begin Ignite-Entity-Event
     postEvent: () => { return { ok: true, data: '21' } },
     getEvent: () => { return { ok: true, data: '21' } },

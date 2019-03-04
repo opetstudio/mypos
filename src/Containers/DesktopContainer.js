@@ -168,7 +168,7 @@ class DesktopContainer extends Component {
             <Segment
               inverted
               textAlign='center'
-              style={{ minHeight: 700, padding: '1em 0em' }}
+              style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
               vertical
             >
               <Menu
@@ -179,12 +179,10 @@ class DesktopContainer extends Component {
                 size='large'
               >
                 <Container>
-                  <Menu.Item onClick={window.history.back}>
+                  {/* {window.history.back && <Menu.Item onClick={window.history.back}>
                     <Icon name='angle left' size={'big'} />
-                  </Menu.Item>
-                  <Menu.Item as={Link} to='/' active={isHome}>
-                    Home
-                  </Menu.Item>
+                  </Menu.Item>} */}
+                  <Menu.Item as={Link} to='/' active={isHome}>Home</Menu.Item>
                   {/* <Menu.Item
                   as={Link}
                   to='/about'
@@ -193,9 +191,9 @@ class DesktopContainer extends Component {
                     About
                 </Menu.Item> */}
                   {/* <LoggedInAttribute attr='buttonLogout' pathname={pathname} /> */}
-                  <Menu.Item as='a'>Events</Menu.Item>
-                  <Menu.Item as='a'>Articles</Menu.Item>
-                  <Menu.Item as='a'>News</Menu.Item>
+                  <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item>
+                  <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
+                  <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item>
                   <LoggedInAttribute
                     attr='buttonLogin'
                     pathname={pathname}
@@ -211,7 +209,7 @@ class DesktopContainer extends Component {
                     </Button>
                   </Menu.Item> */}
                 </Container></Menu>
-              <HomepageHeading />
+              {isHome ? <HomepageHeading /> : null}
             </Segment>
           </Visibility>
         )}

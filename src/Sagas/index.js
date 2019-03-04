@@ -9,6 +9,19 @@ import AppConfig from '../Config/AppConfig'
 
 // Types /* ------------- Types ------------- */
 
+    // begin Ignite-Entity-News
+    import { NewsTypes } from '../Containers/News/redux'
+    // end Ignite-Entity-News
+    
+
+// begin Ignite-Entity-Article
+import { ArticleTypes } from '../Containers/Article/redux'
+// end Ignite-Entity-Article
+
+// begin Ignite-Entity-Event
+import { EventTypes } from '../Containers/Event/redux'
+// end Ignite-Entity-Event
+
 // begin Ignite-Entity-Userrole
 import { UserroleTypes } from '../Containers/Userrole/redux'
 // end Ignite-Entity-Userrole
@@ -63,6 +76,16 @@ import { LoginTypes } from '../Containers/Login/redux'
 
 import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
+
+    // begin Ignite-Entity-News
+    import { postNews, getNewss, getNews, updateNews, removeNews, updateNewsBatch} from '../Containers/News/sagas'
+    // end Ignite-Entity-News
+    
+
+    // begin Ignite-Entity-Article
+    import { postArticle, getArticles, getArticle, updateArticle, removeArticle, updateArticleBatch} from '../Containers/Article/sagas'
+    // end Ignite-Entity-Article
+    
 
     // begin Ignite-Entity-Event
     import { postEvent, getEvents, getEvent, updateEvent, removeEvent, updateEventBatch} from '../Containers/Event/sagas'
@@ -219,6 +242,26 @@ const api = DebugConfig.useFixtures ? FixtureAPI : API.create(host)
 export default function * root () {
   yield all([
     // some sagas only receive an action
+
+    // begin Ignite-Entity-News
+    takeLatest(NewsTypes.NEWS_CREATE, postNews, api),
+    takeLatest(NewsTypes.NEWS_REQUEST, getNews, api),
+    takeLatest(NewsTypes.NEWS_REQUEST_ALL, getNewss, api),
+    takeLatest(NewsTypes.NEWS_UPDATE, updateNews, api),
+    takeLatest(NewsTypes.NEWS_UPDATE_BATCH, updateNewsBatch, api),
+    takeLatest(NewsTypes.NEWS_REMOVE, removeNews, api),
+    // end Ignite-Entity-News
+    
+
+    // begin Ignite-Entity-Article
+    takeLatest(ArticleTypes.ARTICLE_CREATE, postArticle, api),
+    takeLatest(ArticleTypes.ARTICLE_REQUEST, getArticle, api),
+    takeLatest(ArticleTypes.ARTICLE_REQUEST_ALL, getArticles, api),
+    takeLatest(ArticleTypes.ARTICLE_UPDATE, updateArticle, api),
+    takeLatest(ArticleTypes.ARTICLE_UPDATE_BATCH, updateArticleBatch, api),
+    takeLatest(ArticleTypes.ARTICLE_REMOVE, removeArticle, api),
+    // end Ignite-Entity-Article
+    
 
     // begin Ignite-Entity-Event
     takeLatest(EventTypes.EVENT_CREATE, postEvent, api),
