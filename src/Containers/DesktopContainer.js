@@ -48,11 +48,13 @@ class DesktopContainer extends Component {
       ''
     )
     // #/entity/participant
-    const isHome =
+    let isHome =
       pathname === '/home' ||
       pathname === '/' ||
       pathname === '#/' ||
       pathname === '#/home'
+
+    isHome = false
     // console.log('pathname=', pathname)
 
     // const children = React.Children.map(this.props.children, (child, index) => {
@@ -89,7 +91,7 @@ class DesktopContainer extends Component {
     // )
     return (
       // <Responsive {...Responsive.onlyComputer}>
-      
+
       <div>
         {window.localStorage.getItem('isLoggedIn') === 'true' && (
           <Visibility
@@ -121,7 +123,7 @@ class DesktopContainer extends Component {
                 // secondary={!fixed}
                 size='small'
               >
-              {/* <Menu
+                {/* <Menu
                 fixed={fixed ? 'top' : null}
                 inverted={!fixed}
                 pointing={!fixed}
@@ -159,17 +161,41 @@ class DesktopContainer extends Component {
             <Segment
               inverted
               textAlign='center'
-              style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
+              style={{ minHeight: 0, padding: '0em 0em' }}
+              // style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
               vertical
             >
               <Menu
+                // style={{backgroundColor: 'red', WebkitAppRegion: 'drag', WebkitUserSelect: 'none'}}
+                // fixed={fixed ? 'top' : null}
+                // fixed={fixed ? 'top' : null}
+                inverted
+                // inverted={false}
+                // pointing={!fixed}
+                // secondary={!fixed}
+                size='small'
+              >
+                {/* <Menu
                 fixed={fixed ? 'top' : null}
                 inverted={!fixed}
                 pointing={!fixed}
                 secondary={!fixed}
                 size='small'
-              >
-                <LoggedInAttribute attr='buttonLogout' pathname={pathname} />
+              > */}
+                <Menu.Item onClick={window.history.back}>
+                  <Icon name='angle left' size={'big'} />
+                </Menu.Item>
+                <Menu.Item as={Link} to='/' active={isHome}>
+                    Home
+                </Menu.Item>
+                <Menu.Item
+                  as={Link}
+                  to='/about'
+                  active={pathname === '/about'}
+                >
+                    About
+                </Menu.Item>
+                {/* <LoggedInAttribute attr='buttonLogout' pathname={pathname} /> */}
                 {/* </Container> */}
               </Menu>
             </Segment>

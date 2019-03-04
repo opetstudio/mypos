@@ -13,6 +13,8 @@ import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
 // --- import list page entyty ---
 
+import PrisdacHome from '../Containers/PrisdacHome'
+
     // begin Ignite-Entity-Pointofsale
     import Pointofsale from '../Containers/Pointofsale'
     // end Ignite-Entity-Pointofsale
@@ -111,7 +113,9 @@ class NavigationRouter extends Component {
       <Router>
         <AppContainer checkLogedStatus={this.props.checkLogedStatus}>
           <ResponsiveContainer>
-            <Route exact path='/' component={Pointofsale} />
+            <Route exact path='/' component={PrisdacHome} />
+            <Route exact path='/home' component={PrisdacHome} />
+            <Route exact path='/point-of-sale' component={Pointofsale} />
             <Route exact path='/profile' component={PageProfile} />
             {/* ---- list page entity ---- */}
 

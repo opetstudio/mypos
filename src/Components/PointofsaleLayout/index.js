@@ -29,9 +29,14 @@ class PageHomeLayout extends Component {
     }
   }
   componentWillMount () {
+    console.log('componentWillMounts')
     this.setState({
       username: this.props.username
     })
+    if (!isUserDetailAccessed && this.props.username) {
+      this.props.getUserProfile({ username: this.props.username })
+      // isUserDetailAccessed = true
+    }
   }
   componentWillReceiveProps (nextProps) {
     this.setState({
@@ -44,9 +49,7 @@ class PageHomeLayout extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItemBottomMenu: name })
   render () {
     // console.log('===>==', this.state)
-    if (!isUserDetailAccessed && this.state.username) {
-      this.props.getUserProfile({ username: this.state.username })
-    }
+    console.log('render')
     const { activeItemBottomMenu } = this.state
     return (
       <div>

@@ -190,8 +190,22 @@ class LoggedInAttribute extends Component {
       // )
     } else if (this.props.isLoggedIn && this.props.attr === 'mainmenu') {
       // let m = ['0', '1', '2', '3', '4']
-      let m = ['0', '3']
+      let m = ['0', '3', '5']
       return m.map(r => {
+        if (r === '5') {
+          if (this.props.userScope < 10) {
+            return (
+              <Menu.Item
+                key={this.props.attr + r}
+                as={Link}
+                to='/point-of-sale'
+                active={this.props.pathname.startsWith('/point-of-sale')}
+              >
+                Point Of Sale
+              </Menu.Item>
+            )
+          }
+        }
         if (r === '0') {
           if (this.props.userScope < 10) {
             return (
