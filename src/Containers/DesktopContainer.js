@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom'
 import LoginActions, { LoginSelectors } from './Login/redux'
 import HomepageHeading from '../Components/HomepageHeading'
 import LoggedInAttribute from './LoggedinAttribute'
+import Carousel1 from '../Components/Carousel/carousel1'
 
 const getWidth = () => {
   const isSSR = typeof window === 'undefined'
@@ -179,7 +180,8 @@ class DesktopContainer extends Component {
               style={{ minHeight: isHome ? 700 : 0, padding: '0em 0em' }}
               vertical
             >
-              <div style={{ paddingTop: '1em', backgroundColor: 'green' }}>
+              
+              <div style={{ paddingTop: '1em', backgroundColor: 'green', borderBottom: '10px solid black' }}>
                 <Container>
                   <Header as='h1'> <Image size={'huge'} src='https://www.prisdac.org/sites/default/files/logoprisdac_1.png' style={{ marginRight: '1em' }} />Prisma SDAC Jakarta</Header>
                   <p>
@@ -228,9 +230,11 @@ class DesktopContainer extends Component {
                       Sign Up
                       </Button>
                     </Menu.Item> */}
-                  </Container></Menu></div>
-              
-              {isHome ? <HomepageHeading /> : null}
+                  </Container>
+                </Menu>
+              </div>
+              {isHome ? <div><Carousel1 /></div> : null}
+              {/* {isHome ? <HomepageHeading /> : null} */}
             </Segment>
           </Visibility>
         )}

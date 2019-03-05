@@ -15,6 +15,7 @@ import {
 import { Link } from 'react-router-dom'
 import HomepageHeading from '../Components/HomepageHeading'
 import LoggedInAttribute from './LoggedinAttribute'
+import Carousel1 from '../Components/Carousel/carousel1'
 
 const getWidth = () => {
   const isSSR = typeof window === 'undefined'
@@ -111,7 +112,8 @@ class MobileContainer extends Component {
                 />
               </Menu>
             </Container>
-            {isHome ? <HomepageHeading mobile /> : null}
+            {isHome ? <Carousel1 /> : null}
+            {/* {isHome ? <HomepageHeading mobile /> : null} */}
           </Segment>
 
           {children}
