@@ -80,9 +80,7 @@ class MobileContainer extends Component {
           vertical
           visible={sidebarOpened}
         >
-          <Menu.Item as='a' active>
-            Home
-          </Menu.Item>
+          <Menu.Item as={Link} to='/home' active={pathname === '/home'}>Home</Menu.Item>
           <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item>
           <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
           <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item>
