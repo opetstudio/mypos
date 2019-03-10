@@ -19,7 +19,7 @@ class Footer1Layout extends Component {
     }
   }
   componentWillMount () {
-    console.log('componentWillMounts')
+    // console.log('componentWillMounts')
     this.setState({
       username: this.props.username
     })

@@ -23,6 +23,8 @@ import PrisdacHome from '../Containers/PrisdacHome'
 import PageEvent from '../Containers/Event/PageEvent'
 import PageArticle from '../Containers/Article/PageArticle'
 import PageNews from '../Containers/News/PageNews'
+import PageGallery from '../Containers/Gallery/PageGallery'
+import PageAlbum from '../Containers/Album/PageAlbum'
 
     // begin Ignite-Entity-Pointofsale
     import Pointofsale from '../Containers/Pointofsale'
@@ -129,6 +131,9 @@ class NavigationRouter extends Component {
             <Route exact path='/event' component={PageEvent} />
             <Route exact path='/article' component={PageArticle} />
             <Route exact path='/news' component={PageNews} />
+            <Route exact path='/gallery-album' component={PageAlbum} />
+            <Route exact path='/gallery/:id' component={PageGallery} />
+
             {/* ---- list page entity ---- */}
 
     {/* begin Ignite-Entity-News */}

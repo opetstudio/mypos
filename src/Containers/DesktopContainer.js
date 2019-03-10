@@ -20,6 +20,7 @@ import LoginActions, { LoginSelectors } from './Login/redux'
 import HomepageHeading from '../Components/HomepageHeading'
 import LoggedInAttribute from './LoggedinAttribute'
 import Carousel1 from '../Components/Carousel/carousel1'
+import {Images} from '../Themes'
 
 const getWidth = () => {
   const isSSR = typeof window === 'undefined'
@@ -98,6 +99,7 @@ class DesktopContainer extends Component {
     //     </Modal.Actions>
     //   </Modal>
     // )
+    console.log('pathname===>', pathname)
     return (
       // <Responsive {...Responsive.onlyComputer}>
 
@@ -180,13 +182,17 @@ class DesktopContainer extends Component {
               style={{ minHeight: isHome ? 700 : 0, padding: '0em 0em' }}
               vertical
             >
-              
-              <div style={{ paddingTop: '1em', backgroundColor: 'green', borderBottom: '10px solid black' }}>
+              <div style={{ paddingTop: '1em', borderBottom: '10px solid black' }}>
                 <Container>
-                  <Header as='h1'> <Image size={'huge'} src='https://www.prisdac.org/sites/default/files/logoprisdac_1.png' style={{ marginRight: '1em' }} />Prisma SDAC Jakarta</Header>
-                  <p>
-                  Reaching The Soul, Keeping The Soul, Recovery The Soul
-                  </p>
+                  
+                  <Header as='h2'>
+                    {/* <Icon name='settings' /> */}
+                    <Image src={Images.adventistlogo} style={{ width: '100px' }} />
+                    <Header.Content style={{color: 'white'}}>
+                      Prisma SDAC Jakarta
+                      <Header.Subheader style={{color: 'white'}}>Manage your preferences</Header.Subheader>
+                    </Header.Content>
+                  </Header>
                 </Container>
                 <Menu
                   fixed={fixed ? 'top' : null}
@@ -213,9 +219,10 @@ class DesktopContainer extends Component {
                       About
                   </Menu.Item> */}
                     {/* <LoggedInAttribute attr='buttonLogout' pathname={pathname} /> */}
-                    <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item>
-                    <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
-                    <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item>
+                    {/* <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item> */}
+                    {/* <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
+                    <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item> */}
+                    <Menu.Item as={Link} to='/gallery-album' active={['/gallery-album'].indexOf(pathname) !== -1}>Gallery</Menu.Item>
                     <LoggedInAttribute
                       attr='buttonLogin'
                       pathname={pathname}

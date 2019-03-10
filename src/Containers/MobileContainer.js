@@ -7,7 +7,7 @@ import {
   Responsive,
   Segment,
   Sidebar,
-  Dropdown,
+  Image,
   Label,
   Input,
   Button
@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom'
 import HomepageHeading from '../Components/HomepageHeading'
 import LoggedInAttribute from './LoggedinAttribute'
 import Carousel1 from '../Components/Carousel/carousel1'
+import {Images} from '../Themes'
 
 const getWidth = () => {
   const isSSR = typeof window === 'undefined'
@@ -65,6 +66,8 @@ class MobileContainer extends Component {
       pathname === '#/' ||
       pathname === '#/home'
 
+    console.log('pathname===>', pathname)
+
     return (
       // <Responsive {...Responsive.onlyMobile}>
       <Responsive
@@ -81,11 +84,12 @@ class MobileContainer extends Component {
           visible={sidebarOpened}
         >
           <Menu.Item as={Link} to='/home' active={pathname === '/home'}>Home</Menu.Item>
-          <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item>
-          <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
-          <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item>
-          <Menu.Item as='a'>Log in</Menu.Item>
-          <Menu.Item as='a'>Sign Up</Menu.Item>
+          {/* <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item> */}
+          {/* <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
+          <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item> */}
+          <Menu.Item as={Link} to='/gallery-album' active={['/gallery-album'].indexOf(pathname) !== -1}>Gallery</Menu.Item>
+          {/* <Menu.Item as='a'>Log in</Menu.Item>
+          <Menu.Item as='a'>Sign Up</Menu.Item> */}
           {/* ---list new entity--- */}
     
         </Sidebar>
@@ -94,7 +98,7 @@ class MobileContainer extends Component {
           <Segment
             inverted
             textAlign='center'
-            style={{ minHeight: isHome ? 350 : 0, padding: '1em 0em' }}
+            style={{ minHeight: isHome ? 350 : 0, padding: '0em 0em' }}
             vertical
           >
             <Container>
@@ -102,12 +106,15 @@ class MobileContainer extends Component {
                 <Menu.Item onClick={this.handleToggle}>
                   <Icon name='sidebar' />
                 </Menu.Item>
-                <LoggedInAttribute
+                <Menu.Item as={Link} to='/' style={{paddingBottom: '5px'}} position='right'>
+                  PRISMA SDA CHURCH <Image src={Images.adventistlogo} size={'mini'} spaced='right' />
+                </Menu.Item>
+                {/* <LoggedInAttribute
                   attr='buttonLogin'
                   pathname={pathname}
                   onLogout={() => this.setState({ sidebarOpened: false })}
                   mobile
-                />
+                /> */}
               </Menu>
             </Container>
             {isHome ? <Carousel1 /> : null}

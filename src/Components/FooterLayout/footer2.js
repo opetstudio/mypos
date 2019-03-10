@@ -11,7 +11,7 @@ import {
   Divider
 } from 'semantic-ui-react'
 
-const IFRAME = "<iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.535192635866!2d106.82013231506329!3d-6.192886995516727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4213cdb2905%3A0x29b15e60f264a57a!2sPrisma+Seventh-Day+Adventist+Church+Jakarta!5e0!3m2!1sen!2sid!4v1551759903679' width='600' height='450' frameborder='0' style='border:0' allowfullscreen />"
+const IFRAME = "<iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.535192635866!2d106.82013231506329!3d-6.192886995516727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4213cdb2905%3A0x29b15e60f264a57a!2sPrisma+Seventh-Day+Adventist+Church+Jakarta!5e0!3m2!1sen!2sid!4v1551759903679' width='100%' height='450' frameborder='0' style='border:0' allowfullscreen />"
 
 class Footer2Layout extends Component {
   constructor (props) {
@@ -42,29 +42,33 @@ class Footer2Layout extends Component {
   render () {
     return (
       <div>
-        <Segment inverted vertical style={{ padding: '5em 0em' }}>
+        <Segment inverted vertical style={{ padding: '0em 0em' }}>
           <Container>
             <Grid divided inverted stackable>
               <Grid.Row>
-                <Grid.Column width={9}>
-                  <Header as='h4' inverted>
+                {/* <Grid.Column width={9}> */}
+                <Grid.Column>
+                  <Header as='h4' inverted textAlign='center'>
                   Come and join with us every saturday 10.00 AM
                   </Header>
-                  <p>
-                    <div>
-                      <div dangerouslySetInnerHTML={this.iframe()} />
-                    </div>
-                  </p>
+                  <div>
+                    <div dangerouslySetInnerHTML={this.iframe()} />
+                  </div>
                 </Grid.Column>
-                <Grid.Column width={4}>
+                {/* <Grid.Column width={4}>
                   <Header inverted as='h4' content='Services' />
                   <List link inverted>
                     <List.Item as='a'>Sabbath Worship</List.Item>
                     <List.Item as='a'>Adventist Youth</List.Item>
                     <List.Item as='a'>Music Ministry</List.Item>
                   </List>
-                </Grid.Column>
+                </Grid.Column> */}
 
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column textAlign='center'>
+                  <p>Copyright © 2019 Prisma SDA Church</p>
+                </Grid.Column>
               </Grid.Row>
             </Grid>
           </Container>

@@ -1,3 +1,6 @@
+import { put, select } from 'redux-saga/effects'
+// import GalleryActions from '../containers/Gallery/redux'
+
 // exported to make available for tests
 export const selectAvatar = state => state.github.avatar
 
@@ -30,4 +33,5 @@ export function * startup (action) {
     })
   }
   // yield put(ContactActions.contactRequestAll({}))
+  // yield put(GalleryActions.galleryRequestAll({}))
 }

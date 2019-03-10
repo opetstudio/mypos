@@ -87,6 +87,17 @@ const create = (baseURL = 'https://jsonplaceholder.typicode.com/') => {
   let apiMerged = {}
   // merge api
 
+    // begin Ignite-Entity-Albumgallery
+    apiMerged = merge(apiMerged, require('../Containers/Albumgallery/api').create(api))
+    // end Ignite-Entity-Albumgallery
+    // begin Ignite-Entity-Album
+    apiMerged = merge(apiMerged, require('../Containers/Album/api').create(api))
+    // end Ignite-Entity-Album
+    
+    // begin Ignite-Entity-Gallery
+    apiMerged = merge(apiMerged, require('../Containers/Gallery/api').create(api))
+    // end Ignite-Entity-Gallery
+
     // begin Ignite-Entity-News
     apiMerged = merge(apiMerged, require('../Containers/News/api').create(api))
     // end Ignite-Entity-News

@@ -8,6 +8,17 @@ export default () => {
   /* ------------- Assemble The Reducers ------------- */
   const rootReducer = combineReducers({
 
+    // begin Ignite-Entity-Albumgallery
+    albumgallery: require('../Containers/Albumgallery/redux').reducer,
+    // end Ignite-Entity-Albumgallery
+    // begin Ignite-Entity-Album
+    album: require('../Containers/Album/redux').reducer,
+    // end Ignite-Entity-Album
+    
+    // begin Ignite-Entity-Gallery
+    gallery: require('../Containers/Gallery/redux').reducer,
+    // end Ignite-Entity-Gallery
+    
     // begin Ignite-Entity-News
     news: require('../Containers/News/redux').reducer,
     // end Ignite-Entity-News
