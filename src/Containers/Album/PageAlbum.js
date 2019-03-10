@@ -29,6 +29,10 @@ class TheComponent extends Component {
         footer={(<Footer1 />)}
         allDataArr={this.props.allDataArr}
         history={this.props.history}
+        breadcrumb={[
+          { key: 'key-1', link: '/', label: 'Home' },
+          { key: 'key-2', link: null, label: 'Gallery' }
+        ]}
       />
       // return <ContentIframe footer={(<Footer1 />)} />
     }

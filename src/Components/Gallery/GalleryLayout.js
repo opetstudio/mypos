@@ -2,13 +2,7 @@ import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import {
   Grid,
-  Segment,
-  Header,
-  Image,
-  Button,
-  Container,
-  List,
-  Divider
+  Container
 } from 'semantic-ui-react'
 import Immutable from 'seamless-immutable'
 import _ from 'lodash'
@@ -71,7 +65,7 @@ class GalleryLayout extends Component {
     // console.log('this.state.images', this.state.images)
     return (
       <div>
-        <Container>
+        <Container style={{minHeight: window.innerHeight - 75}}>
           <Grid container style={{ padding: '1em 0em' }}>
             {this.state.breadcrumb && (
               <Grid.Row>
@@ -82,7 +76,7 @@ class GalleryLayout extends Component {
             )}
             <Grid.Row>
               <Grid.Column>
-                {(this.state.images && this.state.images.length > 0) && <ImageGallery items={this.state.images} showIndex showBullets thumbnailPosition='left' />}
+                {(this.state.images && this.state.images.length > 0) && <ImageGallery items={this.state.images} showIndex showBullets thumbnailPosition='bottom' />}
               </Grid.Column>
             </Grid.Row>
           </Grid>

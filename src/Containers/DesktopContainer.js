@@ -223,12 +223,12 @@ class DesktopContainer extends Component {
                     {/* <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
                     <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item> */}
                     <Menu.Item as={Link} to='/gallery-album' active={['/gallery-album'].indexOf(pathname) !== -1}>Gallery</Menu.Item>
-                    <LoggedInAttribute
+                    {/* <LoggedInAttribute
                       attr='buttonLogin'
                       pathname={pathname}
                       onLogout={() => this.setState({ sidebarOpened: false })}
                       fixed={fixed}
-                    />
+                    /> */}
                     {/* <Menu.Item position='right'>
                       <Button as='a' inverted={!fixed}>
                       Log in
