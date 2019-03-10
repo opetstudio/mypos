@@ -53,8 +53,6 @@ class TheComponent extends Component {
       const albumgallerylist = this.state.allDataArrAlbumgallery
       const getByIdGallery = this.state.getByIdGallery
 
-      if (!albumgallerylist || !getByIdGallery) return null
-
       const images = _.compact(albumgallerylist.map(r => {
         const gal = getByIdGallery[r.gallery_id]
         if (gal) return {original: gal.data_src, thumbnail: gal.data_src}
@@ -66,6 +64,8 @@ class TheComponent extends Component {
         // albumgallerylist={this.state.allDataArrAlbumgallery}
         // gallerylist={this.props.allDataArr}
         // getByIdGallery={this.state.getByIdGallery}
+        albumDetail={this.state.albumDetail}
+        albumId={this.props.albumId}
         images={images}
         breadcrumb={[
           { key: 'key-1', link: '/', label: 'Home' },

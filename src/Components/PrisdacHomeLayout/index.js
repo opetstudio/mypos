@@ -55,21 +55,21 @@ class PrisdacHomeLayout extends Component {
                   <Grid.Row>
                     <Grid.Column>
                       <Header as='h3'>
-                      <Image src={Images.fbicon} style={{ width: '50%' }} />
-                      <p>Prisma Ministry Indonesia</p>
-                    </Header>
+                        <Image onClick={() => window.open('https://www.facebook.com/prismaministryindonesia', '_blank')} src={Images.fbicon} style={{ width: '50%' }} />
+                        <p>Prisma Ministry Indonesia</p>
+                      </Header>
                     </Grid.Column>
                     <Grid.Column>
-                    <Header as='h3'>
-                      <Image src={Images.igicon} style={{ width: '50%' }} />
-                      <p>@prisdac</p>
-                    </Header>
+                      <Header as='h3'>
+                        <Image src={Images.igicon} style={{ width: '50%' }} onClick={() => window.open('https://www.instagram.com/prisdac', '_blank')} />
+                        <p>@prisdac</p>
+                      </Header>
                     </Grid.Column>
                     <Grid.Column>
-                    <Header as='h3'>
-                      <Image src={Images.youtubeicon} style={{ width: '50%' }} />
-                      <p>prisdacjkt</p>
-                    </Header>
+                      <Header as='h3'>
+                        <Image src={Images.youtubeicon} style={{ width: '50%' }} onClick={() => window.open('https://www.youtube.com/channel/UCH-dWCd1ikPDBpMuI5WxNWQ', '_blank')} />
+                        <p>prisdacjkt</p>
+                      </Header>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>

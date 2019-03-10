@@ -190,7 +190,7 @@ class DesktopContainer extends Component {
                     <Image src={Images.adventistlogo} style={{ width: '100px' }} />
                     <Header.Content style={{color: 'white'}}>
                       Prisma SDAC Jakarta
-                      <Header.Subheader style={{color: 'white'}}>Manage your preferences</Header.Subheader>
+                      <Header.Subheader style={{color: 'white'}}>Reaching the Soul, Keeping the Soul, Recovering the Soul</Header.Subheader>
                     </Header.Content>
                   </Header>
                 </Container>

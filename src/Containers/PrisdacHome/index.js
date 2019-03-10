@@ -16,6 +16,7 @@ import Carousel1 from '../../Components/Carousel/carousel1'
 const TheComponent = props => (
   <PrisdacHomeLayout
     footer={(<Footer2 />)}
+    history={props.history}
     carousel={(<Carousel1 />)}
     {...props}
   />
@@ -32,7 +33,8 @@ const mapStateToProps = (state, ownProps) => {
     loginToken: LoginSelectors.getToken(state.login),
     myProfile: UserSelectors.getProfile(state.user),
     // filter,
-    username: LoginSelectors.getToken(state.login)
+    username: LoginSelectors.getToken(state.login),
+    history: ownProps.history
   }
 }
 
