@@ -118,12 +118,12 @@ export function * removeGallery (api, action) {
 }
 
 export function * getGallerys (api, action) {
-  console.log('gallery.sagas.getGallerys ======>>>>>>')
+  // console.log('gallery.sagas.getGallerys ======>>>>>>')
   const { data } = action
   // make the call to the api
   const s = yield select(session)
   const response = yield call(api.getGallerys, data, {session: s})
-  console.log('responseeeeee', response)
+  // console.log('responseeeeee', response)
   if (path(['originalError', 'response', 'status'], response) === 401 && path(['originalError', 'response', 'statusText'], response) === 'Unauthorized') return yield put(LoginActions.loginRemoveSuccess({}))
   // if (path(['originalError', 'response', 'status'], response) === 403 && path(['originalError', 'response', 'statusText'], response) === 'Forbidden') return yield put(LoginActions.loginRemoveSuccess({}))
   // success?

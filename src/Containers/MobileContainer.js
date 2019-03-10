@@ -66,7 +66,7 @@ class MobileContainer extends Component {
       pathname === '#/' ||
       pathname === '#/home'
 
-    console.log('pathname===>', pathname)
+    // console.log('pathname===>', pathname)
 
     return (
       // <Responsive {...Responsive.onlyMobile}>

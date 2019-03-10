@@ -11,7 +11,7 @@ export const create = (api) => ({
     return api.get('/gallerys/' + data.id)
   },
   getGallerys: (data, opt) => {
-    console.log('gallery.api.getGallerys===>>>>')
+    // console.log('gallery.api.getGallerys===>>>>')
     let { apiName, baseUrl, newerModifiedon } = data
     // if (!opt.session.token) return {}
     if (baseUrl) api.setBaseURL(baseUrl)

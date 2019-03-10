@@ -99,7 +99,7 @@ class DesktopContainer extends Component {
     //     </Modal.Actions>
     //   </Modal>
     // )
-    console.log('pathname===>', pathname)
+    // console.log('pathname===>', pathname)
     return (
       // <Responsive {...Responsive.onlyComputer}>
 

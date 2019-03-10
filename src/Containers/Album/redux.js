@@ -83,6 +83,7 @@ export const AlbumSelectors = {
   getAllDataArr: state => state.allIds.map(id => (state.byId || {})[id]),
   getMaxModifiedon: state => state.maxModifiedon,
   getById: state => state.byId,
+  getOneById: (state, id) => AlbumSelectors.getById(state)[id],
   getIsError: state => state.isError,
   getMessage: state => state.message,
   getIsCreateSucces: state => state.isCreateSucces,

@@ -8,6 +8,7 @@ import Footer1 from '../Footer/footer1'
 import ContentIframe from '../../Components/ContentIframe'
 import GalleryActions, {GallerySelectors} from './redux'
 import AlbumgalleryActions, {AlbumgallerySelectors} from '../Albumgallery/redux'
+import AlbumActions, {AlbumSelectors} from '../Album/redux'
 import GalleryLayout from '../../Components/Gallery/GalleryLayout'
 
 class TheComponent extends Component {
@@ -17,41 +18,84 @@ class TheComponent extends Component {
     }
     constructor (props) {
       super(props)
-      this.state = {}
+      this.state = {
+        allDataArrAlbumgallery: this.props.allDataArrAlbumgallery,
+        getByIdGallery: this.props.getByIdGallery,
+        albumDetail: this.props.albumDetail
+      }
     }
     componentWillMount () {
       // console.log('PageGallery.componentWillMount===>>>>')
       this.props.fetchAll({})
       this.props.fetchAllAlbumgallery({})
+      this.props.fetchAllAlbum({})
+    }
+    componentDidUpdate (prevProps, prevState) {
+      if (!_.isEqual(prevProps.allDataArrAlbumgallery, this.props.allDataArrAlbumgallery)) {
+        this.setState({
+          allDataArrAlbumgallery: Immutable.asMutable(this.props.allDataArrAlbumgallery, { deep: true })
+        })
+      }
+      if (!_.isEqual(prevProps.getByIdGallery, this.props.getByIdGallery)) {
+        this.setState({
+          getByIdGallery: Immutable.asMutable(this.props.getByIdGallery, { deep: true })
+        })
+      }
+      if (!_.isEqual(prevProps.albumDetail, this.props.albumDetail)) {
+        this.setState({
+          albumDetail: Immutable.asMutable(this.props.albumDetail, { deep: true })
+        })
+      }
     }
     render () {
-      // console.log('allDataArrAlbumgallery=> ', this.props.allDataArrAlbumgallery)
+      // console.log('albumDetail=> ', this.state.albumDetail)
+
+      const albumgallerylist = this.state.allDataArrAlbumgallery
+      const getByIdGallery = this.state.getByIdGallery
+
+      if (!albumgallerylist || !getByIdGallery) return null
+
+      const images = _.compact(albumgallerylist.map(r => {
+        const gal = getByIdGallery[r.gallery_id]
+        if (gal) return {original: gal.data_src, thumbnail: gal.data_src}
+        // return (<span key={r._id}>{(gal).data_src}</span>)
+      }))
+
       return <GalleryLayout
         footer={(<Footer1 />)}
-        albumgallerylist={this.props.allDataArrAlbumgallery}
+        // albumgallerylist={this.state.allDataArrAlbumgallery}
         // gallerylist={this.props.allDataArr}
-        getByIdGallery={this.props.getByIdGallery}
+        // getByIdGallery={this.state.getByIdGallery}
+        images={images}
+        breadcrumb={[
+          { key: 'key-1', link: '/', label: 'Home' },
+          { key: 'key-2', link: '/gallery-album', label: 'Gallery' },
+          { key: 'key-3', link: null, label: this.state.albumDetail.album_title }
+        ]}
       />
       // return <ContentIframe footer={(<Footer1 />)} />
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('ownProps', ownProps)
+  // console.log('ownProps', ownProps)
   const albumId = ownProps.match.params.id
   const allDataArrAlbumgallery = AlbumgallerySelectors.getAllByAlbumId(state.albumgallery, albumId)
   // const allDataArr = GallerySelectors.getAllDataArr(state.gallery)
   return {
     // allDataArr,
+    albumId,
     allDataArrAlbumgallery,
-    getByIdGallery: GallerySelectors.getById(state.gallery)
+    getByIdGallery: GallerySelectors.getById(state.gallery),
+    albumDetail: AlbumSelectors.getOneById(state.album, albumId) || {}
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAll: (query) => dispatch(GalleryActions.galleryRequestAll(query)),
-    fetchAllAlbumgallery: (query) => dispatch(AlbumgalleryActions.albumgalleryRequestAll(query))
+    fetchAllAlbumgallery: (query) => dispatch(AlbumgalleryActions.albumgalleryRequestAll(query)),
+    fetchAllAlbum: (query) => dispatch(AlbumActions.albumRequestAll(query))
   }
 }
 

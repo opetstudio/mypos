@@ -25,6 +25,7 @@
     "react-datepicker": "^1.6.0",
     "react-dom": "^16.5.1",
     "react-icons": "^2.2.7",
+    "react-image-gallery": "^0.8.14",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.7",
     "react-responsive-carousel": "^3.1.47",
