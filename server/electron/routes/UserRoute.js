@@ -2,9 +2,9 @@ const fs = require('fs')
 const b64 = require('base-64')
 const os = require('os')
 const _ = require('lodash')
-const { session } = require('electron')
 const erevnaServices = require('erevna-services')
 const Transformation = require('../helper/Transformation')
+const Pagination = require('../helper/Pagination')
 const ReceiveRequest = require('../services/ReceiveRequest')
 
 const Datastore = require('nedb')
@@ -12,14 +12,14 @@ const path = require('path')
 const config = require('../config')
 const utils = require('../utils')
 
-let crypto = require('crypto'),
-  UUID = require('uuid/v1'),
-  ID_KEY = 'ID_KEY',
-  VALUE_KEY = 'VALUE_KEY',
-  ENCODING = 'base64', // 'hex'
-  cipherType = 'aes-256-cbc', // 'des-ede3-cbc'
-  bitAccessToken = 'tes',
-  bitKeySecret = 'tos'
+const crypto = require('crypto')
+const UUID = require('uuid/v1')
+const ID_KEY = 'ID_KEY'
+const VALUE_KEY = 'VALUE_KEY'
+const ENCODING = 'base64' // 'hex'
+const cipherType = 'aes-256-cbc' // 'des-ede3-cbc'
+const bitAccessToken = 'tes'
+const bitKeySecret = 'tos'
 
 const entityName = 'user'
 const tableName = 'user'
@@ -130,7 +130,6 @@ module.exports[`get_getUserProfile`] = async function (event, request, DB) {
 }
 module.exports[`get_users`] = async function (event, request, DB) {
   request = await ReceiveRequest(request)
-  const storage = DB.user
   const sessionDatastore = DB.session
   const token = erevnaServices.security.tokenExtractor(request.headers.authorization)
   // console.log('token===>', token)
@@ -155,18 +154,31 @@ module.exports[`get_users`] = async function (event, request, DB) {
           })
         })
     }
-    storage.find({scope: { $gt: scope }}, (e2, o2) => {
-      // console.log('result e2====>>>', e2)
-      // console.log('result o2====>>>', o2)
-      let resp = []
-      if (e2 || !o2) resp = []
-      else resp = o2
+    let whereCondition = {scope: { $gt: scope }}
+    Pagination(request, 'tb_users', DB.user, whereCondition, (resp) => {
       event.sender.send(request.url, null, {'headers': {...request.headers},
-        'body': Transformation.response({_embedded: { tb_users: resp }})})
+        'body': Transformation.response(resp)})
     })
   })
 }
-
+function batchInsertUserrole (userId, userroleIdArr, DB) {
+  userroleIdArr.forEach((v) => {
+    let userroleData = {role_id: v, user_id: userId}
+    let insertUserRole = () => new Promise((resolve) => {
+      let userroleDataCreate = erevnaServices.model.userrole.convertToSchemaForCreate(userroleData) || {}
+      let userroleDataCreateNotValid = erevnaServices.model.userrole.isDataNotValid(userroleDataCreate)
+      if (userroleDataCreateNotValid) return resolve(false)
+      DB.userrole.insert(userroleDataCreate, (e3, o3) => {
+        if (e3 || !o3) return resolve(false)
+        return resolve(true)
+      })
+    })
+    insertUserRole().then((r) => {
+      if (r) console.log('success insert userrole')
+      else console.log('failed insert userrole')
+    })
+  })
+}
 module.exports[`post_users`] = async function (event, request, DB) {
   request = await ReceiveRequest(request)
   const storage = DB.user
@@ -201,6 +213,12 @@ module.exports[`post_users`] = async function (event, request, DB) {
               'detail': e2.key + ' => ' + e2.errorType
             })
           })
+      }
+      // add userrole
+      let insertUserRole = true
+      let userroleIdArr = request.body.user_roles
+      if (userroleIdArr) {
+        batchInsertUserrole(o2._id, userroleIdArr, DB)
       }
       event.sender.send(request.url, null, {'headers': {...request.headers},
         'body': Transformation.response_success_create(o2)})
@@ -257,6 +275,12 @@ module.exports[`patch_users`] = async function (event, request, DB) {
       let resp = []
       if (e || !o) resp = []
       else resp = o
+      // add userrole
+      let insertUserRole = true
+      let userroleIdArr = request.body.user_roles
+      if (userroleIdArr) {
+        batchInsertUserrole(_id, userroleIdArr, DB)
+      }
       event.sender.send(request.url, null, {'headers': {...request.headers},
         'body': Transformation.response(resp)})
     })
@@ -639,7 +663,7 @@ module.exports[`set_init`] = function (DB) {
         if (theIndex['unique']) {
           // Using a sparse unique index
           storage.ensureIndex({ fieldName: key, unique: true }, function (err) {
-            if (err) console.log('error when ensureIndex err=', err)
+            if (err) console.log('error when ensureIndex user err=', err)
           })
         }
       }

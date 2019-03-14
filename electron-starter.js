@@ -58,7 +58,7 @@ function createWindow () {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1120, height: 800, frame: false, minWidth: 800, minHeight: 800 })
+    width: 1120, height: 800, frame: true, minWidth: 800, minHeight: 800 })
   // and load the index.html of the app.
   if (env === 'production') {
     mainWindow.loadURL(url.format({
@@ -146,10 +146,12 @@ exports.pong = arg => {
 }
 const route_users = require('./server/electron/routes/UsersRoute')
 const route_user = require('./server/electron/routes/UserRoute')
+const route_role = require('./server/electron/routes/RoleRoute')
 const route_absen = require('./server/electron/routes/AbsenRoute')
 const route_siswa = require('./server/electron/routes/SiswaRoute')
 const route_util = require('./server/electron/routes/UtilRoute')
 const route_gurustaff = require('./server/electron/routes/GurustaffRoute')
+const route_userrole = require('./server/electron/routes/UserroleRoute')
 
 const Middleware = require('./server/electron/middleware')
 const Authentication = require('./server/electron/middleware/Authentication')
@@ -244,6 +246,19 @@ function route (entityName, theRoute) {
       routeOne(`patch_users`, theRoute, DB)
       theRoute.set_init(DB)
       break
+    case 'role':
+      routeOne(`post_${entityName}s`, theRoute, DB)
+      routeOne(`get_${entityName}s`, theRoute, DB)
+      routeOne(`patch_${entityName}s`, theRoute, DB)
+      theRoute.set_init(DB)
+      break
+    case 'userrole':
+      routeOne(`post_${entityName}s`, theRoute, DB)
+      routeOne(`get_${entityName}s`, theRoute, DB)
+      routeOne(`patch_${entityName}s`, theRoute, DB)
+      routeOne(`post_userrole-delete-role`, theRoute, DB)
+      theRoute.set_init(DB)
+      break
     default:
       return true
   }
@@ -252,4 +267,6 @@ function route (entityName, theRoute) {
 route('gurustaff', route_gurustaff)
 route('absen', route_absen)
 route('user', route_user)
+route('role', route_role)
+route('userrole', route_userrole)
 // route('absen', route_absen);

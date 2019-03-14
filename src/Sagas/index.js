@@ -9,6 +9,42 @@ import AppConfig from '../Config/AppConfig'
 
 // Types /* ------------- Types ------------- */
 
+    // begin Ignite-Entity-Albumgallery
+    import { AlbumgalleryTypes } from '../Containers/Albumgallery/redux'
+    // end Ignite-Entity-Albumgallery
+    // begin Ignite-Entity-Album
+    import { AlbumTypes } from '../Containers/Album/redux'
+    // end Ignite-Entity-Album
+
+    // begin Ignite-Entity-Gallery
+    import { GalleryTypes } from '../Containers/Gallery/redux'
+    // end Ignite-Entity-Gallery
+    
+    // begin Ignite-Entity-News
+    import { NewsTypes } from '../Containers/News/redux'
+    // end Ignite-Entity-News
+    
+
+// begin Ignite-Entity-Article
+import { ArticleTypes } from '../Containers/Article/redux'
+// end Ignite-Entity-Article
+
+// begin Ignite-Entity-Event
+import { EventTypes } from '../Containers/Event/redux'
+// end Ignite-Entity-Event
+
+// begin Ignite-Entity-Userrole
+import { UserroleTypes } from '../Containers/Userrole/redux'
+// end Ignite-Entity-Userrole
+
+// begin Ignite-Entity-Pointofsale
+import { PointofsaleTypes } from '../Containers/Pointofsale/redux'
+// end Ignite-Entity-Pointofsale
+
+// begin Ignite-Entity-Role
+import { RoleTypes } from '../Containers/Role/redux'
+// end Ignite-Entity-Role
+
 // begin Ignite-Entity-Filecontent
 import { FilecontentTypes } from '../Containers/Filecontent/redux'
 // end Ignite-Entity-Filecontent
@@ -51,6 +87,44 @@ import { LoginTypes } from '../Containers/Login/redux'
 
 import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
+
+    // begin Ignite-Entity-Albumgallery
+    import { postAlbumgallery, getAlbumgallerys, getAlbumgallery, updateAlbumgallery, removeAlbumgallery, updateAlbumgalleryBatch} from '../Containers/Albumgallery/sagas'
+    // end Ignite-Entity-Albumgallery
+    // begin Ignite-Entity-Album
+    import { postAlbum, getAlbums, getAlbum, updateAlbum, removeAlbum, updateAlbumBatch} from '../Containers/Album/sagas'
+    // end Ignite-Entity-Album
+
+    // begin Ignite-Entity-Gallery
+    import { postGallery, getGallerys, getGallery, updateGallery, removeGallery, updateGalleryBatch} from '../Containers/Gallery/sagas'
+    // end Ignite-Entity-Gallery
+    
+    // begin Ignite-Entity-News
+    import { postNews, getNewss, getNews, updateNews, removeNews, updateNewsBatch} from '../Containers/News/sagas'
+    // end Ignite-Entity-News
+    
+
+    // begin Ignite-Entity-Article
+    import { postArticle, getArticles, getArticle, updateArticle, removeArticle, updateArticleBatch} from '../Containers/Article/sagas'
+    // end Ignite-Entity-Article
+    
+
+    // begin Ignite-Entity-Event
+    import { postEvent, getEvents, getEvent, updateEvent, removeEvent, updateEventBatch} from '../Containers/Event/sagas'
+    // end Ignite-Entity-Event
+    
+
+// begin Ignite-Entity-Userrole
+import { postUserrole, getUserroles, getUserrole, updateUserrole, removeUserrole, updateUserroleBatch, doDeleteRole} from '../Containers/Userrole/sagas'
+// end Ignite-Entity-Userrole
+
+// begin Ignite-Entity-Pointofsale
+import { postPointofsale, getPointofsales, getPointofsale, updatePointofsale, removePointofsale, updatePointofsaleBatch} from '../Containers/Pointofsale/sagas'
+// end Ignite-Entity-Pointofsale
+
+// begin Ignite-Entity-Role
+import { postRole, getRoles, getRole, updateRole, removeRole, updateRoleBatch} from '../Containers/Role/sagas'
+// end Ignite-Entity-Role
 
 // begin Ignite-Entity-Filecontent
 import {
@@ -190,6 +264,90 @@ const api = DebugConfig.useFixtures ? FixtureAPI : API.create(host)
 export default function * root () {
   yield all([
     // some sagas only receive an action
+
+    // begin Ignite-Entity-Albumgallery
+    takeLatest(AlbumgalleryTypes.ALBUMGALLERY_CREATE, postAlbumgallery, api),
+    takeLatest(AlbumgalleryTypes.ALBUMGALLERY_REQUEST, getAlbumgallery, api),
+    takeLatest(AlbumgalleryTypes.ALBUMGALLERY_REQUEST_ALL, getAlbumgallerys, api),
+    takeLatest(AlbumgalleryTypes.ALBUMGALLERY_UPDATE, updateAlbumgallery, api),
+    takeLatest(AlbumgalleryTypes.ALBUMGALLERY_UPDATE_BATCH, updateAlbumgalleryBatch, api),
+    takeLatest(AlbumgalleryTypes.ALBUMGALLERY_REMOVE, removeAlbumgallery, api),
+    // end Ignite-Entity-Albumgallery
+    // begin Ignite-Entity-Album
+    takeLatest(AlbumTypes.ALBUM_CREATE, postAlbum, api),
+    takeLatest(AlbumTypes.ALBUM_REQUEST, getAlbum, api),
+    takeLatest(AlbumTypes.ALBUM_REQUEST_ALL, getAlbums, api),
+    takeLatest(AlbumTypes.ALBUM_UPDATE, updateAlbum, api),
+    takeLatest(AlbumTypes.ALBUM_UPDATE_BATCH, updateAlbumBatch, api),
+    takeLatest(AlbumTypes.ALBUM_REMOVE, removeAlbum, api),
+    // end Ignite-Entity-Album
+    
+    // begin Ignite-Entity-Gallery
+    takeLatest(GalleryTypes.GALLERY_CREATE, postGallery, api),
+    takeLatest(GalleryTypes.GALLERY_REQUEST, getGallery, api),
+    takeLatest(GalleryTypes.GALLERY_REQUEST_ALL, getGallerys, api),
+    takeLatest(GalleryTypes.GALLERY_UPDATE, updateGallery, api),
+    takeLatest(GalleryTypes.GALLERY_UPDATE_BATCH, updateGalleryBatch, api),
+    takeLatest(GalleryTypes.GALLERY_REMOVE, removeGallery, api),
+    // end Ignite-Entity-Gallery
+    
+    // begin Ignite-Entity-News
+    takeLatest(NewsTypes.NEWS_CREATE, postNews, api),
+    takeLatest(NewsTypes.NEWS_REQUEST, getNews, api),
+    takeLatest(NewsTypes.NEWS_REQUEST_ALL, getNewss, api),
+    takeLatest(NewsTypes.NEWS_UPDATE, updateNews, api),
+    takeLatest(NewsTypes.NEWS_UPDATE_BATCH, updateNewsBatch, api),
+    takeLatest(NewsTypes.NEWS_REMOVE, removeNews, api),
+    // end Ignite-Entity-News
+    
+
+    // begin Ignite-Entity-Article
+    takeLatest(ArticleTypes.ARTICLE_CREATE, postArticle, api),
+    takeLatest(ArticleTypes.ARTICLE_REQUEST, getArticle, api),
+    takeLatest(ArticleTypes.ARTICLE_REQUEST_ALL, getArticles, api),
+    takeLatest(ArticleTypes.ARTICLE_UPDATE, updateArticle, api),
+    takeLatest(ArticleTypes.ARTICLE_UPDATE_BATCH, updateArticleBatch, api),
+    takeLatest(ArticleTypes.ARTICLE_REMOVE, removeArticle, api),
+    // end Ignite-Entity-Article
+    
+
+    // begin Ignite-Entity-Event
+    takeLatest(EventTypes.EVENT_CREATE, postEvent, api),
+    takeLatest(EventTypes.EVENT_REQUEST, getEvent, api),
+    takeLatest(EventTypes.EVENT_REQUEST_ALL, getEvents, api),
+    takeLatest(EventTypes.EVENT_UPDATE, updateEvent, api),
+    takeLatest(EventTypes.EVENT_UPDATE_BATCH, updateEventBatch, api),
+    takeLatest(EventTypes.EVENT_REMOVE, removeEvent, api),
+    // end Ignite-Entity-Event
+    
+
+    // begin Ignite-Entity-Userrole
+    takeLatest(UserroleTypes.USERROLE_CREATE, postUserrole, api),
+    takeLatest(UserroleTypes.USERROLE_REQUEST, getUserrole, api),
+    takeLatest(UserroleTypes.USERROLE_REQUEST_ALL, getUserroles, api),
+    takeLatest(UserroleTypes.USERROLE_UPDATE, updateUserrole, api),
+    takeLatest(UserroleTypes.USERROLE_UPDATE_BATCH, updateUserroleBatch, api),
+    takeLatest(UserroleTypes.USERROLE_REMOVE, removeUserrole, api),
+    takeLatest(UserroleTypes.USERROLE_DELETE_ROLE, doDeleteRole, api),
+    // end Ignite-Entity-Userrole
+
+    // begin Ignite-Entity-Pointofsale
+    takeLatest(PointofsaleTypes.POINTOFSALE_CREATE, postPointofsale, api),
+    takeLatest(PointofsaleTypes.POINTOFSALE_REQUEST, getPointofsale, api),
+    takeLatest(PointofsaleTypes.POINTOFSALE_REQUEST_ALL, getPointofsales, api),
+    takeLatest(PointofsaleTypes.POINTOFSALE_UPDATE, updatePointofsale, api),
+    takeLatest(PointofsaleTypes.POINTOFSALE_UPDATE_BATCH, updatePointofsaleBatch, api),
+    takeLatest(PointofsaleTypes.POINTOFSALE_REMOVE, removePointofsale, api),
+    // end Ignite-Entity-Pointofsale
+
+    // begin Ignite-Entity-Role
+    takeLatest(RoleTypes.ROLE_CREATE, postRole, api),
+    takeLatest(RoleTypes.ROLE_REQUEST, getRole, api),
+    takeLatest(RoleTypes.ROLE_REQUEST_ALL, getRoles, api),
+    takeLatest(RoleTypes.ROLE_UPDATE, updateRole, api),
+    takeLatest(RoleTypes.ROLE_UPDATE_BATCH, updateRoleBatch, api),
+    takeLatest(RoleTypes.ROLE_REMOVE, removeRole, api),
+    // end Ignite-Entity-Role
 
     // begin Ignite-Entity-Filecontent
     takeLatest(FilecontentTypes.FILECONTENT_CREATE, postFilecontent, api),

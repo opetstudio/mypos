@@ -6,6 +6,7 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import UserActions, { UserSelectors } from './redux'
+import UserroleActions from '../Userrole/redux'
 import ButtonAction from '../../Components/ButtonAction'
 import LayoutTableData from '../../Components/LayoutTableData'
 import { makeData } from '../../Utils/Utils'
@@ -49,9 +50,11 @@ class TheComponent extends Component {
       updateOne: this.props.updateOne,
       removeOne: this.props.removeOne,
       updateBatch: this.props.updateBatch,
-      searchString: ''
+      searchString: '',
+      pathname: (window.location.hash || window.location.pathname).replace('#', '')
     }
-    this.props.fetchAll({ newerModifiedon: this.props.maxModifiedon })
+    this.fetchData = this.fetchData.bind(this)
+    // this.fetchAll = this.fetchAll.bind(this)
     this.state.column = this._setupColumn(this.state.column, {
       updateOne: this.state.updateOne
     })
@@ -65,10 +68,7 @@ class TheComponent extends Component {
   _setupColumn (column, { updateOne }) {
     if (_.isEmpty(column)) return []
     const columnTable = _.cloneDeep(column) || [{}]
-    if (
-      (window.location.hash || window.location.pathname).replace('#', '') ===
-      `/entity/${this.state.entityName.toLowerCase()}-trash`
-    ) {
+    if (this.state.pathname === `/entity/${this.state.entityName.toLowerCase()}-trash`) {
       columnTable[0].columns.push({
         Header: 'Action',
         id: 'act',
@@ -118,16 +118,18 @@ class TheComponent extends Component {
   _filterData (dataArr, filter, searchString = '') {
     const filterInArr = filter && (filter || '').split(',')
     let result = []
-    if (
-      (window.location.hash || window.location.pathname).replace('#', '') ===
-      `/entity/${this.state.entityName.toLowerCase()}-trash`
-    ) { result = _.filter(dataArr, o => o.status === 'delete') } else if (filterInArr && filterInArr.length > 0) { result = _.filter(dataArr, o => filterInArr.indexOf(o.status) !== -1) } else result = _.filter(dataArr, o => (o.status === 'publish' || o.status === 'active'))
+    if (this.state.pathname === `/entity/${this.state.entityName.toLowerCase()}-trash`) {
+      result = _.filter(dataArr, o => o.status === 'delete')
+    } else if (filterInArr && filterInArr.length > 0) { result = _.filter(dataArr, o => filterInArr.indexOf(o.status) !== -1) } else result = _.filter(dataArr, o => (o.status === 'publish' || o.status === 'active'))
     if (searchString === '') return result
     return _.filter(result, o => {
       for (var key in o) {
-        const targetString = (o[key] || '').toLowerCase()
-        if (targetString.includes(searchString.toLowerCase())) {
-          return true
+        const theString = '' + o[key] || ''
+        if (theString !== '' && (typeof theString === 'string' || typeof theString === 'number')) {
+          const targetString = theString.toLowerCase()
+          if (targetString.includes(searchString.toLowerCase())) {
+            return true
+          }
         }
       }
       return false
@@ -169,8 +171,19 @@ class TheComponent extends Component {
         })
       })
     }
+    // if (prevProps.pageCount !== this.props.pageCount) this.setState({pageCount: this.props.pageCount})
+    // if (prevProps.pageSize !== this.props.pageSize) this.setState({pageSize: this.props.pageSize})
+  }
+  fetchData (state, instance) {
+    console.log('fetchData==>', state)
+    let status = 'publish'
+    if (this.state.pathname === `/entity/${this.state.entityName.toLowerCase()}-trash`) {
+      status = 'delete'
+    }
+    this.state.fetchAll({ status, page: state.page, pageSize: state.pageSize, sorted: state.sorted, filtered: state.filtered, newerModifiedon: this.state.maxModifiedon })
   }
   render () {
+    // console.log('user.index pageCount===>'+this.props.pageCount+'|'+this.state.pageCount)
     if (window.localStorage.getItem('isLoggedIn') !== 'true') { return <Redirect to='/login' /> }
     if (!this.props.allDataArr) {
       return (
@@ -195,6 +208,9 @@ class TheComponent extends Component {
           { link: '/', label: 'Home' },
           { link: null, label: 'User Management' }
         ]}
+        fetchData={this.fetchData}
+        pages={this.props.pageCount}
+        pageSize={this.props.pageSize}
       />
     )
   }
@@ -217,7 +233,9 @@ const mapStateToProps = (state, ownProps) => {
     entityName: 'User',
     isLoggedIn: LoginSelectors.isLoggedIn(state.login),
     loginToken: LoginSelectors.getToken(state.login),
-    filter
+    filter,
+    pageCount: UserSelectors.getPageCount(state.user),
+    pageSize: UserSelectors.getPageSize(state.user)
   }
 }
 
@@ -228,7 +246,8 @@ const mapDispatchToProps = dispatch => {
     deleteRow: query => dispatch(UserActions.userDeleteSuccess(query)),
     updateOne: (data, id) => dispatch(UserActions.userUpdate(data, id)),
     removeOne: (data, id) => dispatch(UserActions.userRemove(data, id)),
-    updateBatch: data => dispatch(UserActions.userUpdateBatch(data))
+    updateBatch: data => dispatch(UserActions.userUpdateBatch(data)),
+    userroleFetchAll: query => dispatch(UserroleActions.userroleRequestAll(query))
   }
 }
 

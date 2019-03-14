@@ -1,0 +1,101 @@
+import React, { Component } from 'react'
+// import PropTypes from 'prop-types'
+import {
+  Grid,
+  Segment,
+  Header,
+  Image,
+  Button,
+  Container,
+  List,
+  Divider
+} from 'semantic-ui-react'
+import {Images} from '../../Themes'
+import {Helmet} from 'react-helmet'
+
+class PrisdacHomeLayout extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      activeItemBottomMenu: '1'
+    }
+  }
+  componentWillMount () {
+    console.log('componentWillMounts')
+    this.setState({
+      username: this.props.username
+    })
+  }
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      accessToken: nextProps.username
+    })
+  }
+  componentDidMount () {
+  }
+  render () {
+    return (
+      <div>
+        {/* <Segment>
+          {this.props.carousel}
+        </Segment> */}
+        <Helmet>
+          <title>Home - Prisma SDA Church</title>
+          {/* <meta name='description' content='Prisma Ministry Indonesia and Prisma SDAC Jakarta.' itemprop='description' />
+          <meta charset='utf-8' />
+          <meta property='og:type' content='article' />
+          <meta property='og:site_name' content='prisdac' />
+          <meta property='og:title' content='GMAHK Prisma' />
+          <meta property='og:image' content='https://lh3.googleusercontent.com/v4ofZ6bWU--4LYHBhBItWr05e8uiJIQW-CbQrhIZDSuH-1LbqMuFkmNuyaPoUVZikwLQjlY3UBDA7Ka0mvlZVoxvTVIR_QOMIL-gUhwCTuOOpl8G9T2kgoMx9vEDzLy0P4_pNwDVsg=w650' />
+          <meta property='og:description' content='Prisma SDA Church Jakarta' />
+          <meta property='og:url' content='https://www.prisdac.org' />
+          <meta property='og:image:type' content='image/jpeg' />
+          <meta property='og:image:width' content='650' />
+          <meta property='og:image:height' content='366' /> */}
+        </Helmet>
+        <Segment style={{ padding: '0em' }} vertical>
+          <Grid celled='internally' columns='equal' stackable>
+            <Grid.Row textAlign='center'>
+              {/* <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                <Header as='h3' style={{ fontSize: '2em' }}>
+              "What a Company"
+                </Header>
+                <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
+              </Grid.Column> */}
+              <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                {/* <Header as='h3' style={{ fontSize: '2em' }}>
+              "Follow instagram, facebook dan subscribe youtube kami"
+                </Header> */}
+                <Grid columns='three' divided>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header as='h3'>
+                        <Image onClick={() => window.open('https://www.facebook.com/prismaministryindonesia', '_blank')} src={Images.fbicon} style={{ width: '50%' }} />
+                        <p>Prisma Ministry Indonesia</p>
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Header as='h3'>
+                        <Image src={Images.igicon} style={{ width: '50%' }} onClick={() => window.open('https://www.instagram.com/prisdac', '_blank')} />
+                        <p>@prisdac</p>
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Header as='h3'>
+                        <Image src={Images.youtubeicon} style={{ width: '50%' }} onClick={() => window.open('https://www.youtube.com/channel/UCH-dWCd1ikPDBpMuI5WxNWQ', '_blank')} />
+                        <p>prisdacjkt</p>
+                      </Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+        {this.props.footer}
+      </div>
+    )
+  }
+}
+
+export default PrisdacHomeLayout

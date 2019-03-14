@@ -13,7 +13,7 @@ export const columns = [
         accessor: 'username',
         id: 'username',
         fieldtype: 'input-text',
-        widthfield: 2
+        widthfield: 2,
       },
       {
         Header: 'email',
@@ -74,6 +74,13 @@ export const columns = [
         id: 'phone_number',
         fieldtype: 'input-text',
         accessor: d => d.phone_number
+      },
+      {
+        Header: 'user_roles',
+        accessor: 'user_roles',
+        id: 'user_roles',
+        fieldtype: 'multiselect-component',
+        show: false
       }
     ]
   }

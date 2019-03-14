@@ -1,6 +1,66 @@
 export default {
   // Functions return fixtures
 
+    // begin Ignite-Entity-News
+    postNews: () => { return { ok: true, data: '21' } },
+    getNews: () => { return { ok: true, data: '21' } },
+    getNewss: () => { return { ok: true, data: '21' } },
+    updateNews: () => { return { ok: true, data: '21' } },
+    updateNewsBatch: () => { return { ok: true, data: '21' } },
+    removeNews: () => { return { ok: true } },
+    // end Ignite-Entity-News
+    
+
+    // begin Ignite-Entity-Article
+    postArticle: () => { return { ok: true, data: '21' } },
+    getArticle: () => { return { ok: true, data: '21' } },
+    getArticles: () => { return { ok: true, data: '21' } },
+    updateArticle: () => { return { ok: true, data: '21' } },
+    updateArticleBatch: () => { return { ok: true, data: '21' } },
+    removeArticle: () => { return { ok: true } },
+    // end Ignite-Entity-Article
+    
+
+    // begin Ignite-Entity-Event
+    postEvent: () => { return { ok: true, data: '21' } },
+    getEvent: () => { return { ok: true, data: '21' } },
+    getEvents: () => { return { ok: true, data: '21' } },
+    updateEvent: () => { return { ok: true, data: '21' } },
+    updateEventBatch: () => { return { ok: true, data: '21' } },
+    removeEvent: () => { return { ok: true } },
+    // end Ignite-Entity-Event
+    
+
+    // begin Ignite-Entity-Userrole
+    postUserrole: () => { return { ok: true, data: '21' } },
+    getUserrole: () => { return { ok: true, data: '21' } },
+    getUserroles: () => { return { ok: true, data: '21' } },
+    updateUserrole: () => { return { ok: true, data: '21' } },
+    updateUserroleBatch: () => { return { ok: true, data: '21' } },
+    removeUserrole: () => { return { ok: true } },
+    // end Ignite-Entity-Userrole
+    
+
+    // begin Ignite-Entity-Pointofsale
+    postPointofsale: () => { return { ok: true, data: '21' } },
+    getPointofsale: () => { return { ok: true, data: '21' } },
+    getPointofsales: () => { return { ok: true, data: '21' } },
+    updatePointofsale: () => { return { ok: true, data: '21' } },
+    updatePointofsaleBatch: () => { return { ok: true, data: '21' } },
+    removePointofsale: () => { return { ok: true } },
+    // end Ignite-Entity-Pointofsale
+    
+
+    // begin Ignite-Entity-Role
+    postRole: () => { return { ok: true, data: '21' } },
+    getRole: () => { return { ok: true, data: '21' } },
+    getRoles: () => { return { ok: true, data: '21' } },
+    updateRole: () => { return { ok: true, data: '21' } },
+    updateRoleBatch: () => { return { ok: true, data: '21' } },
+    removeRole: () => { return { ok: true } },
+    // end Ignite-Entity-Role
+    
+
   // begin Ignite-Entity-Filecontent
   postFilecontent: () => {
     return { ok: true, data: '21' }

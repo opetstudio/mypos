@@ -1,6 +1,8 @@
 import { call, put, select } from 'redux-saga/effects'
+import Immutable from 'seamless-immutable'
 import UserActions from './redux'
 import LoginActions from '../Login/redux'
+import UserroleActions, { UserroleSelectors } from '../Userrole/redux'
 import {
   getAttributes,
   getEntity,
@@ -21,6 +23,8 @@ export const theData = state => state.user.data
 export const theMulti = state => state.user.multi
 export const theUserPrefs = state => state.user.preferences
 export const transformedData = response => getAttributes(response.data)
+export const getUserRoleState = state => state.userrole
+export const getUserFormValue = state => state.user.form
 
 export function * getUser (api, action) {
   // console.log('[UserSaga] getUser action=', action)
@@ -277,6 +281,7 @@ export function * getUsers (api, action) {
       response.data,
       'tb_users'
     )
+    let { page_count: pageCount, page_size: pageSize } = response.data
     console.log('getUsers entitys=', entitys)
     const { byId, allIds, maxModifiedon } = entitys
     yield put(
@@ -284,7 +289,9 @@ export function * getUsers (api, action) {
         requestMessage: 'success fetch data',
         byId,
         allIds,
-        maxModifiedon
+        maxModifiedon,
+        pageCount,
+        pageSize
       })
     )
     const allDeletedIds = (

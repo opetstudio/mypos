@@ -78,6 +78,7 @@ export default class LayoutTableData extends Component {
     super(props)
     this.deleteDialog = this.deleteDialog.bind(this)
     this.setupDataSource = this.setupDataSource.bind(this)
+    this.fetchData = this.fetchData.bind(this)
 
     // console.log('componentWillMount===>', this.props)
     // const data = getData(this.props.allDataArr, this.props.column, this.props.filter, this.props.entityName)
@@ -85,6 +86,7 @@ export default class LayoutTableData extends Component {
     // console.log('LayoutFormData data', data)
     // const columns = this.props.column || getColumns(data)
     const entityName = (this.props.entityName || '').toLowerCase()
+    const pathname = (window.location.hash || window.location.pathname).replace('#', '')
     this.state = {
       allIds: this.props.allIds,
       byId: this.props.byId,
@@ -105,7 +107,10 @@ export default class LayoutTableData extends Component {
       parentDetail: Immutable.asMutable(this.props.parentDetail, {
         deep: true
       }),
-      breadcrumb: this.props.breadcrumb
+      breadcrumb: this.props.breadcrumb,
+      pathname: pathname,
+      // pages: this.props.pages || 0,
+      // pageSize: this.props.pageSize || 10
     }
   }
   setupDataSource (theData, column, filter, entityName) {
@@ -163,6 +168,8 @@ export default class LayoutTableData extends Component {
         breadcrumb: Immutable.asMutable(this.props.breadcrumb, { deep: true })
       })
     }
+    // if (prevProps.pages !== this.props.pages) this.setState({pages: this.props.pages})
+    // if (prevProps.pageSize !== this.props.pageSize) this.setState({pageSize: this.props.pageSize})
   }
   // componentWillReceiveProps (nextProps) {
   //   // console.log('[LayoutFormData.componentWillReceiveProps] nextProps=', nextProps)
@@ -276,6 +283,9 @@ export default class LayoutTableData extends Component {
     newState.showLogoutDialog = isShow
     newState.selectedOneId = _id
     this.setState(newState)
+  }
+  fetchData (state, instance) {
+    this.props.fetchData(state, instance)
   }
 
   render () {
@@ -448,6 +458,7 @@ export default class LayoutTableData extends Component {
         {this.props.subMenu && listSubMenu}
       </Dropdown.Menu>
     )
+    // console.log('statteeeeeee====>>', this.state)
     return (
       <div>
         <div>{ModalBasic()}</div>
@@ -460,7 +471,7 @@ export default class LayoutTableData extends Component {
                 </Grid.Column>
               </Grid.Row>
             )}
-            {parentDetail && (
+            {(parentDetail && parentDetail.length > 0) && (
               <Grid.Row>
                 <Grid.Column>
                   <ParentDetail dataArr={parentDetail} />
@@ -483,12 +494,14 @@ export default class LayoutTableData extends Component {
                         />
                       </div>
                     </div>
+                    
                     {/* </Menu.Item> */}
                     {/* <Menu.Item>
                       <div><span>{this.props.entityName}</span></div>
                     </Menu.Item> */}
                   </Menu.Menu>
                   <Menu.Menu position='right'>
+                    <Menu.Item header>{this.state.pathname}</Menu.Item>
                     <Responsive
                       icon='bars'
                       as={Dropdown}
@@ -523,11 +536,17 @@ export default class LayoutTableData extends Component {
                     //     </div>
                     //   )
                     // }}
+                    manual // informs React Table that you'll be handling sorting and pagination server-side
+                    onFetchData={this.fetchData}
                     ref={r => (this.checkboxTable = r)}
-                    data={this.state.allDataArr}
+                    data={this.state.allDataArr} // should default to []
+                    pages={this.props.pages} // should default to -1 (which means we don't know how many pages we have)
                     columns={this.state.columns}
+                    pageSize={this.props.pageSize}
                     defaultPageSize={this.state.defaultPageSize}
                     className='-striped -highlight'
+                    filterable
+                    defaultPageSize={10}
                     {...checkboxProps}
                   />
                 </Segment>

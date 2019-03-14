@@ -8,15 +8,25 @@ import {
   Segment,
   Visibility,
   // Dropdown,
-  Button,
+  Image,
   // Modal,
   // Header,
-  Icon
+  Responsive,
+  Icon,
+  Header
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import LoginActions, { LoginSelectors } from './Login/redux'
 import HomepageHeading from '../Components/HomepageHeading'
 import LoggedInAttribute from './LoggedinAttribute'
+import Carousel1 from '../Components/Carousel/carousel1'
+import {Images} from '../Themes'
+
+const getWidth = () => {
+  const isSSR = typeof window === 'undefined'
+
+  return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+}
 
 class DesktopContainer extends Component {
   constructor (props) {
@@ -48,11 +58,13 @@ class DesktopContainer extends Component {
       ''
     )
     // #/entity/participant
-    const isHome =
+    let isHome =
       pathname === '/home' ||
       pathname === '/' ||
       pathname === '#/' ||
       pathname === '#/home'
+
+    // isHome = false
     // console.log('pathname=', pathname)
 
     // const children = React.Children.map(this.props.children, (child, index) => {
@@ -87,10 +99,18 @@ class DesktopContainer extends Component {
     //     </Modal.Actions>
     //   </Modal>
     // )
-
+    // console.log('pathname===>', pathname)
     return (
       // <Responsive {...Responsive.onlyComputer}>
-      <div>
+
+      <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+        {/* <div><Segment inverted><Container>
+          <Header as='h1'> <Image size={'huge'} src='https://www.prisdac.org/sites/default/files/logoprisdac_1.png' style={{ marginRight: '1em' }} />Prisma SDAC Jakarta</Header>
+          <p>
+            Reaching The Soul, Keeping The Soul, Recovery The Soul
+          </p>
+        </Container>
+        </Segment></div> */}
         {window.localStorage.getItem('isLoggedIn') === 'true' && (
           <Visibility
             once={false}
@@ -100,7 +120,8 @@ class DesktopContainer extends Component {
             <Segment
               inverted
               textAlign='center'
-              style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
+              style={{ minHeight: 0, padding: '0em 0em' }}
+              // style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
               vertical
             >
               {/* <Segment
@@ -111,12 +132,22 @@ class DesktopContainer extends Component {
               vertical
             > */}
               <Menu
+                // style={{backgroundColor: 'red', WebkitAppRegion: 'drag', WebkitUserSelect: 'none'}}
+                // fixed={fixed ? 'top' : null}
+                // fixed={fixed ? 'top' : null}
+                inverted
+                // inverted={false}
+                // pointing={!fixed}
+                // secondary={!fixed}
+                size='small'
+              >
+                {/* <Menu
                 fixed={fixed ? 'top' : null}
                 inverted={!fixed}
                 pointing={!fixed}
                 secondary={!fixed}
                 size='small'
-              >
+              > */}
                 {/* <Container> */}
                 <Menu.Item onClick={window.history.back}>
                   <Icon name='angle left' size={'big'} />
@@ -135,7 +166,7 @@ class DesktopContainer extends Component {
                 <LoggedInAttribute attr='buttonLogout' pathname={pathname} />
                 {/* </Container> */}
               </Menu>
-              {isHome ? <HomepageHeading /> : null}
+              {/* {isHome ? <HomepageHeading /> : null} */}
             </Segment>
           </Visibility>
         )}
@@ -147,25 +178,75 @@ class DesktopContainer extends Component {
           >
             <Segment
               inverted
-              textAlign='center'
-              style={{ minHeight: isHome ? 700 : 0, padding: '1em 0em' }}
+              // textAlign='center'
+              style={{ minHeight: isHome ? 700 : 0, padding: '0em 0em' }}
               vertical
             >
-              <Menu
-                fixed={fixed ? 'top' : null}
-                inverted={!fixed}
-                pointing={!fixed}
-                secondary={!fixed}
-                size='small'
-              >
-                <LoggedInAttribute attr='buttonLogout' pathname={pathname} />
-                {/* </Container> */}
-              </Menu>
+              <div style={{ paddingTop: '1em', borderBottom: '10px solid black' }}>
+                <Container>
+                  
+                  <Header as='h2'>
+                    {/* <Icon name='settings' /> */}
+                    <Image src={Images.adventistlogo} style={{ width: '100px' }} />
+                    <Header.Content style={{color: 'white'}}>
+                      Prisma SDAC Jakarta
+                      <Header.Subheader style={{color: 'white'}}>Reaching the Soul, Keeping the Soul, Recovering the Soul</Header.Subheader>
+                    </Header.Content>
+                  </Header>
+                </Container>
+                <Menu
+                  fixed={fixed ? 'top' : null}
+                  inverted={!fixed}
+                  pointing={!fixed}
+                  secondary={!fixed}
+                  size='large'
+                  style={{ borderWidth: '0px' }}
+                >
+                  <Container>
+                    {/* {window.history.back && <Menu.Item onClick={window.history.back}>
+                      <Icon name='angle left' size={'big'} />
+                    </Menu.Item>} */}
+                    {/* <Menu.Item>
+                      <Image size={'mini'} src='https://react.semantic-ui.com/logo.png' style={{ marginRight: '1.5em' }} />
+                      Prisma SDAC Jakarta
+                    </Menu.Item> */}
+                    <Menu.Item as={Link} to='/' active={isHome}>Home</Menu.Item>
+                    {/* <Menu.Item
+                    as={Link}
+                    to='/about'
+                    active={pathname === '/about'}
+                  >
+                      About
+                  </Menu.Item> */}
+                    {/* <LoggedInAttribute attr='buttonLogout' pathname={pathname} /> */}
+                    {/* <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item> */}
+                    {/* <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
+                    <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item> */}
+                    <Menu.Item as={Link} to='/gallery-album' active={['/gallery-album'].indexOf(pathname) !== -1}>Gallery</Menu.Item>
+                    {/* <LoggedInAttribute
+                      attr='buttonLogin'
+                      pathname={pathname}
+                      onLogout={() => this.setState({ sidebarOpened: false })}
+                      fixed={fixed}
+                    /> */}
+                    {/* <Menu.Item position='right'>
+                      <Button as='a' inverted={!fixed}>
+                      Log in
+                      </Button>
+                      <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
+                      Sign Up
+                      </Button>
+                    </Menu.Item> */}
+                  </Container>
+                </Menu>
+              </div>
+              {isHome ? <div><Carousel1 /></div> : null}
+              {/* {isHome ? <HomepageHeading /> : null} */}
             </Segment>
           </Visibility>
         )}
         {children}
-      </div>
+      </Responsive>
       // </Responsive>
     )
   }

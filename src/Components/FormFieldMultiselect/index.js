@@ -7,7 +7,8 @@ import {
   Segment,
   Button,
   Header,
-  Modal
+  Modal,
+  Label
 } from 'semantic-ui-react'
 import ReactTable from 'react-table'
 import _ from 'lodash'
@@ -104,7 +105,7 @@ class FormFieldMultiselect extends React.Component {
         optionsData: _.filter(this.state.options, o => {
           for (var key in o) {
             // console.log('key' + key + ':', o[key])
-            const targetString = (o[key] || '').toLowerCase()
+            const targetString = ('' + o[key] || '').toLowerCase()
             if (
               targetString.includes(this.state.searchOptionsString) &&
               this.state.selected.indexOf(o._id) === -1
@@ -123,7 +124,7 @@ class FormFieldMultiselect extends React.Component {
         optionsSelected: _.filter(this.state.options, o => {
           for (var key in o) {
             // console.log('key' + key + ':', o[key])
-            const targetString = (o[key] || '').toLowerCase()
+            const targetString = ('' + o[key] || '').toLowerCase()
             if (
               targetString.includes(this.state.searchSelectedString) &&
               this.state.selected.indexOf(o._id) !== -1
@@ -141,7 +142,7 @@ class FormFieldMultiselect extends React.Component {
     }
   }
   toggleSelection = (keys, shift, row) => {
-    console.log('key======>', keys)
+    // console.log('key======>', keys)
     let key = (keys.split('-') || ['', ''])[1]
     if (key === '') return
     /*
@@ -273,6 +274,7 @@ class FormFieldMultiselect extends React.Component {
             <Button
               primary
               onClick={() => {
+                // console.log('==selected item===>', this.state.selection)
                 this.props.onSubmitSelected(this.state.selection)
                 this.setState({ modalIsOpen: false })
               }}
@@ -294,10 +296,11 @@ class FormFieldMultiselect extends React.Component {
     )
   }
   render () {
+    // console.log('====>>>>this.state=', this.state)
     return (
       <div>
         {this.renderModal()}
-        <Menu attached='top'>
+        {/* <Menu attached='top'>
           <Menu.Item
             onClick={() => {
               this.setState({ modalIsOpen: true })
@@ -330,15 +333,27 @@ class FormFieldMultiselect extends React.Component {
               <div className='results' />
             </div>
           </Menu.Menu>
-        </Menu>
-        <Segment attached='bottom'>
-          <ReactTable
-            data={this.state.optionsSelected}
-            columns={this.state.columnTable}
-            defaultPageSize={10}
-            className='-striped -highlight'
-          />
-        </Segment>
+        </Menu> */}
+        {/* <Segment> */}
+        {this.props.template === '1' &&
+          <Segment>
+            <ReactTable
+              data={this.state.optionsSelected}
+              columns={this.state.columnTable}
+              defaultPageSize={10}
+              className='-striped -highlight'
+            />
+          </Segment>
+        }
+        {this.props.template === '2' &&
+            (
+              <div>
+                <Button onClick={() => this.setState({ modalIsOpen: true })} size={'mini'}>Add</Button>
+                {(this.state.optionsSelected || []).map(r => (_.find(this.state.columnTable[0].columns, {'id': 'Del'}) || {}).contentLabel(r))}
+              </div>
+            )
+        }
+        {/* </Segment> */}
       </div>
     )
   }

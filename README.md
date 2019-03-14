@@ -11,3 +11,10 @@ cd mypos
 npm install
 # Run the desktop app
 npm run start:electrondev
+
+###
+https://www.publicalbum.org/blog/embedding-google-photos-albums
+
+### run web server development
+cd build
+php -S localhost:8001

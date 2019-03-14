@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-// import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
-import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+// import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
 
 // Import Screens for the Router
 // prettier-ignore
@@ -12,6 +12,30 @@ import PageAbout from '../Containers/PageAbout'
 import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
 // --- import list page entyty ---
+
+    // begin Ignite-Entity-News
+    import News from '../Containers/News'
+    import NewsForm from '../Containers/News/form'
+    // end Ignite-Entity-News
+    
+
+import PrisdacHome from '../Containers/PrisdacHome'
+import PageEvent from '../Containers/Event/PageEvent'
+import PageArticle from '../Containers/Article/PageArticle'
+import PageNews from '../Containers/News/PageNews'
+import PageGallery from '../Containers/Gallery/PageGallery'
+import PageAlbum from '../Containers/Album/PageAlbum'
+
+    // begin Ignite-Entity-Pointofsale
+    import Pointofsale from '../Containers/Pointofsale'
+    // end Ignite-Entity-Pointofsale
+    
+
+    // begin Ignite-Entity-Role
+    import Role from '../Containers/Role'
+    import RoleForm from '../Containers/Role/form'
+    // end Ignite-Entity-Role
+    
 
 // begin Ignite-Entity-Filecontent
 import Filecontent from '../Containers/Filecontent'
@@ -100,9 +124,38 @@ class NavigationRouter extends Component {
       <Router>
         <AppContainer checkLogedStatus={this.props.checkLogedStatus}>
           <ResponsiveContainer>
-            <Route exact path='/' component={RootScreen} />
+            <Route exact path='/' component={PrisdacHome} />
+            <Route exact path='/home' component={PrisdacHome} />
+            <Route exact path='/point-of-sale' component={Pointofsale} />
             <Route exact path='/profile' component={PageProfile} />
+            <Route exact path='/event' component={PageEvent} />
+            <Route exact path='/article' component={PageArticle} />
+            <Route exact path='/news' component={PageNews} />
+            <Route exact path='/gallery-album' component={PageAlbum} />
+            <Route exact path='/gallery/:id' component={PageGallery} />
+
             {/* ---- list page entity ---- */}
+
+    {/* begin Ignite-Entity-News */}
+    <Route exact path='/entity/news' component={News} />
+    <Route exact path='/entity/news-trash' component={News} />
+    <Route exact path='/entity/news/create' component={NewsForm} />
+    <Route exact path='/entity/news/update/:id' component={NewsForm} />
+    {/* end Ignite-Entity-News */}
+    
+
+    {/* begin Ignite-Entity-Pointofsale */}
+    <Route exact path='/entity/pointofsale' component={Pointofsale} />
+    {/* end Ignite-Entity-Pointofsale */}
+    
+
+    {/* begin Ignite-Entity-Role */}
+    <Route exact path='/entity/role' component={Role} />
+    <Route exact path='/entity/role-trash' component={Role} />
+    <Route exact path='/entity/role/create' component={RoleForm} />
+    <Route exact path='/entity/role/update/:id' component={RoleForm} />
+    {/* end Ignite-Entity-Role */}
+    
 
             {/* begin Ignite-Entity-Filecontent */}
             <Route exact path='/entity/filecontent' component={Filecontent} />

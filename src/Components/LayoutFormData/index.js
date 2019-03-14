@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import Immutable from 'seamless-immutable'
 import {
   Container,
   Image,
@@ -20,6 +21,7 @@ import { path, pick, pickBy, isEmpty, find, propEq } from 'ramda'
 import { Redirect } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
+import BreadcrumbCustom from '../BreadcrumbCustom'
 import FormFieldMultiselect from '../FormFieldMultiselect'
 import AppConfig from '../../Config/AppConfig'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -48,7 +50,8 @@ export default class LayoutFormData extends Component {
     submitFailed: PropTypes.bool,
     submitSuccess: PropTypes.bool,
     submitMessage: PropTypes.string.isRequired,
-    initial: PropTypes.bool.isRequired
+    initial: PropTypes.bool.isRequired,
+    breadcrumb: PropTypes.array
   }
 
   // Defaults for props
@@ -68,7 +71,9 @@ export default class LayoutFormData extends Component {
   }
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      breadcrumb: this.props.breadcrumb
+    }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     // console.log('constructor props', this.props)
@@ -116,6 +121,16 @@ export default class LayoutFormData extends Component {
   //   // if (this.props.id) this.props.setFormValue(pick(column.map(c => c.fieldtype !== 'input-hidden' && c.id), p.dataDetail || {}))
   //   // this.setState(st)
   // }
+  componentDidUpdate (prevProps, prevState) {
+    if (
+      !_.isEqual(prevProps.breadcrumb, this.props.breadcrumb) &&
+      !_.isEmpty(this.props.breadcrumb)
+    ) {
+      this.setState({
+        breadcrumb: Immutable.asMutable(this.props.breadcrumb, { deep: true })
+      })
+    }
+  }
   componentWillUnmount () {
     // this.props.formReset({})
   }
@@ -160,7 +175,7 @@ export default class LayoutFormData extends Component {
     event.preventDefault()
   }
   handleChange (event, fieldName, type) {
-    // console.dir(event)
+    console.dir(event)
     // console.log('handleChange', event)
     // console.log('handleChange', event.target)
     // console.log('handleChange value', event.target.value)
@@ -185,7 +200,9 @@ export default class LayoutFormData extends Component {
       this.props.setFormValue({ [fieldName]: event.target.files[0] })
       // this.props.setFormValue({'file_name_origin': fileDetail.name})
     } else if (type === 'multiselect-component') {
-      val = _.uniq(_.concat(this.props.formData[fieldName], event.value))
+      console.log('event.value=====>', event.value)
+      val = _.compact(_.uniq(_.concat(this.props.formData[fieldName], event.value)))
+      console.log('event.value val=====>', val)
       // val = event.value
     } else if (type === 'input-date') {
       // val = event.value.valueOf()
@@ -230,20 +247,8 @@ export default class LayoutFormData extends Component {
     // if (options) opt = options.map(r => ({key: r._id, text: r.conference_name, value: r.conference_code}))
     if (type === 'input-text') {
       let el = []
-      if (name === 'email' || name === 'username') {
-        el.push((<label key={name + value}>{value}</label>))
-      } else {
-        el.push((<input
-          key={name + value}
-          type='text'
-          name={name}
-          placeholder={placeholder}
-          value={value}
-          onChange={o => this.handleChange(o, name)}
-        />))
-      }
-      if (name === 'password') el.push(<Label key={2} pointing='left'>keep empty if don't wanna change</Label>)
-      return el.map(r => r)
+      if (this.props.id && (name === 'email' || name === 'username')) return (<label key={name + value}>{value}</label>)
+      else return (<input type='text' name={name} placeholder={placeholder} value={value} onChange={(o) => this.handleChange(o, name)} />)
     } else if (type === 'file') {
       return (
         <input
@@ -278,8 +283,8 @@ export default class LayoutFormData extends Component {
     }
     // else if (type === 'select') return (<Dropdown placeholder='Skills' name={name} fluid multiple selection options={options} onChange={(o) => this.handleChange(o, name)} />)
     else if (type === 'select') {
-      console.log('field select opt=', opt)
-      console.log('field select value=', value)
+      // console.log('field select opt=', opt)
+      // console.log('field select value=', value)
       return (
         <Form.Select
           style={selectStyle}
@@ -308,10 +313,10 @@ export default class LayoutFormData extends Component {
     // console.log('[LayoutFormData.render] props', this.props.initial)
     // console.log('[LayoutFormData.render] formData', this.props.formData)
     const id = path(['id'], this.props)
-    const recordId = id
+    // const recordId = id
     // const id = path(['match', 'params', 'id', 'formData'], this.props)
     // console.log('this.props.formData===>', this.props.formData)
-    // console.log('recordId===>', recordId)
+    // console.log('props===>', this.props)
     const MessageIcon = () => (
       <Message
         icon
@@ -336,10 +341,18 @@ export default class LayoutFormData extends Component {
     const isDesktop = window.screen.width >= minDesktopScreenWidth
     const labelStyle = isDesktop ? { width: 200, textAlign: 'right' } : {}
     const buttonStyle = isDesktop ? { position: 'relative', left: 210 } : {}
+    const multiselectTemplate1Style = isDesktop ? { position: 'relative', top: -23, left: 210 } : {}
     return (
       <div>
         <Container>
           <Grid container style={{ padding: '1em 0em' }}>
+            {this.state.breadcrumb && (
+              <Grid.Row>
+                <Grid.Column>
+                  <BreadcrumbCustom breadcrumb={this.state.breadcrumb} />
+                </Grid.Column>
+              </Grid.Row>
+            )}
             <Grid.Row>
               <Grid.Column>
                 {this.props.submitMessage !== '' && !this.props.initial && (
@@ -359,7 +372,7 @@ export default class LayoutFormData extends Component {
                             {col.fieldtype && (<label style={labelStyle}>{col.Header}</label>)}
 
                             {/* {(recordId !== '' && col.fieldtype !== 'multiselect-component' && col.id !== 'password' && col.id !== 'email' && col.id !== 'username' && col.id !== 'scope') && */}
-                            {(recordId !== '' && col.fieldtype !== 'multiselect-component') &&
+                            {(col.fieldtype !== 'multiselect-component') &&
                               this.renderField({
                                 type: col.fieldtype,
                                 name: col.id,
@@ -372,8 +385,12 @@ export default class LayoutFormData extends Component {
                                   ? this.props.selectoptions[col.id]
                                   : [],
                                 isDesktop
-                              })}
-                            {(recordId === '' && col.fieldtype !== 'multiselect-component') &&
+                              })
+                            }
+                            {(col.fieldtype !== 'multiselect-component' && col.id === 'password' && id) &&
+                              <Label key={2} pointing='left'>keep empty if don't wanna change</Label>
+                            }
+                            {/* {(recordId === '' && col.fieldtype !== 'multiselect-component') &&
                               this.renderField({
                                 type: col.fieldtype,
                                 name: col.id,
@@ -386,41 +403,24 @@ export default class LayoutFormData extends Component {
                                   ? this.props.selectoptions[col.id]
                                   : [],
                                 isDesktop
-                              })}
-                            {col.fieldtype === 'multiselect-component' &&
-                              this.props.multiselectComponent && (
-                                <FormFieldMultiselect
-                                  options={
-                                    (
-                                      this.props.multiselectComponent[col.id] ||
-                                      {}
-                                    ).data
-                                  }
-                                  columns={
-                                    (
-                                      this.props.multiselectComponent[col.id] ||
-                                      {}
-                                    ).column
-                                  }
-                                  columnTable={
-                                    (
-                                      this.props.multiselectComponent[col.id] ||
-                                      {}
-                                    ).columnTable
-                                  }
-                                  selected={this.props.formData[col.id] || []}
-                                  onSubmitSelected={listSelectedId =>
-                                    this.handleChange(
-                                      { value: listSelectedId },
-                                      col.id,
-                                      col.fieldtype
-                                    )
-                                  }
-                                  createItemForFieldMultiselect={
-                                    this.props.createItemForFieldMultiselect
-                                  }
-                                />
-                              )}
+                              })} */}
+                            {/* {col.fieldtype === 'multiselect-component' && (this.props.multiselectComponent && !this.props.multiselect) &&
+                              (<FormFieldMultiselect
+                                options={(this.props.multiselectComponent[col.id] || {}).data || []}
+                                columns={(this.props.multiselectComponent[col.id] || {}).column || {}}
+                                columnTable={(this.props.multiselectComponent[col.id] || {}).columnTable}
+                                selected={this.props.formData[col.id] || []}
+                                onSubmitSelected={listSelectedId => this.handleChange({ value: listSelectedId }, col.id, col.fieldtype)}
+                                createItemForFieldMultiselect={
+                                  this.props.createItemForFieldMultiselect
+                                }
+                              />
+                              )} */}
+                            
+                            {(col.fieldtype === 'multiselect-component' && this.props.multiselect) &&
+                              <div style={multiselectTemplate1Style}>{this.props.multiselect[col.id]({currentSelected: (this.props.formData || {})[col.id] || [], onSubmitSelected: listSelectedId => this.handleChange({ value: listSelectedId }, col.id, col.fieldtype)})}</div>
+                              // (this.props.multiselect[col.id]({onSubmitSelected: listSelectedId => this.handleChange({ value: listSelectedId }, col.id, col.fieldtype)}))
+                            }
                           </Form.Field>
                         ))
                     )}

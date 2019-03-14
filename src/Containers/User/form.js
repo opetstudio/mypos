@@ -8,9 +8,11 @@ import Immutable from 'seamless-immutable'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import UserActions, { UserSelectors } from './redux'
 import LayoutFormData from '../../Components/LayoutFormData'
-import { makeData } from '../../Utils/Utils'
+// import { makeData } from '../../Utils/Utils'
 import { columns } from './columns'
 import { LoginSelectors } from '../Login/redux'
+
+import RoleMultiselect from '../Userrole/Multiselect'
 
 const column = columns
 const defaultPageSize = 10
@@ -25,8 +27,6 @@ class TheComponent extends Component {
     submit: PropTypes.bool.isRequired,
     formData: PropTypes.object.isRequired,
     dataDetail: PropTypes.object.isRequired,
-    allParticipantIdByClassId: PropTypes.array.isRequired,
-    multiselectComponent: PropTypes.object,
     formReset: PropTypes.func.isRequired,
     entityUpdate: PropTypes.func.isRequired,
     entityCreate: PropTypes.func.isRequired,
@@ -40,8 +40,9 @@ class TheComponent extends Component {
     submitMessage: '',
     formData: {},
     dataDetail: {},
-    allParticipantIdByClassId: [],
-    multiselectComponent: {},
+    // BEGIN MULTISELECT ROLE
+    deleteRole: () => {},
+    // END MULTISELECT ROLE
     formReset: () => {},
     entityUpdate: () => {},
     entityCreate: () => {},
@@ -52,13 +53,8 @@ class TheComponent extends Component {
     if (this.props.id && this.props.id !== '') { this.props.fetchOne({ id: this.props.id }) }
     this.state = {
       column,
-      multiselectComponent: Immutable.asMutable(
-        this.props.multiselectComponent,
-        { deep: true }
-      ),
-      selectoptions: Immutable.asMutable(this.props.selectoptions, {
-        deep: true
-      }),
+      deleteRole: this.props.deleteRole,
+      selectoptions: Immutable.asMutable(this.props.selectoptions, { deep: true }),
       id: this.props.id,
       dataDetail: this.props.dataDetail,
       submit: this.props.submit,
@@ -76,6 +72,9 @@ class TheComponent extends Component {
       initial: true
     }
     this.onSubmit = this.onSubmit.bind(this)
+    if (this.props.id && this.props.id !== '') {
+      this.props.fetchOne({ id: this.props.id })
+    }
   }
   onSubmit (event) {
     this.setState({ initial: false })
@@ -122,14 +121,10 @@ class TheComponent extends Component {
     return null
   }
   componentDidUpdate (prevProps, prevState, snapshot) {
-    if (
-      !_.isEqual(prevProps.dataDetail, this.props.dataDetail) &&
-      !_.isEmpty(this.props.dataDetail)
-    ) {
+    // console.log('componentDidUpdate')
+    if (!_.isEqual(prevProps.dataDetail, this.props.dataDetail) && !_.isEmpty(this.props.dataDetail)) {
       // console.log('set form value because dataDetail is exist')
-      let dataDetail = Immutable.asMutable(this.props.dataDetail, {
-        deep: true
-      })
+      let dataDetail = Immutable.asMutable(this.props.dataDetail, {deep: true})
       this.props.setFormValue({ ...this.props.formData, ...dataDetail })
       this.setState({
         dataDetail,
@@ -139,21 +134,10 @@ class TheComponent extends Component {
         }
       })
     }
-
-    if (
-      !_.isEqual(prevProps.selectoptions, this.props.selectoptions) &&
-      !_.isEmpty(this.props.selectoptions)
-    ) {
-      this.setState({
-        selectoptions: Immutable.asMutable(this.props.selectoptions, {
-          deep: true
-        })
-      })
+    if (!_.isEqual(prevProps.selectoptions, this.props.selectoptions) && !_.isEmpty(this.props.selectoptions)) {
+      this.setState({ selectoptions: Immutable.asMutable(this.props.selectoptions, {deep: true}) })
     }
-    if (
-      !_.isEqual(prevProps.formData, this.props.formData) &&
-      !_.isEmpty(this.props.formData)
-    ) {
+    if (!_.isEqual(prevProps.formData, this.props.formData) && !_.isEmpty(this.props.formData)) {
       // console.log('set form value because propsFormData is exist')
       this.setState({
         formData: {
@@ -162,6 +146,7 @@ class TheComponent extends Component {
         }
       })
     }
+
     if (prevProps.id !== this.props.id) this.setState({ id: this.props.id })
     if (prevProps.submit !== this.props.submit) { this.setState({ submit: this.props.submit }) }
     if (prevProps.submitFailed !== this.props.submitFailed) { this.setState({ submitFailed: this.props.submitFailed }) }
@@ -172,8 +157,14 @@ class TheComponent extends Component {
     // reset form
     this.state.formReset({})
   }
+  setFormValue (data) {
+    this.props.setFormValue({
+      ...Immutable.asMutable(this.props.dataDetail, { deep: true }),
+      ...data
+    })
+  }
   render () {
-    // console.log('===>formData', this.state.formData)
+    // console.log('===>user state====>>>>', this.state)
     // console.log('===>dataDetail', this.state.dataDetail)
     if (window.localStorage.getItem('isLoggedIn') !== 'true') { return <Redirect to='/login' /> }
     if (!this.props.dataDetail) {
@@ -198,10 +189,25 @@ class TheComponent extends Component {
         initial={this.state.initial}
         entityName={this.state.entityName}
         selectoptions={this.state.selectoptions}
-        multiselectComponent={this.state.multiselectComponent}
-        createItemForFieldMultiselect={this.state.createItemForFieldMultiselect}
+        multiselect={{
+          user_roles: ({currentSelected, onSubmitSelected}) => {
+            // console.log('accesss=====>>', currentSelected)
+            return <RoleMultiselect
+              userId={this.state.id}
+              redirect={this.props.history.push}
+              formData={currentSelected}
+              onSubmitSelected={onSubmitSelected}
+              setFormValue={this.setFormValue}
+            />
+          }
+        }}
         onSubmit={this.onSubmit}
         myProfile={this.props.myProfile}
+        breadcrumb={[
+          { link: '/', label: 'Home' },
+          { link: '/entity/user', label: 'User Management' },
+          { link: null, label: 'User Form' }
+        ]}
       />
     )
   }
@@ -221,7 +227,7 @@ const mapStateToProps = (state, ownProps) => {
       // { key: '1', text: 'root', value: '1' },
       { key: '2', text: 'super admin', value: '2' },
       { key: '3', text: 'admin', value: '5' },
-      { key: '4', text: 'fasilitator', value: '100' },
+      // { key: '4', text: 'fasilitator', value: '100' },
       { key: '5', text: 'regular user', value: '200' }
     ],
     o => parseInt(o.value || 0) > parseInt(myProfile.scope || 0)
@@ -230,7 +236,6 @@ const mapStateToProps = (state, ownProps) => {
     // ignite boilerplate state list
     defaultPageSize,
     column,
-
     dataDetail,
     submitFailed: UserSelectors.getFormSubmitFailed(state.user),
     submitSuccess: UserSelectors.getFormSubmitSuccess(state.user),

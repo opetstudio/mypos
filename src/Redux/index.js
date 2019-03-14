@@ -7,6 +7,47 @@ import ReduxPersist from '../Config/ReduxPersist'
 export default () => {
   /* ------------- Assemble The Reducers ------------- */
   const rootReducer = combineReducers({
+
+    // begin Ignite-Entity-Albumgallery
+    albumgallery: require('../Containers/Albumgallery/redux').reducer,
+    // end Ignite-Entity-Albumgallery
+    // begin Ignite-Entity-Album
+    album: require('../Containers/Album/redux').reducer,
+    // end Ignite-Entity-Album
+    
+    // begin Ignite-Entity-Gallery
+    gallery: require('../Containers/Gallery/redux').reducer,
+    // end Ignite-Entity-Gallery
+    
+    // begin Ignite-Entity-News
+    news: require('../Containers/News/redux').reducer,
+    // end Ignite-Entity-News
+    
+
+    // begin Ignite-Entity-Article
+    article: require('../Containers/Article/redux').reducer,
+    // end Ignite-Entity-Article
+    
+
+    // begin Ignite-Entity-Event
+    event: require('../Containers/Event/redux').reducer,
+    // end Ignite-Entity-Event
+    
+
+    // begin Ignite-Entity-Userrole
+    userrole: require('../Containers/Userrole/redux').reducer,
+    // end Ignite-Entity-Userrole
+    
+
+    // begin Ignite-Entity-Pointofsale
+    pointofsale: require('../Containers/Pointofsale/redux').reducer,
+    // end Ignite-Entity-Pointofsale
+    
+
+    // begin Ignite-Entity-Role
+    role: require('../Containers/Role/redux').reducer,
+    // end Ignite-Entity-Role
+    
     // begin Ignite-Entity-Filecontent
     filecontent: require('../Containers/Filecontent/redux').reducer,
     // end Ignite-Entity-Filecontent
