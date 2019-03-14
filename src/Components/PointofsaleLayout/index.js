@@ -63,17 +63,17 @@ class PageHomeLayout extends Component {
                   {activeItemBottomMenu === '3' && this.props.customItemContent}
                 </Segment>
                 <Menu attached='bottom' tabular>
-                  <Menu.Item name='1' active={activeItemBottomMenu === '1'} onClick={this.handleItemClick}>
+                  {/* <Menu.Item name='1' active={activeItemBottomMenu === '1'} onClick={this.handleItemClick}>
                     Favorite
-                  </Menu.Item>
+                  </Menu.Item> */}
 
                   <Menu.Item name='2' active={activeItemBottomMenu === '2'} onClick={this.handleItemClick}>
                     Library
                   </Menu.Item>
 
-                  <Menu.Item name='3' active={activeItemBottomMenu === '3'} onClick={this.handleItemClick}>
+                  {/* <Menu.Item name='3' active={activeItemBottomMenu === '3'} onClick={this.handleItemClick}>
                     Custom
-                  </Menu.Item>
+                  </Menu.Item> */}
                 </Menu>
               </div>
             </Grid.Column>

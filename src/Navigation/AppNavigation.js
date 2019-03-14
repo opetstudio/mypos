@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
-// import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
+// import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
 
 // Import Screens for the Router
 // prettier-ignore
@@ -124,8 +124,8 @@ class NavigationRouter extends Component {
       <Router>
         <AppContainer checkLogedStatus={this.props.checkLogedStatus}>
           <ResponsiveContainer>
-            <Route exact path='/' component={PrisdacHome} />
-            <Route exact path='/home' component={PrisdacHome} />
+            <Route exact path='/' component={Pointofsale} />
+            <Route exact path='/home' component={Pointofsale} />
             <Route exact path='/point-of-sale' component={Pointofsale} />
             <Route exact path='/profile' component={PageProfile} />
             <Route exact path='/event' component={PageEvent} />
