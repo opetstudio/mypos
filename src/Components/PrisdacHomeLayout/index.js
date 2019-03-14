@@ -11,6 +11,7 @@ import {
   Divider
 } from 'semantic-ui-react'
 import {Images} from '../../Themes'
+import {Helmet} from 'react-helmet'
 
 class PrisdacHomeLayout extends Component {
   constructor (props) {
@@ -38,6 +39,20 @@ class PrisdacHomeLayout extends Component {
         {/* <Segment>
           {this.props.carousel}
         </Segment> */}
+        <Helmet>
+          <title>Home - Prisma SDA Church</title>
+          {/* <meta name='description' content='Prisma Ministry Indonesia and Prisma SDAC Jakarta.' itemprop='description' />
+          <meta charset='utf-8' />
+          <meta property='og:type' content='article' />
+          <meta property='og:site_name' content='prisdac' />
+          <meta property='og:title' content='GMAHK Prisma' />
+          <meta property='og:image' content='https://lh3.googleusercontent.com/v4ofZ6bWU--4LYHBhBItWr05e8uiJIQW-CbQrhIZDSuH-1LbqMuFkmNuyaPoUVZikwLQjlY3UBDA7Ka0mvlZVoxvTVIR_QOMIL-gUhwCTuOOpl8G9T2kgoMx9vEDzLy0P4_pNwDVsg=w650' />
+          <meta property='og:description' content='Prisma SDA Church Jakarta' />
+          <meta property='og:url' content='https://www.prisdac.org' />
+          <meta property='og:image:type' content='image/jpeg' />
+          <meta property='og:image:width' content='650' />
+          <meta property='og:image:height' content='366' /> */}
+        </Helmet>
         <Segment style={{ padding: '0em' }} vertical>
           <Grid celled='internally' columns='equal' stackable>
             <Grid.Row textAlign='center'>

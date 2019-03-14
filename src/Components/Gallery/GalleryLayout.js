@@ -8,6 +8,7 @@ import {
 } from 'semantic-ui-react'
 import Immutable from 'seamless-immutable'
 import _ from 'lodash'
+import {Helmet} from 'react-helmet'
 
 import ImageGallery from 'react-image-gallery'
 import BreadcrumbCustom from '../BreadcrumbCustom'
@@ -76,6 +77,9 @@ class GalleryLayout extends Component {
     // ]
     return (
       <div>
+        <Helmet>
+          <title>Gallery - Prisma SDA Church</title>
+        </Helmet>
         <Container style={{minHeight: window.innerHeight - 75}}>
           <Grid container style={{ padding: '1em 0em' }}>
             {this.state.breadcrumb && (

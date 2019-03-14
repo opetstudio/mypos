@@ -10,6 +10,7 @@ import {
   List,
   Divider
 } from 'semantic-ui-react'
+import {Helmet} from 'react-helmet'
 import Immutable from 'seamless-immutable'
 import _ from 'lodash'
 
@@ -47,6 +48,9 @@ class AlbumLayout extends Component {
     // console.log('albumsss===>', this.props.allDataArr)
     return (
       <div>
+        <Helmet>
+          <title>Album - Prisma SDA Church</title>
+        </Helmet>
         <Container style={{minHeight: window.innerHeight - 75}}>
           <Grid container style={{ padding: '1em 0em' }}>
             {this.state.breadcrumb && (
