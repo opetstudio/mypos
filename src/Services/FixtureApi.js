@@ -1,6 +1,16 @@
 export default {
   // Functions return fixtures
 
+    // begin Ignite-Entity-Product
+    postProduct: () => { return { ok: true, data: '21' } },
+    getProduct: () => { return { ok: true, data: '21' } },
+    getProducts: () => { return { ok: true, data: '21' } },
+    updateProduct: () => { return { ok: true, data: '21' } },
+    updateProductBatch: () => { return { ok: true, data: '21' } },
+    removeProduct: () => { return { ok: true } },
+    // end Ignite-Entity-Product
+    
+
     // begin Ignite-Entity-News
     postNews: () => { return { ok: true, data: '21' } },
     getNews: () => { return { ok: true, data: '21' } },

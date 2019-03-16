@@ -36,6 +36,7 @@ class LoggedInAttribute extends Component {
     super(props)
     this.state = {}
     this.logoutDialog = this.logoutDialog.bind(this)
+    this.ModalBasic = this.ModalBasic.bind(this)
   }
   handleItemClick = (e, { name }) => this.logoutDialog(true, 'b')
   logoutDialog (isShow) {
@@ -56,48 +57,50 @@ class LoggedInAttribute extends Component {
       modalDescription: 'Ingin Close Window?  Klik Yes untuk close, Klik No untuk kembali ke Dashboard'
     })
   }
+  ModalBasic () {
+    return (
+      <Modal
+        open={this.state.showLogoutDialog}
+        onClose={() => this.setState({ showLogoutDialog: false })}
+        basic
+        size='small'
+      >
+        <Header icon='archive' content={this.state.modalTitle} />
+        <Modal.Content>
+          <p>
+            {this.state.modalDescription}
+          </p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            basic
+            color='red'
+            inverted
+            onClick={() => this.logoutDialog(false)}
+          >
+            <Icon name='remove' /> No
+          </Button>
+          <Button
+            color='green'
+            inverted
+            onClick={() => {
+              this.logoutDialog(false)
+              if (this.state.modalCommand === 'closewindow' && remote !== null) remote.getCurrentWindow().close()
+              if (this.state.modalCommand === 'logout') {
+                this.props.doLogout()
+                this.props.onLogout()
+              }
+            // if (command === 'closewindow' && remote !== null) remote.getCurrentWindow().minimize()
+            }}
+          >
+            <Icon name='checkmark' /> Yes
+          </Button>
+        </Modal.Actions>
+      </Modal>
+    )
+  }
   render () {
     if (this.props.attr === 'buttonLogout') {
-      const ModalBasic = () => (
-        <Modal
-          open={this.state.showLogoutDialog}
-          onClose={() => this.setState({ showLogoutDialog: false })}
-          basic
-          size='small'
-        >
-          <Header icon='archive' content={this.state.modalTitle} />
-          <Modal.Content>
-            <p>
-              {this.state.modalDescription}
-            </p>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button
-              basic
-              color='red'
-              inverted
-              onClick={() => this.logoutDialog(false)}
-            >
-              <Icon name='remove' /> No
-            </Button>
-            <Button
-              color='green'
-              inverted
-              onClick={() => {
-                this.logoutDialog(false)
-                if (this.state.modalCommand === 'closewindow' && remote !== null) remote.getCurrentWindow().close()
-                if (this.state.modalCommand === 'logout') {
-                  this.props.doLogout()
-                  this.props.onLogout()
-                }
-                // if (command === 'closewindow' && remote !== null) remote.getCurrentWindow().minimize()
-              }}
-            >
-              <Icon name='checkmark' /> Yes
-            </Button>
-          </Modal.Actions>
-        </Modal>
-      )
       let m = [1]
       return m.map(r => {
         // if (r === 0 && this.props.isLoggedIn) {
@@ -116,7 +119,7 @@ class LoggedInAttribute extends Component {
           let mm = [0]
           return (
             <Menu.Menu key={this.props.attr + r} position='right'>
-              <div>{ModalBasic()}</div>
+              <div>{this.ModalBasic()}</div>
               {
                 mm.map(r => {
                   if (r === 0 && this.props.isLoggedIn) {
@@ -264,6 +267,12 @@ class LoggedInAttribute extends Component {
               >
                 {/* ---list new entity--- */}
 
+                {/* begin Ignite-Entity-Product */}
+                <Dropdown.Item as={Link} to='/entity/product' open>
+      Product
+                </Dropdown.Item>
+                {/* end Ignite-Entity-Product */}
+
                 {/* begin Ignite-Entity-Role */}
                 <Dropdown.Item as={Link} to='/entity/role' open>
                   Role
@@ -288,7 +297,7 @@ class LoggedInAttribute extends Component {
           )
         }
       })
-    } else if (!this.props.isLoggedIn && this.props.attr === 'buttonLogin') {
+    } else if (this.props.attr === 'buttonLogin') {
       return [1].map(r => {
         if (r === 0) {
           return (<Menu.Item key={r} onClick={this.handleToggle}>
@@ -296,24 +305,48 @@ class LoggedInAttribute extends Component {
           </Menu.Item>)
         }
         if (r === 1 && this.props.mobile) {
-          return <Menu.Item key={r} position='right'>
-            <Button as='a' inverted>
+          if (!this.props.isLoggedIn) {
+            return <Menu.Item key={r}>
+              <Button as={Link} to={'/login'} inverted>
                     Log in
-            </Button>
-            <Button as='a' inverted style={{ marginLeft: '0.5em' }}>
+              </Button>
+              {/* <Button as='a' inverted style={{ marginLeft: '0.5em' }}>
                     Sign Up
-            </Button>
-          </Menu.Item>
+              </Button> */}
+            </Menu.Item>
+          } else {
+            return <Menu.Item key={r}>
+              <Button onClick={() => this.logoutDialog(!this.state.showLogoutDialog)} inverted>
+                <div>{this.ModalBasic()}</div>
+                  Log Out
+              </Button>
+            </Menu.Item>
+          }
         }
         if (r === 1 && !this.props.mobile) {
-          return <Menu.Item key={r} position='right'>
-            <Button as='a' inverted={!this.props.fixed}>
-            Log in
-            </Button>
-            <Button as='a' inverted={!this.props.fixed} primary={this.props.fixed} style={{ marginLeft: '0.5em' }}>
-            Sign Up
-            </Button>
-          </Menu.Item>
+          if (!this.props.isLoggedIn) {
+            return <Menu.Item key={r} position='right'>
+              <Button as={Link} to={'/login'} inverted={!this.props.fixed}>
+              Log in
+              </Button>
+              {/* <Button as='a' inverted={!this.props.fixed} primary={this.props.fixed} style={{ marginLeft: '0.5em' }}>
+              Sign Up
+              </Button> */}
+
+            </Menu.Item>
+          }
+          if (this.props.isLoggedIn) {
+            return <Menu.Item key={r} position='right'>
+              <div>{this.ModalBasic()}</div>
+              <Button onClick={() => this.logoutDialog(!this.state.showLogoutDialog)} inverted={!this.props.fixed}>
+              Log Out
+              </Button>
+              {/* <Button as='a' inverted={!this.props.fixed} primary={this.props.fixed} style={{ marginLeft: '0.5em' }}>
+              Sign Up
+              </Button> */}
+
+            </Menu.Item>
+          }
         }
       })
     }

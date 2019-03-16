@@ -152,6 +152,7 @@ const route_siswa = require('./server/electron/routes/SiswaRoute')
 const route_util = require('./server/electron/routes/UtilRoute')
 const route_gurustaff = require('./server/electron/routes/GurustaffRoute')
 const route_userrole = require('./server/electron/routes/UserroleRoute')
+const route_product = require('./server/electron/routes/ProductRoute')
 
 const Middleware = require('./server/electron/middleware')
 const Authentication = require('./server/electron/middleware/Authentication')
@@ -252,6 +253,12 @@ function route (entityName, theRoute) {
       routeOne(`patch_${entityName}s`, theRoute, DB)
       theRoute.set_init(DB)
       break
+    case 'product':
+      routeOne(`post_${entityName}s`, theRoute, DB)
+      routeOne(`get_${entityName}s`, theRoute, DB)
+      routeOne(`patch_${entityName}s`, theRoute, DB)
+      theRoute.set_init(DB)
+      break
     case 'userrole':
       routeOne(`post_${entityName}s`, theRoute, DB)
       routeOne(`get_${entityName}s`, theRoute, DB)
@@ -269,4 +276,5 @@ route('absen', route_absen)
 route('user', route_user)
 route('role', route_role)
 route('userrole', route_userrole)
+route('product', route_product)
 // route('absen', route_absen);

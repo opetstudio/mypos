@@ -48,7 +48,7 @@ class MobileContainer extends Component {
   render () {
     const { children } = this.props
     const { sidebarOpened } = this.state
-    
+
     // const isHome =
     //   (window.location.hash || window.location.pathname).replace('#', '') ===
     //     '/home' ||
@@ -91,7 +91,14 @@ class MobileContainer extends Component {
           {/* <Menu.Item as='a'>Log in</Menu.Item>
           <Menu.Item as='a'>Sign Up</Menu.Item> */}
           {/* ---list new entity--- */}
-    
+
+          <LoggedInAttribute
+            attr='buttonLogin'
+            pathname={pathname}
+            onLogout={() => this.setState({ sidebarOpened: false })}
+            mobile
+          />
+
         </Sidebar>
 
         <Sidebar.Pusher dimmed={sidebarOpened}>

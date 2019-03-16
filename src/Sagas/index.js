@@ -9,6 +9,11 @@ import AppConfig from '../Config/AppConfig'
 
 // Types /* ------------- Types ------------- */
 
+    // begin Ignite-Entity-Product
+    import { ProductTypes } from '../Containers/Product/redux'
+    // end Ignite-Entity-Product
+    
+
     // begin Ignite-Entity-Albumgallery
     import { AlbumgalleryTypes } from '../Containers/Albumgallery/redux'
     // end Ignite-Entity-Albumgallery
@@ -87,6 +92,11 @@ import { LoginTypes } from '../Containers/Login/redux'
 
 import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
+
+    // begin Ignite-Entity-Product
+    import { postProduct, getProducts, getProduct, updateProduct, removeProduct, updateProductBatch} from '../Containers/Product/sagas'
+    // end Ignite-Entity-Product
+    
 
     // begin Ignite-Entity-Albumgallery
     import { postAlbumgallery, getAlbumgallerys, getAlbumgallery, updateAlbumgallery, removeAlbumgallery, updateAlbumgalleryBatch} from '../Containers/Albumgallery/sagas'
@@ -264,6 +274,16 @@ const api = DebugConfig.useFixtures ? FixtureAPI : API.create(host)
 export default function * root () {
   yield all([
     // some sagas only receive an action
+
+    // begin Ignite-Entity-Product
+    takeLatest(ProductTypes.PRODUCT_CREATE, postProduct, api),
+    takeLatest(ProductTypes.PRODUCT_REQUEST, getProduct, api),
+    takeLatest(ProductTypes.PRODUCT_REQUEST_ALL, getProducts, api),
+    takeLatest(ProductTypes.PRODUCT_UPDATE, updateProduct, api),
+    takeLatest(ProductTypes.PRODUCT_UPDATE_BATCH, updateProductBatch, api),
+    takeLatest(ProductTypes.PRODUCT_REMOVE, removeProduct, api),
+    // end Ignite-Entity-Product
+    
 
     // begin Ignite-Entity-Albumgallery
     takeLatest(AlbumgalleryTypes.ALBUMGALLERY_CREATE, postAlbumgallery, api),

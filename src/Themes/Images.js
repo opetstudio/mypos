@@ -5,6 +5,7 @@ const images = {
   adventistlogo: require('../Images/adventistlogo.png'),
   googlephotoicon: require('../Images/googlephotoicon.png'),
   igicon: require('../Images/igicon.png'),
+  headerbg: require('../Images/headerbg.png'),
   fbicon: require('../Images/fbicon.png')
 }
 export default images

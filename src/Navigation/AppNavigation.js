@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-// import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
-import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+// import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
 
 // Import Screens for the Router
 // prettier-ignore
@@ -12,6 +12,12 @@ import PageAbout from '../Containers/PageAbout'
 import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
 // --- import list page entyty ---
+
+    // begin Ignite-Entity-Product
+    import Product from '../Containers/Product'
+    import ProductForm from '../Containers/Product/form'
+    // end Ignite-Entity-Product
+    
 
     // begin Ignite-Entity-News
     import News from '../Containers/News'
@@ -124,8 +130,8 @@ class NavigationRouter extends Component {
       <Router>
         <AppContainer checkLogedStatus={this.props.checkLogedStatus}>
           <ResponsiveContainer>
-            <Route exact path='/' component={Pointofsale} />
-            <Route exact path='/home' component={Pointofsale} />
+            <Route exact path='/' component={PrisdacHome} />
+            <Route exact path='/home' component={PrisdacHome} />
             <Route exact path='/point-of-sale' component={Pointofsale} />
             <Route exact path='/profile' component={PageProfile} />
             <Route exact path='/event' component={PageEvent} />
@@ -135,6 +141,14 @@ class NavigationRouter extends Component {
             <Route exact path='/gallery/:id' component={PageGallery} />
 
             {/* ---- list page entity ---- */}
+
+    {/* begin Ignite-Entity-Product */}
+    <Route exact path='/entity/product' component={Product} />
+    <Route exact path='/entity/product-trash' component={Product} />
+    <Route exact path='/entity/product/create' component={ProductForm} />
+    <Route exact path='/entity/product/update/:id' component={ProductForm} />
+    {/* end Ignite-Entity-Product */}
+    
 
     {/* begin Ignite-Entity-News */}
     <Route exact path='/entity/news' component={News} />

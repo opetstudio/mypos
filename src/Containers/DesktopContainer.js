@@ -111,7 +111,7 @@ class DesktopContainer extends Component {
           </p>
         </Container>
         </Segment></div> */}
-        {window.localStorage.getItem('isLoggedIn') === 'true' && (
+        {(pathname.startsWith('/admin') || pathname.startsWith('/point-of-sale')) && (
           <Visibility
             once={false}
             onBottomPassed={this.showFixedMenu}
@@ -170,7 +170,7 @@ class DesktopContainer extends Component {
             </Segment>
           </Visibility>
         )}
-        {window.localStorage.getItem('isLoggedIn') !== 'true' && (
+        {!(pathname.startsWith('/admin') || pathname.startsWith('/point-of-sale')) && (
           <Visibility
             once={false}
             onBottomPassed={this.showFixedMenu}
@@ -182,8 +182,8 @@ class DesktopContainer extends Component {
               style={{ minHeight: isHome ? 700 : 0, padding: '0em 0em' }}
               vertical
             >
-              <div style={{ paddingTop: '1em', borderBottom: '10px solid black' }}>
-                <Container>
+              <div style={{ paddingTop: '1em', borderBottom: '10px solid black', backgroundImage: `url(${Images.headerbg})`, backgroundSize: '100%' }}>
+                <Container style={{}}>
                   
                   <Header as='h2'>
                     {/* <Icon name='settings' /> */}
@@ -223,12 +223,13 @@ class DesktopContainer extends Component {
                     {/* <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
                     <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item> */}
                     <Menu.Item as={Link} to='/gallery-album' active={['/gallery-album'].indexOf(pathname) !== -1}>Gallery</Menu.Item>
-                    {/* <LoggedInAttribute
+                    <LoggedInAttribute
                       attr='buttonLogin'
                       pathname={pathname}
                       onLogout={() => this.setState({ sidebarOpened: false })}
                       fixed={fixed}
-                    /> */}
+                    />
+                    
                     {/* <Menu.Item position='right'>
                       <Button as='a' inverted={!fixed}>
                       Log in
