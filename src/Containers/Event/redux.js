@@ -47,6 +47,7 @@ export const INITIAL_STATE = Immutable({
   error: null,
   allIds: [],
   byId: {},
+  slug: {},
   maxModifiedon: 0,
   isError: false,
   message: '',
@@ -81,6 +82,23 @@ export const EventSelectors = {
   getDetailById: (state, id) => (state.byId || {})[id],
   getAllIds: state => state.allIds,
   getAllDataArr: state => state.allIds.map(id => (state.byId || {})[id]),
+  getAllNextEventArr: state => _.compact(_.map(state.allIds, id => {
+    const e = (state.byId || {})[id]
+    const now = Date.now()
+    if (now <= e.event_date && e.status === 'publish') return e
+    return null
+  })),
+  getAllPrevEventArr: state => _.compact(_.map(state.allIds, id => {
+    const e = (state.byId || {})[id]
+    const now = Date.now()
+    if (now > e.event_date && e.status === 'publish') return e
+    return null
+  })),
+  getDetailBySlug: (state, slug) => {
+    const id = state.slug[slug]
+    const e = (state.byId || {})[id]
+    return e
+  },
   getMaxModifiedon: state => state.maxModifiedon,
   getById: state => state.byId,
   getIsError: state => state.isError,
@@ -117,6 +135,7 @@ export const requestSuccess = (state, action) => {
   const data = action.data
   const allIds = _.compact(data.allIds)
   const byId = cleaningObject(data.byId)
+  const slug = cleaningObject(data.slug)
   const maxModifiedon = data.maxModifiedon
   const pageCount = data.pageCount
   const pageSize = data.pageSize
@@ -133,6 +152,7 @@ export const requestSuccess = (state, action) => {
     // byId: {...state.byId, ...byId},
     // allIds: arrayMerge([state.allIds, allIds]),
     byId,
+    slug,
     allIds,
     maxModifiedon: maxModifiedon || state.maxModifiedon,
     pageCount,

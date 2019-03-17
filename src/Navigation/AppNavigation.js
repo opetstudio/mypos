@@ -13,6 +13,11 @@ import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
 // --- import list page entyty ---
 
+    // begin Ignite-Entity-Event
+    import Event from '../Containers/Event'
+    import EventForm from '../Containers/Event/form'
+    // end Ignite-Entity-Event
+
     // begin Ignite-Entity-Product
     import Product from '../Containers/Product'
     import ProductForm from '../Containers/Product/form'
@@ -27,10 +32,14 @@ import RouteWrapper from '../Containers/RouteWrapper'
 
 import PrisdacHome from '../Containers/PrisdacHome'
 import PageEvent from '../Containers/Event/PageEvent'
+import PageEventDetail from '../Containers/Event/PageEventDetail'
 import PageArticle from '../Containers/Article/PageArticle'
 import PageNews from '../Containers/News/PageNews'
 import PageGallery from '../Containers/Gallery/PageGallery'
 import PageAlbum from '../Containers/Album/PageAlbum'
+
+// ADMIN
+import AdminHome from '../Containers/AdminHome'
 
     // begin Ignite-Entity-Pointofsale
     import Pointofsale from '../Containers/Pointofsale'
@@ -134,14 +143,25 @@ class NavigationRouter extends Component {
             <Route exact path='/home' component={PrisdacHome} />
             <Route exact path='/point-of-sale' component={Pointofsale} />
             <Route exact path='/profile' component={PageProfile} />
-            <Route exact path='/event' component={PageEvent} />
+            <Route exact path='/events' component={PageEvent} />
+            <Route exact path='/event/:slug' component={PageEventDetail} />
             <Route exact path='/article' component={PageArticle} />
             <Route exact path='/news' component={PageNews} />
             <Route exact path='/gallery-album' component={PageAlbum} />
             <Route exact path='/gallery/:id' component={PageGallery} />
 
+            {/* ADMIN */}
+            <Route exact path='/admin/dashboard' component={AdminHome} />
+
             {/* ---- list page entity ---- */}
 
+    {/* begin Ignite-Entity-Event */}
+    <Route exact path='/entity/event' component={Event} />
+    <Route exact path='/entity/event-trash' component={Event} />
+    <Route exact path='/entity/event/create' component={EventForm} />
+    <Route exact path='/entity/event/update/:id' component={EventForm} />
+    {/* end Ignite-Entity-Product */}
+    
     {/* begin Ignite-Entity-Product */}
     <Route exact path='/entity/product' component={Product} />
     <Route exact path='/entity/product-trash' component={Product} />

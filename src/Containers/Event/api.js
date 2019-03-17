@@ -11,8 +11,9 @@ export const create = (api) => ({
     return api.get('/events/' + data.id)
   },
   getEvents: (data, opt) => {
+    console.log('api.getEvents======')
     let { apiName, baseUrl, newerModifiedon } = data
-    if (!opt.session.token) return {}
+    // if (!opt.session.token) return {}
     if (baseUrl) api.setBaseURL(baseUrl)
     api.setHeader(AppConfig.authHeader, opt.session.token_type + ' ' + opt.session.access_token)
     return api.get(apiName || '/events', { newerModifiedon }, data)

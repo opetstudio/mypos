@@ -61,6 +61,7 @@ function getEntity (dataIn, obj) {
 function getEntityCollection (dataIn, entity, obj) {
   const allData = path(['_embedded', entity], dataIn) || []
   const byId = {}
+  const slug = {}
   var maxModifiedon = 0
   let allIds = _.compact(
     allData.map(r => {
@@ -71,6 +72,7 @@ function getEntityCollection (dataIn, entity, obj) {
       if (r.status === 'remove') return null
       if (r._id === undefined || r._id === 'undefined' || typeof r._id === 'undefined' || r._id === null) return null
       byId['' + r._id] = obj ? { ...pick(obj, r), _id: r._id } : r
+      slug['' + r.slug] = r._id
       maxModifiedon = r.modifiedon || 0
       return r._id
     })
@@ -78,7 +80,8 @@ function getEntityCollection (dataIn, entity, obj) {
   return {
     byId,
     allIds,
-    maxModifiedon
+    maxModifiedon,
+    slug
   }
 }
 

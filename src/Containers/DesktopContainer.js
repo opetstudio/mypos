@@ -52,7 +52,7 @@ class DesktopContainer extends Component {
   render () {
     const { children } = this.props
     const { fixed } = this.state
-    // console.log('window=', window.location)
+    console.log('window=', window)
     const pathname = (window.location.hash || window.location.pathname).replace(
       '#',
       ''
@@ -111,7 +111,7 @@ class DesktopContainer extends Component {
           </p>
         </Container>
         </Segment></div> */}
-        {(pathname.startsWith('/admin') || pathname.startsWith('/point-of-sale')) && (
+        {(pathname.startsWith('/entity') || pathname.startsWith('/admin') || pathname.startsWith('/point-of-sale')) && (
           <Visibility
             once={false}
             onBottomPassed={this.showFixedMenu}
@@ -149,19 +149,18 @@ class DesktopContainer extends Component {
                 size='small'
               > */}
                 {/* <Container> */}
-                <Menu.Item onClick={window.history.back}>
+                <Menu.Item onClick={() => { window.history.back() }}>
                   <Icon name='angle left' size={'big'} />
                 </Menu.Item>
-                <Menu.Item as={Link} to='/' active={isHome}>
-                    Home
-                </Menu.Item>
-                <Menu.Item
+                <Menu.Item as={Link} to='/admin/dashboard' active={['/admin/dashboard'].indexOf(pathname) !== -1}>Home</Menu.Item>
+                <Menu.Item as={Link} to='/' active={isHome}>Frontend</Menu.Item>
+                {/* <Menu.Item
                   as={Link}
                   to='/about'
                   active={pathname === '/about'}
                 >
                     About
-                </Menu.Item>
+                </Menu.Item> */}
                 <LoggedInAttribute attr='mainmenu' pathname={pathname} />
                 <LoggedInAttribute attr='buttonLogout' pathname={pathname} />
                 {/* </Container> */}
@@ -170,7 +169,7 @@ class DesktopContainer extends Component {
             </Segment>
           </Visibility>
         )}
-        {!(pathname.startsWith('/admin') || pathname.startsWith('/point-of-sale')) && (
+        {!(pathname.startsWith('/entity') || pathname.startsWith('/admin') || pathname.startsWith('/point-of-sale')) && (
           <Visibility
             once={false}
             onBottomPassed={this.showFixedMenu}
@@ -219,16 +218,22 @@ class DesktopContainer extends Component {
                       About
                   </Menu.Item> */}
                     {/* <LoggedInAttribute attr='buttonLogout' pathname={pathname} /> */}
-                    {/* <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item> */}
+                    <Menu.Item as={Link} to='/events' active={['/events'].indexOf(pathname) !== -1}>Events</Menu.Item>
                     {/* <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
                     <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item> */}
                     <Menu.Item as={Link} to='/gallery-album' active={['/gallery-album'].indexOf(pathname) !== -1}>Gallery</Menu.Item>
                     <LoggedInAttribute
+                      attr='frontMainMenu'
+                      pathname={pathname}
+                      fixed={fixed}
+                    />
+                    <LoggedInAttribute attr='buttonLogout' pathname={pathname} fixed={fixed} />
+                    {/* <LoggedInAttribute
                       attr='buttonLogin'
                       pathname={pathname}
                       onLogout={() => this.setState({ sidebarOpened: false })}
                       fixed={fixed}
-                    />
+                    /> */}
                     
                     {/* <Menu.Item position='right'>
                       <Button as='a' inverted={!fixed}>

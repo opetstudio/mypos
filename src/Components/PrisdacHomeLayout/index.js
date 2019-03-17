@@ -12,12 +12,14 @@ import {
 } from 'semantic-ui-react'
 import {Images} from '../../Themes'
 import {Helmet} from 'react-helmet'
+import _ from 'lodash'
 
 class PrisdacHomeLayout extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeItemBottomMenu: '1'
+      activeItemBottomMenu: '1',
+      username: this.props.username
     }
   }
   componentWillMount () {
@@ -25,11 +27,15 @@ class PrisdacHomeLayout extends Component {
     this.setState({
       username: this.props.username
     })
+    this.props.getUserProfile({ username: this.props.username })
   }
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-      accessToken: nextProps.username
-    })
+  componentDidUpdate (prevProps, prevState) {
+    if (!_.isEqual(prevProps.username, this.props.username)) {
+      this.props.getUserProfile({ username: this.props.username })
+      this.setState({
+        username: this.props.username
+      })
+    }
   }
   componentDidMount () {
   }

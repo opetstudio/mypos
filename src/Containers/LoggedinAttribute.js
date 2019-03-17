@@ -126,6 +126,7 @@ class LoggedInAttribute extends Component {
                     return (<Dropdown key={this.props.attr + r} item simple icon={(<Icon name='user circle' size={'big'} />)} text={`user: ${this.props.username}`}>
                       <Dropdown.Menu
                         // open={(window.location.hash || window.location.pathname).replace('#','') === '/about'}
+                        style={(this.props.mobile) ? {left: '0px'} : {}}
                       >
                         <Dropdown.Item
                           as={Link}
@@ -141,6 +142,18 @@ class LoggedInAttribute extends Component {
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>)
+                  }
+
+                  if (r === 0 && !this.props.isLoggedIn) {
+                    return <Menu.Item key={r} position='right'>
+                      <Button as={Link} to={'/login'} inverted={!this.props.fixed}>
+                    Log in
+                      </Button>
+                      {/* <Button as='a' inverted={!this.props.fixed} primary={this.props.fixed} style={{ marginLeft: '0.5em' }}>
+                    Sign Up
+                    </Button> */}
+
+                    </Menu.Item>
                   }
                   // if (r === 0 && this.props.isLoggedIn) {
                   //   return <Menu.Item key={r} onClick={() => this.logoutDialog(!this.state.showLogoutDialog)}>
@@ -191,6 +204,15 @@ class LoggedInAttribute extends Component {
       //     })}
       //   </Menu.Menu>
       // )
+    } else if (this.props.isLoggedIn && this.props.attr === 'frontMainMenu') {
+      let m = ['0']
+      return m.map(r => {
+        if (r === '0' && this.props.userScope < 5) {
+          return (
+            <Menu.Item key={`frontMainMenu${r}`} as={Link} to='/admin/dashboard' active={['/admin/dashboard'].indexOf(this.props.pathname) !== -1}>Admin Dashboard</Menu.Item>
+          )
+        }
+      })
     } else if (this.props.isLoggedIn && this.props.attr === 'mainmenu') {
       // let m = ['0', '1', '2', '3', '4']
       let m = ['0', '3', '5']
@@ -259,17 +281,24 @@ class LoggedInAttribute extends Component {
             </Menu.Item>
           )
         }
-        if (r === '3' && window.screen.width >= 769 && this.props.userScope < 10) {
+        if (r === '3' && this.props.userScope < 10) {
           return (
-            <Dropdown key={this.props.attr + r} item simple text='Master Data'>
+            <Dropdown key={this.props.attr + r} simple item text='Master Data'>
               <Dropdown.Menu
               // open={(window.location.hash || window.location.pathname).replace('#','') === '/about'}
+                style={(this.props.mobile) ? {left: '5px'} : {}}
               >
                 {/* ---list new entity--- */}
 
+                {/* begin Ignite-Entity-Event */}
+                <Dropdown.Item as={Link} to='/entity/event' open>
+                 Event
+                </Dropdown.Item>
+                {/* end Ignite-Entity-Event */}
+
                 {/* begin Ignite-Entity-Product */}
                 <Dropdown.Item as={Link} to='/entity/product' open>
-      Product
+                  Product
                 </Dropdown.Item>
                 {/* end Ignite-Entity-Product */}
 

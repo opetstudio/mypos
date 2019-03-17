@@ -75,7 +75,33 @@ class MobileContainer extends Component {
         getWidth={getWidth}
         maxWidth={Responsive.onlyMobile.maxWidth}
       >
-        <Sidebar
+        {(pathname.startsWith('/entity') || pathname.startsWith('/admin') || pathname.startsWith('/point-of-sale')) &&
+        (<Sidebar
+          as={Menu}
+          animation='push'
+          inverted
+          onHide={this.handleSidebarHide}
+          vertical
+          visible={sidebarOpened}
+        >
+          <Menu.Item as={Link} to='/admin/dashboard' active={pathname === '/admin/dashboard'}>Home</Menu.Item>
+          <Menu.Item as={Link} to='/' active={pathname === '/'}>Frontend</Menu.Item>
+          <LoggedInAttribute
+            attr='mainmenu'
+            pathname={pathname}
+            onLogout={() => this.setState({ sidebarOpened: false })}
+            mobile
+          />
+          <LoggedInAttribute
+            attr='buttonLogout'
+            pathname={pathname}
+            onLogout={() => this.setState({ sidebarOpened: false })}
+            mobile
+          />
+
+        </Sidebar>)}
+        {!(pathname.startsWith('/entity') || pathname.startsWith('/admin') || pathname.startsWith('/point-of-sale')) &&
+        (<Sidebar
           as={Menu}
           animation='push'
           inverted
@@ -84,22 +110,32 @@ class MobileContainer extends Component {
           visible={sidebarOpened}
         >
           <Menu.Item as={Link} to='/home' active={pathname === '/home'}>Home</Menu.Item>
-          {/* <Menu.Item as={Link} to='/event' active={pathname === '/event'}>Events</Menu.Item> */}
+          <Menu.Item as={Link} to='/events' active={['/events'].indexOf(pathname) !== -1}>Events</Menu.Item>
           {/* <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
           <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item> */}
           <Menu.Item as={Link} to='/gallery-album' active={['/gallery-album'].indexOf(pathname) !== -1}>Gallery</Menu.Item>
           {/* <Menu.Item as='a'>Log in</Menu.Item>
           <Menu.Item as='a'>Sign Up</Menu.Item> */}
           {/* ---list new entity--- */}
-
           <LoggedInAttribute
-            attr='buttonLogin'
+            attr='frontMainMenu'
+            pathname={pathname}
+            mobile
+          />
+          <LoggedInAttribute
+            attr='buttonLogout'
             pathname={pathname}
             onLogout={() => this.setState({ sidebarOpened: false })}
             mobile
           />
+          {/* <LoggedInAttribute
+            attr='buttonLogin'
+            pathname={pathname}
+            onLogout={() => this.setState({ sidebarOpened: false })}
+            mobile
+          /> */}
 
-        </Sidebar>
+        </Sidebar>)}
 
         <Sidebar.Pusher dimmed={sidebarOpened}>
           <Segment

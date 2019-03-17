@@ -3,15 +3,40 @@ export const columns = [
     Header: 'Name',
     columns: [
       {
-        Header: 'title',
-        accessor: 'title',
-        id: 'title',
+        Header: 'event_title',
+        accessor: 'event_title',
+        id: 'event_title',
         fieldtype: 'input-text'
       },
       {
-        Header: 'Last Name',
-        id: 'lastName',
-        accessor: d => d.lastName
+        Header: 'event_date',
+        accessor: 'event_date',
+        id: 'event_date',
+        fieldtype: 'input-text'
+      },
+      {
+        Header: 'event_desc',
+        accessor: 'event_desc',
+        id: 'event_desc',
+        fieldtype: 'textarea'
+      },
+      {
+        Header: 'event_address',
+        accessor: 'event_address',
+        id: 'event_address',
+        fieldtype: 'textarea'
+      },
+      {
+        Header: 'event_vanue',
+        accessor: 'event_vanue',
+        id: 'event_vanue',
+        fieldtype: 'input-text'
+      },
+      {
+        Header: 'event_img',
+        accessor: 'event_img',
+        id: 'event_img',
+        fieldtype: 'input-text'
       }
     ]
   }

@@ -118,6 +118,7 @@ export function * removeEvent (api, action) {
 }
 
 export function * getEvents (api, action) {
+  console.log('getEvents======')
   const { data } = action
   // make the call to the api
   const s = yield select(session)
@@ -128,9 +129,9 @@ export function * getEvents (api, action) {
   // success?
   if (response.ok) {
     // const { byId, allIds, maxModifiedon } = response.data
-    const {byId, allIds, maxModifiedon} = getEntityCollection(response.data, 'tb_event')
+    const {byId, allIds, maxModifiedon, slug} = getEntityCollection(response.data, 'tb_event')
     let { page_count: pageCount, page_size: pageSize } = response.data
-    yield put(EventActions.eventRequestSuccess({requestMessage: 'success fetch data', byId, allIds, maxModifiedon, pageCount, pageSize}))
+    yield put(EventActions.eventRequestSuccess({requestMessage: 'success fetch data', byId, allIds, maxModifiedon, pageCount, pageSize, slug}))
     const allDeletedIds = ((_.filter(allIds.map(r => byId[r]), { 'status': 'delete' })) || []).map(r => r._id)
     allDeletedIds.push(undefined)
     allDeletedIds.push('undefined')
