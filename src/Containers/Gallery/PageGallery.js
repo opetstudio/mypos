@@ -55,10 +55,15 @@ class TheComponent extends Component {
 
       const images = _.compact(albumgallerylist.map(r => {
         const gal = getByIdGallery[r.gallery_id]
-        if (gal) return {original: gal.data_src, thumbnail: gal.data_src}
+        if (gal) {
+          // console.log('yes ' + r.gallery_id)
+          return {original: gal.data_src, thumbnail: gal.data_src}
+        }
+        // else console.log('no ' + r.gallery_id)
         // return (<span key={r._id}>{(gal).data_src}</span>)
       }))
-
+      console.log('counttttt====>', images.length)
+      console.log('counttttxxxxxx==>', albumgallerylist.length)
       return <GalleryLayout
         footer={(<Footer1 />)}
         // albumgallerylist={this.state.allDataArrAlbumgallery}
@@ -80,6 +85,7 @@ class TheComponent extends Component {
 const mapStateToProps = (state, ownProps) => {
   // console.log('ownProps', ownProps)
   const albumId = ownProps.match.params.id
+  console.log('albummmid=', albumId)
   const allDataArrAlbumgallery = AlbumgallerySelectors.getAllByAlbumId(state.albumgallery, albumId)
   // const allDataArr = GallerySelectors.getAllDataArr(state.gallery)
   return {

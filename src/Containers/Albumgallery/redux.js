@@ -105,6 +105,7 @@ export const AlbumgallerySelectors = {
 
   getAllByAlbumId: (state, albumId) => {
     const allData = AlbumgallerySelectors.getAllDataArr(state)
+    console.log('alllldaattaa===>', allData.length)
     return _.filter(allData, { 'album_id': albumId })
   }
 
