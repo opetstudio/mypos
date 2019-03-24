@@ -19,14 +19,13 @@ import {
 import ReactTable from 'react-table'
 import { path, pick, pickBy, isEmpty, find, propEq } from 'ramda'
 import { Redirect } from 'react-router-dom'
-import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import BreadcrumbCustom from '../BreadcrumbCustom'
 import FormFieldMultiselect from '../FormFieldMultiselect'
 import AppConfig from '../../Config/AppConfig'
-import 'react-datepicker/dist/react-datepicker.css'
 // import styles from './styles'
 import { Images } from '../../Themes'
+import InputDate from '../InputDate';
 
 const minDesktopScreenWidth = AppConfig.minDesktopScreenWidth
 var formDataFile = new FormData()
@@ -205,12 +204,13 @@ export default class LayoutFormData extends Component {
       console.log('event.value val=====>', val)
       // val = event.value
     } else if (type === 'input-date') {
+      val = event
       // val = event.value.valueOf()
-      val = new Date(event.value.startOf('day').toString()).getTime()
+      // val = new Date(event.value.startOf('day').toString()).getTime()
       // console.dir(val)
-      this.setState({
-        startDate: event.value
-      })
+      // this.setState({
+      //   startDate: event.value
+      // })
     } else {
       val = event.target.value
     }
@@ -245,7 +245,11 @@ export default class LayoutFormData extends Component {
       : {}
     let opt = options || []
     // if (options) opt = options.map(r => ({key: r._id, text: r.conference_name, value: r.conference_code}))
-    if (type === 'input-text') {
+    if (type === 'input-date') {
+      let el = []
+      // if (this.props.id && (name === 'email' || name === 'username')) return (<label key={name + value}>{value}</label>)
+      return (<InputDate name={name} placeholder={placeholder} value={value} onChange={(o) => this.handleChange(o, name, type)} />)
+    } else if (type === 'input-text') {
       let el = []
       if (this.props.id && (name === 'email' || name === 'username')) return (<label key={name + value}>{value}</label>)
       else return (<input type='text' name={name} placeholder={placeholder} value={value} onChange={(o) => this.handleChange(o, name)} />)
@@ -258,7 +262,7 @@ export default class LayoutFormData extends Component {
           onChange={o => this.handleChange(o, name, type)}
         />
       )
-    } else if (type === 'textarea') {
+    }else if (type === 'textarea') {
       return (
         <Form.TextArea
           style={textareaStyle}
@@ -296,16 +300,7 @@ export default class LayoutFormData extends Component {
           onChange={(o, obj) => this.handleChange(obj, name, type)}
         />
       )
-    } else if (type === 'input-date') {
-      return (
-        <div style={datepickerStyle}>
-          <DatePicker
-            selected={moment(parseInt(value || new Date().getTime()))}
-            onChange={date => this.handleChange({ value: date }, name, type)}
-          />
-        </div>
-      )
-    }
+    } 
     return null
   }
 

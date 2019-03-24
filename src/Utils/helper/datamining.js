@@ -37,5 +37,14 @@ export const cleaningObject = (obj) => {
   delete obj['']
   delete obj['null']
   delete obj[null]
+  // Object.keys(obj).forEach(key => {
+  //   if (obj[key] === undefined || obj[key] === null || obj[key] === 'undefined' || obj[key] === 'null' || obj[key] === '') {
+  //     Object.assign(key, {})
+  //     delete obj[key]
+  //     // if (window.UndefinedVariable) {
+  //     //   Object.assign(window.UndefinedVariable, {})
+  //     // }
+  //   }
+  // })
   return obj
 }

@@ -10,9 +10,11 @@ export const columns = [
       },
       {
         Header: 'event_date',
-        accessor: 'event_date',
+        // accessor: 'event_date',
+        accessor: d => '' + new Date(parseInt(d.event_date || '0')),
         id: 'event_date',
-        fieldtype: 'input-text'
+        fieldtype: 'input-date'
+        
       },
       {
         Header: 'event_desc',
