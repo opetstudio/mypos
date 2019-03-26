@@ -13,22 +13,20 @@ import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
 // --- import list page entyty ---
 
-    // begin Ignite-Entity-Event
-    import Event from '../Containers/Event'
-    import EventForm from '../Containers/Event/form'
-    // end Ignite-Entity-Event
+// begin Ignite-Entity-Event
+import Event from '../Containers/Event'
+import EventForm from '../Containers/Event/form'
+// end Ignite-Entity-Event
 
-    // begin Ignite-Entity-Product
-    import Product from '../Containers/Product'
-    import ProductForm from '../Containers/Product/form'
-    // end Ignite-Entity-Product
-    
+// begin Ignite-Entity-Product
+import Product from '../Containers/Product'
+import ProductForm from '../Containers/Product/form'
+// end Ignite-Entity-Product
 
-    // begin Ignite-Entity-News
-    import News from '../Containers/News'
-    import NewsForm from '../Containers/News/form'
-    // end Ignite-Entity-News
-    
+// begin Ignite-Entity-News
+import News from '../Containers/News'
+import NewsForm from '../Containers/News/form'
+// end Ignite-Entity-News
 
 import PrisdacHome from '../Containers/PrisdacHome'
 import PageEvent from '../Containers/Event/PageEvent'
@@ -41,16 +39,14 @@ import PageAlbum from '../Containers/Album/PageAlbum'
 // ADMIN
 import AdminHome from '../Containers/AdminHome'
 
-    // begin Ignite-Entity-Pointofsale
-    import Pointofsale from '../Containers/Pointofsale'
-    // end Ignite-Entity-Pointofsale
-    
+// begin Ignite-Entity-Pointofsale
+import Pointofsale from '../Containers/Pointofsale'
+// end Ignite-Entity-Pointofsale
 
-    // begin Ignite-Entity-Role
-    import Role from '../Containers/Role'
-    import RoleForm from '../Containers/Role/form'
-    // end Ignite-Entity-Role
-    
+// begin Ignite-Entity-Role
+import Role from '../Containers/Role'
+import RoleForm from '../Containers/Role/form'
+// end Ignite-Entity-Role
 
 // begin Ignite-Entity-Filecontent
 import Filecontent from '../Containers/Filecontent'
@@ -155,59 +151,43 @@ class NavigationRouter extends Component {
 
             {/* ---- list page entity ---- */}
 
-    {/* begin Ignite-Entity-Event */}
-    <Route exact path='/entity/event' component={Event} />
-    <Route exact path='/entity/event-trash' component={Event} />
-    <Route exact path='/entity/event/create' component={EventForm} />
-    <Route exact path='/entity/event/update/:id' component={EventForm} />
-    {/* end Ignite-Entity-Product */}
-    
-    {/* begin Ignite-Entity-Product */}
-    <Route exact path='/entity/product' component={Product} />
-    <Route exact path='/entity/product-trash' component={Product} />
-    <Route exact path='/entity/product/create' component={ProductForm} />
-    <Route exact path='/entity/product/update/:id' component={ProductForm} />
-    {/* end Ignite-Entity-Product */}
-    
+            {/* begin Ignite-Entity-Event */}
+            <Route exact path='/entity/event' component={Event} />
+            <Route exact path='/entity/event-trash' component={Event} />
+            <Route exact path='/entity/event/create' component={EventForm} />
+            <Route exact path='/entity/event/update/:id' component={EventForm} />
+            {/* end Ignite-Entity-Product */}
 
-    {/* begin Ignite-Entity-News */}
-    <Route exact path='/entity/news' component={News} />
-    <Route exact path='/entity/news-trash' component={News} />
-    <Route exact path='/entity/news/create' component={NewsForm} />
-    <Route exact path='/entity/news/update/:id' component={NewsForm} />
-    {/* end Ignite-Entity-News */}
-    
+            {/* begin Ignite-Entity-Product */}
+            <Route exact path='/entity/product' component={Product} />
+            <Route exact path='/entity/product-trash' component={Product} />
+            <Route exact path='/entity/product/create' component={ProductForm} />
+            <Route exact path='/entity/product/update/:id' component={ProductForm} />
+            {/* end Ignite-Entity-Product */}
 
-    {/* begin Ignite-Entity-Pointofsale */}
-    <Route exact path='/entity/pointofsale' component={Pointofsale} />
-    {/* end Ignite-Entity-Pointofsale */}
-    
+            {/* begin Ignite-Entity-News */}
+            <Route exact path='/entity/news' component={News} />
+            <Route exact path='/entity/news-trash' component={News} />
+            <Route exact path='/entity/news/create' component={NewsForm} />
+            <Route exact path='/entity/news/update/:id' component={NewsForm} />
+            {/* end Ignite-Entity-News */}
 
-    {/* begin Ignite-Entity-Role */}
-    <Route exact path='/entity/role' component={Role} />
-    <Route exact path='/entity/role-trash' component={Role} />
-    <Route exact path='/entity/role/create' component={RoleForm} />
-    <Route exact path='/entity/role/update/:id' component={RoleForm} />
-    {/* end Ignite-Entity-Role */}
-    
+            {/* begin Ignite-Entity-Pointofsale */}
+            <Route exact path='/entity/pointofsale' component={Pointofsale} />
+            {/* end Ignite-Entity-Pointofsale */}
+
+            {/* begin Ignite-Entity-Role */}
+            <Route exact path='/entity/role' component={Role} />
+            <Route exact path='/entity/role-trash' component={Role} />
+            <Route exact path='/entity/role/create' component={RoleForm} />
+            <Route exact path='/entity/role/update/:id' component={RoleForm} />
+            {/* end Ignite-Entity-Role */}
 
             {/* begin Ignite-Entity-Filecontent */}
             <Route exact path='/entity/filecontent' component={Filecontent} />
-            <Route
-              exact
-              path='/entity/filecontent-trash'
-              component={Filecontent}
-            />
-            <Route
-              exact
-              path='/entity/filecontent/create'
-              component={FilecontentForm}
-            />
-            <Route
-              exact
-              path='/entity/filecontent/update/:id'
-              component={FilecontentForm}
-            />
+            <Route exact path='/entity/filecontent-trash' component={Filecontent} />
+            <Route exact path='/entity/filecontent/create' component={FilecontentForm} />
+            <Route exact path='/entity/filecontent/update/:id' component={FilecontentForm} />
             {/* end Ignite-Entity-Filecontent */}
 
             {/* begin Ignite-Entity-File */}
@@ -218,52 +198,24 @@ class NavigationRouter extends Component {
             {/* end Ignite-Entity-File */}
 
             {/* begin Ignite-Entity-Participantbadge */}
-            <Route
-              exact
-              path=' /entity/participantbadge/:participant_id'
-              component={Participantbadge}
-            />
+            <Route exact path=' /entity/participantbadge/:participant_id' component={Participantbadge} />
             {/* <Route exact path='/entity/participantbadge-trash' component={Participantbadge} />
     <Route exact path='/entity/participantbadge/create' component={ParticipantbadgeForm} />
     <Route exact path='/entity/participantbadge/update/:id' component={ParticipantbadgeForm} /> */}
             {/* end Ignite-Entity-Participantbadge */}
 
             {/* begin Ignite-Entity-Classparticipant */}
-            <Route
-              exact
-              path='/entity/classparticipant'
-              component={Classparticipant}
-            />
-            <Route
-              exact
-              path='/entity/classparticipant-trash'
-              component={Classparticipant}
-            />
-            <Route
-              exact
-              path='/entity/classparticipant/create'
-              component={ClassparticipantForm}
-            />
-            <Route
-              exact
-              path='/entity/classparticipant/update/:id'
-              component={ClassparticipantForm}
-            />
+            <Route exact path='/entity/classparticipant' component={Classparticipant} />
+            <Route exact path='/entity/classparticipant-trash' component={Classparticipant} />
+            <Route exact path='/entity/classparticipant/create' component={ClassparticipantForm} />
+            <Route exact path='/entity/classparticipant/update/:id' component={ClassparticipantForm} />
             {/* end Ignite-Entity-Classparticipant */}
 
             {/* begin Ignite-Entity-Classes */}
             <Route exact path='/entity/classes' component={Classes} />
             <Route exact path='/entity/classes-trash' component={Classes} />
-            <Route
-              exact
-              path='/entity/classes/create'
-              component={ClassesForm}
-            />
-            <Route
-              exact
-              path='/entity/classes/update/:id'
-              component={ClassesForm}
-            />
+            <Route exact path='/entity/classes/create' component={ClassesForm} />
+            <Route exact path='/entity/classes/update/:id' component={ClassesForm} />
             {/* end Ignite-Entity-Classes */}
 
             {/* begin Ignite-Entity-User */}
