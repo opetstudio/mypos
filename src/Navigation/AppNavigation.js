@@ -139,7 +139,6 @@ class NavigationRouter extends Component {
             <Route exact path='/home' component={PrisdacHome} />
             <Route exact path='/point-of-sale' component={Pointofsale} />
             <Route exact path='/news' component={PageNews} />
-
             {/* ADMIN */}
             <Route exact path='/admin/dashboard' component={AdminHome} />
 
