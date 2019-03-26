@@ -145,7 +145,6 @@ class NavigationRouter extends Component {
             <Route exact path='/news' component={PageNews} />
             <Route exact path='/gallery-album' component={PageAlbum} />
             <Route exact path='/gallery/:id' component={PageGallery} />
-
             {/* ADMIN */}
             <Route exact path='/admin/dashboard' component={AdminHome} />
 
