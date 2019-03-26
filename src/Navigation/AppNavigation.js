@@ -137,7 +137,6 @@ class NavigationRouter extends Component {
           <ResponsiveContainer>
             <Route exact path='/' component={PrisdacHome} />
             <Route exact path='/home' component={PrisdacHome} />
-
             {/* ADMIN */}
             <Route exact path='/admin/dashboard' component={AdminHome} />
 
