@@ -45,29 +45,19 @@ class Footer2Layout extends Component {
         <Segment inverted vertical style={{ padding: '0em 0em' }}>
           <Container>
             <Grid divided inverted stackable>
-              <Grid.Row>
-                {/* <Grid.Column width={9}> */}
+              {/* <Grid.Row>
                 <Grid.Column>
                   <Header as='h4' inverted textAlign='center'>
-                  Come and join with us every saturday 10.00 AM
+                  ...
                   </Header>
                   <div>
                     <div dangerouslySetInnerHTML={this.iframe()} />
                   </div>
                 </Grid.Column>
-                {/* <Grid.Column width={4}>
-                  <Header inverted as='h4' content='Services' />
-                  <List link inverted>
-                    <List.Item as='a'>Sabbath Worship</List.Item>
-                    <List.Item as='a'>Adventist Youth</List.Item>
-                    <List.Item as='a'>Music Ministry</List.Item>
-                  </List>
-                </Grid.Column> */}
-
-              </Grid.Row>
+              </Grid.Row> */}
               <Grid.Row>
                 <Grid.Column textAlign='center'>
-                  <p>Copyright © 2019 Prisma SDA Church</p>
+                  <p>Copyright © 2019 Opetstudio</p>
                 </Grid.Column>
               </Grid.Row>
             </Grid>

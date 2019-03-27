@@ -28,7 +28,10 @@ import News from '../Containers/News'
 import NewsForm from '../Containers/News/form'
 // end Ignite-Entity-News
 
-import PrisdacHome from '../Containers/PrisdacHome'
+import OpetstudioHome from '../Containers/Opetstudio/Home'
+import OpetstudioAbout from '../Containers/Opetstudio/About'
+import OpetstudioContact from '../Containers/Opetstudio/Contact'
+
 import PageEvent from '../Containers/Event/PageEvent'
 import PageEventDetail from '../Containers/Event/PageEventDetail'
 import PageArticle from '../Containers/Article/PageArticle'
@@ -135,8 +138,11 @@ class NavigationRouter extends Component {
       <Router>
         <AppContainer checkLogedStatus={this.props.checkLogedStatus}>
           <ResponsiveContainer>
-            <Route exact path='/' component={PrisdacHome} />
-            <Route exact path='/home' component={PrisdacHome} />
+            <Route exact path='/' component={OpetstudioHome} />
+            <Route exact path='/home' component={OpetstudioHome} />
+            <Route exact path='/about' component={OpetstudioAbout} />
+            <Route exact path='/contact' component={OpetstudioContact} />
+
             {/* ADMIN */}
             <Route exact path='/admin/dashboard' component={AdminHome} />
 
@@ -269,7 +275,6 @@ class NavigationRouter extends Component {
             <Route exact path='/login' component={LoginForm} />
             {/* end Ignite-Entity-Login */}
 
-            <Route exact path='/about' component={PageAbout} />
             <Route exact path='/entity/entity1' component={PageAbout} />
           </ResponsiveContainer>
         </AppContainer>

@@ -110,10 +110,10 @@ class MobileContainer extends Component {
           visible={sidebarOpened}
         >
           <Menu.Item as={Link} to='/home' active={pathname === '/home'}>Home</Menu.Item>
-          <Menu.Item as={Link} to='/events' active={['/events'].indexOf(pathname) !== -1}>Events</Menu.Item>
+          <Menu.Item as={Link} to='/about' active={['/about'].indexOf(pathname) !== -1}>About</Menu.Item>
+          <Menu.Item as={Link} to='/contact' active={['/contact'].indexOf(pathname) !== -1}>Contact</Menu.Item>
           {/* <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
           <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item> */}
-          <Menu.Item as={Link} to='/gallery-album' active={['/gallery-album'].indexOf(pathname) !== -1}>Gallery</Menu.Item>
           {/* <Menu.Item as='a'>Log in</Menu.Item>
           <Menu.Item as='a'>Sign Up</Menu.Item> */}
           {/* ---list new entity--- */}
@@ -141,7 +141,7 @@ class MobileContainer extends Component {
           <Segment
             inverted
             textAlign='center'
-            style={{ minHeight: isHome ? 350 : 0, padding: '0em 0em' }}
+            style={{ minHeight: isHome ? 0 : 0, padding: '0em 0em' }}
             vertical
           >
             <Container>
@@ -150,7 +150,7 @@ class MobileContainer extends Component {
                   <Icon name='sidebar' />
                 </Menu.Item>
                 <Menu.Item as={Link} to='/' style={{paddingBottom: '5px'}} position='right'>
-                  PRISMA SDA CHURCH <Image src={Images.adventistlogo} size={'mini'} spaced='right' />
+                  Nofrets Poai <Image src={Images.headerlogo} size={'mini'} spaced='right' />
                 </Menu.Item>
                 {/* <LoggedInAttribute
                   attr='buttonLogin'
@@ -160,7 +160,7 @@ class MobileContainer extends Component {
                 /> */}
               </Menu>
             </Container>
-            {isHome ? <Carousel1 /> : null}
+            {/* {isHome ? <Carousel1 /> : null} */}
             {/* {isHome ? <HomepageHeading mobile /> : null} */}
           </Segment>
 
