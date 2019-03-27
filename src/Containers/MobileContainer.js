@@ -137,7 +137,7 @@ class MobileContainer extends Component {
 
         </Sidebar>)}
 
-        <Sidebar.Pusher dimmed={sidebarOpened}>
+        <Sidebar.Pusher dimmed={sidebarOpened} style={{minHeight: window.innerHeight}}>
           <Segment
             inverted
             textAlign='center'
