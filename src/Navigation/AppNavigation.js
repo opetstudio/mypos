@@ -32,6 +32,8 @@ import OpetstudioHome from '../Containers/Opetstudio/Home'
 import OpetstudioAbout from '../Containers/Opetstudio/About'
 import OpetstudioContact from '../Containers/Opetstudio/Contact'
 
+import PrisdacHome from '../Containers/Prisdac/Home'
+
 import PageEvent from '../Containers/Event/PageEvent'
 import PageEventDetail from '../Containers/Event/PageEventDetail'
 import PageArticle from '../Containers/Article/PageArticle'
@@ -138,10 +140,17 @@ class NavigationRouter extends Component {
       <Router>
         <AppContainer checkLogedStatus={this.props.checkLogedStatus}>
           <ResponsiveContainer>
-            <Route exact path='/' component={OpetstudioHome} />
-            <Route exact path='/home' component={OpetstudioHome} />
-            <Route exact path='/about' component={OpetstudioAbout} />
-            <Route exact path='/contact' component={OpetstudioContact} />
+            <Route exact path='/' component={PrisdacHome} />
+            <Route exact path='/home' component={PrisdacHome} />
+            <Route exact path='/point-of-sale' component={Pointofsale} />
+            <Route exact path='/profile' component={PageProfile} />
+            <Route exact path='/events' component={PageEvent} />
+            <Route exact path='/event/:slug' component={PageEventDetail} />
+            <Route exact path='/article' component={PageArticle} />
+            <Route exact path='/news' component={PageNews} />
+            <Route exact path='/gallery-album' component={PageAlbum} />
+            <Route exact path='/gallery/:id' component={PageGallery} />
+
 
             {/* ADMIN */}
             <Route exact path='/admin/dashboard' component={AdminHome} />
