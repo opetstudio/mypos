@@ -258,7 +258,7 @@ import { startup } from './StartupSagas'
 // const baseUrl = AppConfig.env === 'development' ? '/' : 'https://api1.opetstudio.com/'
 const baseUrl =
   AppConfig.env === 'development'
-    ? 'http://localhost:8080/'
+    ? 'http://localhost:8180/'
     // ? 'https://api1.opetstudio.com/'
     : 'https://api1.opetstudio.com/'
 // const baseUrl = 'http://localhost:8080/'
