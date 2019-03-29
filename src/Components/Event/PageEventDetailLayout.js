@@ -60,7 +60,7 @@ class PageEventDetailLayout extends Component {
             )}
             <Grid.Row>
               <Grid.Column>
-                <Header as='h3' style={{ fontSize: '2em' }}>Upcoming Event</Header>
+                <Header as='h3' style={{ fontSize: '2em' }}>Prisdac Event</Header>
                 {/* <Image bordered rounded style={{width: '100%'}} src='https://react.semantic-ui.com/images/wireframe/white-image.png' /> */}
                 {upcomingEvent && <Card
                   onClick={() => this.props.history.push(`/event/${upcomingEvent.event_slug}`)}

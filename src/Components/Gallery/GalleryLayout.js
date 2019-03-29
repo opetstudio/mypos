@@ -91,7 +91,7 @@ class GalleryLayout extends Component {
             )}
             <Grid.Row>
               <Grid.Column>
-                {(this.state.images && this.state.images.length > 0) && <ImageGallery items={this.state.images} showIndex showBullets thumbnailPosition='bottom' />}
+                {(this.state.images && this.state.images.length > 0) && <ImageGallery items={this.state.images} showIndex thumbnailPosition='bottom' />}
               </Grid.Column>
             </Grid.Row>
             <Grid.Row textAlign='center'>
