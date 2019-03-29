@@ -178,18 +178,18 @@ class DesktopContainer extends Component {
             <Segment
               inverted
               // textAlign='center'
-              style={{ minHeight: isHome ? 0 : 0, padding: '0em 0em' }}
+              style={{ minHeight: isHome ? 700 : 0, padding: '0em 0em' }}
               vertical
             >
-              <div style={{ paddingTop: '1em', borderBottom: '10px solid black', backgroundImage: `url(${Images.headerbg2})`, backgroundSize: '100%' }}>
+              <div style={{ paddingTop: '1em', borderBottom: '10px solid black', backgroundImage: `url(${Images.headerbg})`, backgroundSize: '100%' }}>
                 <Container style={{}}>
                   
                   <Header as='h2'>
                     {/* <Icon name='settings' /> */}
-                    <Image src={Images.headerlogo} style={{ width: '100px' }} />
+                    <Image src={Images.adventistlogo} style={{ width: '100px' }} />
                     <Header.Content style={{color: 'white'}}>
-                      Nofrets Poai
-                      <Header.Subheader style={{color: 'white'}}>kuli koding jakarta | nofrets.poai@gmail.com | 085342805673</Header.Subheader>
+                      Prisma SDAC Jakarta
+                      <Header.Subheader style={{color: 'white'}}>Reaching the Soul, Keeping the Soul, Recovering the Soul</Header.Subheader>
                     </Header.Content>
                   </Header>
                 </Container>
@@ -217,8 +217,12 @@ class DesktopContainer extends Component {
                   >
                       About
                   </Menu.Item> */}
-                    <Menu.Item as={Link} to='/about' active={['/about'].indexOf(pathname) !== -1}>About</Menu.Item>
-                    <Menu.Item as={Link} to='/contact' active={['/contact'].indexOf(pathname) !== -1}>Contact</Menu.Item>
+                    {/* <LoggedInAttribute attr='buttonLogout' pathname={pathname} /> */}
+                    <Menu.Item as={Link} to='/events' active={['/events'].indexOf(pathname) !== -1}>Events</Menu.Item>
+                    {/* <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
+                    <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item> */}
+                    <Menu.Item as={Link} to='/gallery-album' active={['/gallery-album'].indexOf(pathname) !== -1}>Gallery</Menu.Item>
+
                     <LoggedInAttribute
                       attr='frontMainMenu'
                       pathname={pathname}
@@ -243,7 +247,7 @@ class DesktopContainer extends Component {
                   </Container>
                 </Menu>
               </div>
-              {/* {isHome ? <div><Carousel1 /></div> : null} */}
+              {isHome ? <div><Carousel1 /></div> : null}
               {/* {isHome ? <HomepageHeading /> : null} */}
             </Segment>
           </Visibility>
