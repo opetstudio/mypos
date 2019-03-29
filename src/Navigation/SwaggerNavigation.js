@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
-// import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
+// import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
 
 // Import Screens for the Router
 // prettier-ignore
 import {
   RootScreen
 } from '../Containers'
-import ResponsiveContainer from '../Containers/ResponsiveContainer'
+import ResponsiveContainer from '../Containers/Swagger/ResponsiveContainer'
 import PageAbout from '../Containers/PageAbout'
 import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
@@ -28,11 +28,9 @@ import News from '../Containers/News'
 import NewsForm from '../Containers/News/form'
 // end Ignite-Entity-News
 
-import OpetstudioHome from '../Containers/Opetstudio/Home'
+import PageHome from '../Containers/Swagger/Home'
 import OpetstudioAbout from '../Containers/Opetstudio/About'
 import OpetstudioContact from '../Containers/Opetstudio/Contact'
-
-import PrisdacHome from '../Containers/Prisdac/Home'
 
 import PageEvent from '../Containers/Event/PageEvent'
 import PageEventDetail from '../Containers/Event/PageEventDetail'
@@ -43,7 +41,7 @@ import PageAlbum from '../Containers/Album/PageAlbum'
 
 // ADMIN
 import AdminHome from '../Containers/AdminHome'
-
+import SwaggerUi from '../Containers/Swagger/SwaggerUi'
 // begin Ignite-Entity-Pointofsale
 import Pointofsale from '../Containers/Pointofsale'
 // end Ignite-Entity-Pointofsale
@@ -140,17 +138,16 @@ class NavigationRouter extends Component {
       <Router>
         <AppContainer checkLogedStatus={this.props.checkLogedStatus}>
           <ResponsiveContainer>
-            <Route exact path='/' component={PrisdacHome} />
-            <Route exact path='/home' component={PrisdacHome} />
-            <Route exact path='/point-of-sale' component={Pointofsale} />
-            <Route exact path='/news' component={PageNews} />
-            <Route exact path='/gallery-album' component={PageAlbum} />
-            <Route exact path='/gallery/:id' component={PageGallery} />
-
-
+            <Route exact path='/' component={PageHome} />
+            <Route exact path='/home' component={PageHome} />
+            <Route exact path='/about' component={OpetstudioAbout} />
+            <Route exact path='/contact' component={OpetstudioContact} />
 
             {/* ADMIN */}
             <Route exact path='/admin/dashboard' component={AdminHome} />
+            <Route exact path='/admin/swagger-ui' component={SwaggerUi} />
+            <Route exact path='/admin/swagger-ui-detail/:appName' component={SwaggerUi} />
+            <Route exact path='/profile' component={PageProfile} />
 
             {/* ---- list page entity ---- */}
 
