@@ -57,7 +57,7 @@ class Footer2Layout extends Component {
               </Grid.Row> */}
               <Grid.Row>
                 <Grid.Column textAlign='center'>
-                  <p>Copyright © 2019 Opetstudio</p>
+                  <p>Copyright © 2019 Prismalink</p>
                 </Grid.Column>
               </Grid.Row>
             </Grid>

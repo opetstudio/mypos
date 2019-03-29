@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Navigation from '../Navigation/AppNavigation'
+import Navigation from '../Navigation/SwaggerNavigation'
 import { connect } from 'react-redux'
 import StartupActions from '../Redux/StartupRedux'
 import UserActions from './User/redux'
