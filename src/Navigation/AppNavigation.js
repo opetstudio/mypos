@@ -143,13 +143,10 @@ class NavigationRouter extends Component {
             <Route exact path='/' component={PrisdacHome} />
             <Route exact path='/home' component={PrisdacHome} />
             <Route exact path='/point-of-sale' component={Pointofsale} />
-            <Route exact path='/profile' component={PageProfile} />
-            <Route exact path='/events' component={PageEvent} />
-            <Route exact path='/event/:slug' component={PageEventDetail} />
-            <Route exact path='/article' component={PageArticle} />
             <Route exact path='/news' component={PageNews} />
             <Route exact path='/gallery-album' component={PageAlbum} />
             <Route exact path='/gallery/:id' component={PageGallery} />
+
 
 
             {/* ADMIN */}
