@@ -86,12 +86,12 @@ class MobileContainer extends Component {
         >
           <Menu.Item as={Link} to='/admin/dashboard' active={pathname === '/admin/dashboard'}>Home</Menu.Item>
           <Menu.Item as={Link} to='/' active={pathname === '/'}>Frontend</Menu.Item>
-          <LoggedInAttribute
+          {/* <LoggedInAttribute
             attr='mainmenu'
             pathname={pathname}
             onLogout={() => this.setState({ sidebarOpened: false })}
             mobile
-          />
+          /> */}
           <LoggedInAttribute
             attr='buttonLogout'
             pathname={pathname}
@@ -117,11 +117,11 @@ class MobileContainer extends Component {
           {/* <Menu.Item as='a'>Log in</Menu.Item>
           <Menu.Item as='a'>Sign Up</Menu.Item> */}
           {/* ---list new entity--- */}
-          <LoggedInAttribute
+          {/* <LoggedInAttribute
             attr='frontMainMenu'
             pathname={pathname}
             mobile
-          />
+          /> */}
           <LoggedInAttribute
             attr='buttonLogout'
             pathname={pathname}
@@ -150,7 +150,8 @@ class MobileContainer extends Component {
                   <Icon name='sidebar' />
                 </Menu.Item>
                 <Menu.Item as={Link} to='/' style={{paddingBottom: '5px'}} position='right'>
-                  Nofrets Poai <Image src={Images.headerlogo} size={'mini'} spaced='right' />
+                  MDO Dev Admin
+                  {/* MDO <Image src={Images.headerlogo} size={'mini'} spaced='right' /> */}
                 </Menu.Item>
                 {/* <LoggedInAttribute
                   attr='buttonLogin'

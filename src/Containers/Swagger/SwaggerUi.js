@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import {path} from 'ramda'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import SwaggerUiLayout from '../../Components/Swagger/SwaggerUi'
 import { makeData } from '../../Utils/Utils'
@@ -24,8 +25,9 @@ const TheComponent = props =>
   ) : (<Redirect to='/' />)
 
 const mapStateToProps = (state, ownProps) => {
-  // const params = new URLSearchParams(window.location.search)
-  // const filter = params.get('filter') // bar
+//   const params = new URLSearchParams(window.location.search)
+  const appName = path(['match', 'params', 'appName'], ownProps)
+//   const filter = params.get('app-name') // bar
   // console.log('params1===>', window.location.search)
   // console.log('params2===>', ownProps.location.search)
   return {
@@ -35,7 +37,8 @@ const mapStateToProps = (state, ownProps) => {
     myProfile: UserSelectors.getProfile(state.user),
     // filter,
     username: LoginSelectors.getToken(state.login),
-    history: ownProps.history
+    history: ownProps.history,
+    appName
   }
 }
 

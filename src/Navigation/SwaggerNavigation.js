@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
-// import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
+// import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+import { HashRouter as Router, Route, withRouter } from 'react-router-dom'
 
 // Import Screens for the Router
 // prettier-ignore
@@ -146,6 +146,8 @@ class NavigationRouter extends Component {
             {/* ADMIN */}
             <Route exact path='/admin/dashboard' component={AdminHome} />
             <Route exact path='/admin/swagger-ui' component={SwaggerUi} />
+            <Route exact path='/admin/swagger-ui-detail/:appName' component={SwaggerUi} />
+            <Route exact path='/profile' component={PageProfile} />
 
             {/* ---- list page entity ---- */}
 

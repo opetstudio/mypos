@@ -103,7 +103,8 @@ class DesktopContainer extends Component {
     return (
       // <Responsive {...Responsive.onlyComputer}>
 
-      <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+      // <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+      <Responsive>
         {/* <div><Segment inverted><Container>
           <Header as='h1'> <Image size={'huge'} src='https://www.prisdac.org/sites/default/files/logoprisdac_1.png' style={{ marginRight: '1em' }} />Prisma SDAC Jakarta</Header>
           <p>
