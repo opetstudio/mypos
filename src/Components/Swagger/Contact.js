@@ -46,7 +46,7 @@ class Home extends Component {
           {this.props.carousel}
         </Segment> */}
         <Helmet>
-          <title>Home</title>
+          <title>Contact</title>
           {/* <meta name='description' content='Prisma Ministry Indonesia and Prisma SDAC Jakarta.' itemprop='description' />
           <meta charset='utf-8' />
           <meta property='og:type' content='article' />
@@ -75,20 +75,13 @@ class Home extends Component {
                 </Header> */}
                   <Grid>
                     <Grid.Row>
-                   
+
                       <Grid.Column>
                         <Header as='h3'>
-                          {/* <Image src={Images.blogger} style={{ width: '50%', cursor: 'pointer' }} onClick={() => window.open('https://opetstudio.blogspot.com', '_blank')} /> */}
-                          <p>Untuk menuju ke halaman swaggerUi dan halaman simulator mobile app:</p>
-                          <ul>
-                            <li>Login menggunakan username "admin" dan password "password"</li>
-                            <li>Setelah berhasil login, click menu "Admin Dashboard" untuk masuk ke halaman admin dashboard</li>
-                            <li>click menu SwaggerUi untuk melihat daftar api yang di develop.</li>
-                            <li>click menu MobileApp untuk melihat simulasi mobile app.</li>
-                          </ul>
+                          <p>kunjungi website http://www.prismalink.co.id</p>
                         </Header>
                       </Grid.Column>
-                   
+
                     </Grid.Row>
                   </Grid>
                 </Grid.Column>

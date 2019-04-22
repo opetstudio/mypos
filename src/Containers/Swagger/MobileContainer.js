@@ -85,6 +85,8 @@ class MobileContainer extends Component {
           visible={sidebarOpened}
         >
           <Menu.Item as={Link} to='/admin/dashboard' active={pathname === '/admin/dashboard'}>Home</Menu.Item>
+          <Menu.Item as={Link} to='/admin/swagger-ui' active={['/admin/swagger-ui'].indexOf(pathname) !== -1}>SwaggerUi</Menu.Item>
+          <Menu.Item as={Link} to='/admin/mobileapp-simulator' active={['/admin/mobileapp-simulator'].indexOf(pathname) !== -1}>Mobile App Simulator</Menu.Item>
           <Menu.Item as={Link} to='/' active={pathname === '/'}>Frontend</Menu.Item>
           {/* <LoggedInAttribute
             attr='mainmenu'
@@ -117,11 +119,11 @@ class MobileContainer extends Component {
           {/* <Menu.Item as='a'>Log in</Menu.Item>
           <Menu.Item as='a'>Sign Up</Menu.Item> */}
           {/* ---list new entity--- */}
-          {/* <LoggedInAttribute
+          <LoggedInAttribute
             attr='frontMainMenu'
             pathname={pathname}
             mobile
-          /> */}
+          />
           <LoggedInAttribute
             attr='buttonLogout'
             pathname={pathname}

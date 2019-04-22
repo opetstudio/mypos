@@ -10,8 +10,7 @@ import UserActions, { UserSelectors } from '../User/redux'
 // import FavoriteItemContent from './favoriteItemContent'
 // import LibraryItemContent from './libraryItemContent'
 // import CustomItemContent from './customItemContent'
-import Footer2 from '../Footer/footer2'
-import Carousel1 from '../../Components/Carousel/carousel1'
+import Footer2 from './Footer/footer2'
 
 // const User = LayoutTableData
 const TheComponent = props =>
@@ -19,7 +18,6 @@ const TheComponent = props =>
     <SwaggerUiLayout
       footer={(<Footer2 />)}
       history={props.history}
-      carousel={(<Carousel1 />)}
       {...props}
     />
   ) : (<Redirect to='/' />)

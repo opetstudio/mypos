@@ -89,6 +89,9 @@ import { BadgeTypes } from '../Containers/Badge/redux'
 // begin Ignite-Entity-Login
 import { LoginTypes } from '../Containers/Login/redux'
 // end Ignite-Entity-Login
+// begin Ignite-Entity-Debitonline
+import { DebitonlineTypes } from '../Containers/Swagger/redux'
+// end Ignite-Entity-Debitonline
 
 import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
@@ -135,6 +138,10 @@ import { postPointofsale, getPointofsales, getPointofsale, updatePointofsale, re
 // begin Ignite-Entity-Role
 import { postRole, getRoles, getRole, updateRole, removeRole, updateRoleBatch} from '../Containers/Role/sagas'
 // end Ignite-Entity-Role
+
+// begin Ignite-Entity-Debitonline
+import { debitonlineRequest } from '../Containers/Swagger/sagas'
+// end Ignite-Entity-Debitonline
 
 // begin Ignite-Entity-Filecontent
 import {
@@ -258,9 +265,11 @@ import { startup } from './StartupSagas'
 // const baseUrl = AppConfig.env === 'development' ? '/' : 'https://api1.opetstudio.com/'
 const baseUrl =
   AppConfig.env === 'development'
-    // ? 'http://localhost:8080/'
-    ? 'https://api1.opetstudio.com/'
-    : 'https://api1.opetstudio.com/'
+    // ? 'http://127.0.0.1:8080/MdoSwaggerUi/rest/simulatorBackend/'
+    ? 'http://localhost:8081/'
+    // ? 'https://api1.opetstudio.com/'
+    : '/MdoSwaggerUi/rest/simulatorBackend/'
+    // : 'https://api1.opetstudio.com/'
 // const baseUrl = 'http://localhost:8080/'
 const host = baseUrl + ''
 // const host = baseUrl + 'api/service/v1/dashboard/api/'
@@ -269,6 +278,7 @@ const host = baseUrl + ''
 // const baseUrl = 'http://localhost:8099/'
 // const host = 'http://localhost:8090/api/'
 const api = DebugConfig.useFixtures ? FixtureAPI : API.create(host)
+const apiDebitonline = API.create(AppConfig.env === 'development' ? 'http://localhost:8080/' : '/')
 // const baseApi = DebugConfig.useFixtures ? FixtureAPI : API.create(baseUrl)
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -535,6 +545,10 @@ export default function * root () {
     takeLatest(LoginTypes.LOGIN_UPDATE, updateLogin, api),
     takeLatest(LoginTypes.LOGIN_REMOVE, removeLogin, api),
     // end Ignite-Entity-Login
+
+    // begin Ignite-Entity-Debitonline
+    takeLatest(DebitonlineTypes.DEBITONLINE_REQUEST, debitonlineRequest, apiDebitonline),
+    // end Ignite-Entity-Debitonline
 
     takeLatest(StartupTypes.STARTUP, startup, api)
     // some sagas receive extra parameters in addition to an action

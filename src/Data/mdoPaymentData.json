@@ -1,0 +1,15 @@
+{
+    "sessionToken":"c21eb311ae1d19dbe3f98cabf68c290a41f43481c6bb9e0ae6b0afa5e69c31f8",
+    "ecommRefNo":"05041950588398",
+    "mercRefNo":"909",
+    "merchantId":"8027a5ab-c2ff-4bad-8b59-fd1c2669111b",
+    "cardVerifiedToken": "xxxx",
+    "otpVerifiedToken": "xxxx",
+    "checkSum": "",
+    "username": "fadilardilah@gmail.com",
+    "customerIp":"127.0.0.1",
+    "deviceId": "xxxfafadf",
+    "latestActvLogId": "41fe53f7-6c27-4de8-972d-0a35d84686d1",
+    "cardTokenId": "",
+    "cardToken": ""
+}

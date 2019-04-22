@@ -2,24 +2,23 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-import AdminHomeLayout from '../../Components/AdminHome'
+import Layout from '../../Components/Swagger/Contact'
 import { makeData } from '../../Utils/Utils'
 import LoginActions, { LoginSelectors } from '../Login/redux'
 import UserActions, { UserSelectors } from '../User/redux'
 // import FavoriteItemContent from './favoriteItemContent'
 // import LibraryItemContent from './libraryItemContent'
 // import CustomItemContent from './customItemContent'
-import Footer2 from '../Footer/footer2'
+import Footer2 from './Footer/footer2'
 
 // const User = LayoutTableData
-const TheComponent = props =>
-  window.localStorage.getItem('isLoggedIn') === 'true' ? (
-    <AdminHomeLayout
-      footer={(<Footer2 />)}
-      history={props.history}
-      {...props}
-    />
-  ) : (<Redirect to='/' />)
+const TheComponent = props => (
+  <Layout
+    footer={(<Footer2 />)}
+    history={props.history}
+    {...props}
+  />
+)
 
 const mapStateToProps = (state, ownProps) => {
   // const params = new URLSearchParams(window.location.search)

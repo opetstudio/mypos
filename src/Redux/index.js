@@ -93,6 +93,10 @@ export default () => {
     login: require('../Containers/Login/redux').reducer,
     // end Ignite-Entity-Login
 
+    // begin Ignite-Entity-Login
+    debitonline: require('../Containers/Swagger/redux').reducer,
+    // end Ignite-Entity-Login
+
     home: require('./HomeRedux').reducer
   })
   let finalReducers = rootReducer

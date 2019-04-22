@@ -9,7 +9,7 @@ import UserActions, { UserSelectors } from '../User/redux'
 // import FavoriteItemContent from './favoriteItemContent'
 // import LibraryItemContent from './libraryItemContent'
 // import CustomItemContent from './customItemContent'
-import Footer2 from '../Footer/footer2'
+import Footer2 from './Footer/footer2'
 
 // const User = LayoutTableData
 const TheComponent = props =>

@@ -12,7 +12,7 @@ const ResponsiveContainer = ({ children }) => {
       <DesktopContainer>{children}</DesktopContainer>
       {/* )} */}
       {/* {window.innerWidth <= 768 && ( */}
-      {/* <MobileContainer>{children}</MobileContainer> */}
+      <MobileContainer>{children}</MobileContainer>
       {/* // <MaterialuiContainer /> */}
       {/* )} */}
     </div>

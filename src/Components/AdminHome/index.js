@@ -44,7 +44,7 @@ class AdminHome extends Component {
   render () {
     return (
       <div>
-        <Segment style={{ padding: '8em 0em', minHeight: window.innerHeight }} vertical>
+        <Segment style={{ padding: '8em 0em', minHeight: window.innerHeight - 50.125 - 33 }} vertical>
           <Grid container stackable verticalAlign='middle'>
             <Grid.Row>
               <Grid.Column width={8}>
@@ -53,9 +53,7 @@ class AdminHome extends Component {
             </Grid.Row>
           </Grid>
         </Segment>
-        <Segment inverted vertical style={{ padding: '5em 0em' }}>
-          {/* <FooterContainer /> */}
-        </Segment>
+        {this.props.footer}
       </div>
     )
   }

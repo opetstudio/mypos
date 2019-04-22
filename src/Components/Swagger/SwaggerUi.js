@@ -17,6 +17,7 @@ import {
   // Sidebar,
   // Visibility
 } from 'semantic-ui-react'
+import AppConfig from '../../Config/AppConfig'
 import _ from 'lodash'
 // import { Link } from 'react-router-dom'
 class SwaggerUiLayout extends Component {
@@ -25,12 +26,13 @@ class SwaggerUiLayout extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.MenuExampleDropdownItem = this.MenuExampleDropdownItem.bind(this)
     this.setSwaggerUi = this.setSwaggerUi.bind(this)
+    const apiDebitonline = AppConfig.env === 'development' ? 'http://localhost:8080' : ''
     this.state = {
       username: this.props.username,
       appName: this.props.appName,
       mapServer: {
-        'SetLimitTrxCustomerAPI': '/SetLimitTrxCustomerAPI/openapi/openapi.json',
-        'CardRemoveAPI': '/CardRemoveAPI/openapi/openapi.json'
+        'SetLimitTrxCustomerAPI': apiDebitonline + '/SetLimitTrxCustomerAPI/openapi/openapi.json',
+        'CardRemoveAPI': apiDebitonline + '/CardRemoveAPI/openapi/openapi.json'
       }
     }
   }
@@ -97,7 +99,7 @@ class SwaggerUiLayout extends Component {
     console.log('renderrrrrr')
     return (
       <div>
-        <Segment style={{ padding: '8em 0em' }} vertical>
+        <Segment style={{ padding: '8em 0em', minHeight: window.innerHeight - 50.125 - 33 }} vertical>
           <Grid container stackable verticalAlign='middle'>
             <Grid.Row>
               <Grid.Column>
@@ -107,9 +109,7 @@ class SwaggerUiLayout extends Component {
             </Grid.Row>
           </Grid>
         </Segment>
-        <Segment inverted vertical style={{ padding: '5em 0em' }}>
-          {/* <FooterContainer /> */}
-        </Segment>
+        {this.props.footer}
       </div>
     )
   }

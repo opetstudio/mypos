@@ -52,7 +52,7 @@ class DesktopContainer extends Component {
   render () {
     const { children } = this.props
     const { fixed } = this.state
-    console.log('window=', window)
+    // console.log('window=', window)
     const pathname = (window.location.hash || window.location.pathname).replace(
       '#',
       ''
@@ -103,8 +103,8 @@ class DesktopContainer extends Component {
     return (
       // <Responsive {...Responsive.onlyComputer}>
 
-      // <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
-      <Responsive>
+      <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+        {/* <Responsive> */}
         {/* <div><Segment inverted><Container>
           <Header as='h1'> <Image size={'huge'} src='https://www.prisdac.org/sites/default/files/logoprisdac_1.png' style={{ marginRight: '1em' }} />Prisma SDAC Jakarta</Header>
           <p>
@@ -155,6 +155,7 @@ class DesktopContainer extends Component {
                 </Menu.Item>
                 <Menu.Item as={Link} to='/admin/dashboard' active={['/admin/dashboard'].indexOf(pathname) !== -1}>Home</Menu.Item>
                 <Menu.Item as={Link} to='/admin/swagger-ui' active={['/admin/swagger-ui'].indexOf(pathname) !== -1}>SwaggerUi</Menu.Item>
+                <Menu.Item as={Link} to='/admin/mobileapp-simulator' active={['/admin/mobileapp-simulator'].indexOf(pathname) !== -1}>Mobile App Simulator</Menu.Item>
                 <Menu.Item as={Link} to='/' active={isHome}>Frontend</Menu.Item>
                 {/* <Menu.Item
                   as={Link}
@@ -190,8 +191,8 @@ class DesktopContainer extends Component {
                     {/* <Icon name='settings' /> */}
                     {/* <Image src={Images.headerlogo} style={{ width: '100px' }} /> */}
                     <Header.Content style={{color: 'white'}}>
-                      MDO
-                      <Header.Subheader style={{color: 'white'}}>mdo</Header.Subheader>
+                      Mandiri Debit Online Development
+                      <Header.Subheader style={{color: 'white'}}>mdo development</Header.Subheader>
                     </Header.Content>
                   </Header>
                 </Container>

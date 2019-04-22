@@ -1,0 +1,23 @@
+{
+    "callBackUrl": "http://127.0.0.1/opencart2/upload/index.php",
+    "backEndUrl": "http://127.0.0.1/opencart2/upload/index.php?route=checkout/mandiri_done/updateTransaksiStatus",
+    "checkoutAmount": "10",
+    "checkoutCurrency": "IDR",
+    "merchantRefNo": "909",
+    "username": "fadilardilah@gmail.com",
+    "userEmail": "fadilardilah@gmail.com",
+    "userContact": "089634679074",
+    "checkoutDate": "2018-11-27 14:39:19",
+    "customerName": "fadil ardilah",
+    "shippingCost": "",
+    "discount": "",
+    "remark": "",
+    "paymentMethodCode": "MANDIRI-EXPRESSPAY",
+    "productDetails": "{\"item\":\"\",\"quantity\":0,\"price\":\"10\"}",
+    "shippingDetails": "{\"address\":\"jl.sanusi\",\"telephoneNumber\":\"089634679074\",\"handphoneNumber\":\"089634679074\"}",
+    "merchantIdEcommBox": "8027a5ab-c2ff-4bad-8b59-fd1c2669111b",
+    "checkSumEcommBox": "399fbef289e8822e1eb857aedeb6648c7553e6565ee323dc8d2db10cf5e5132e",
+    "customerIpAddress": "127.0.0.1",
+    "paymentGatewayId": "000000010010099",
+    "deviceId": "xxxfafadf"
+    }

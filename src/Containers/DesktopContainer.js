@@ -52,7 +52,8 @@ class DesktopContainer extends Component {
   render () {
     const { children } = this.props
     const { fixed } = this.state
-    console.log('window=', window)
+    // console.log('window=', window)
+
     const pathname = (window.location.hash || window.location.pathname).replace(
       '#',
       ''

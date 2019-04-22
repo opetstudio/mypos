@@ -8,7 +8,6 @@ import {
   RootScreen
 } from '../Containers'
 import ResponsiveContainer from '../Containers/Swagger/ResponsiveContainer'
-import PageAbout from '../Containers/PageAbout'
 import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
 // --- import list page entyty ---
@@ -32,6 +31,9 @@ import PageHome from '../Containers/Swagger/Home'
 import OpetstudioAbout from '../Containers/Opetstudio/About'
 import OpetstudioContact from '../Containers/Opetstudio/Contact'
 
+import PageAbout from '../Containers/Swagger/About'
+import PageContact from '../Containers/Swagger/Contact'
+
 import PageEvent from '../Containers/Event/PageEvent'
 import PageEventDetail from '../Containers/Event/PageEventDetail'
 import PageArticle from '../Containers/Article/PageArticle'
@@ -40,8 +42,9 @@ import PageGallery from '../Containers/Gallery/PageGallery'
 import PageAlbum from '../Containers/Album/PageAlbum'
 
 // ADMIN
-import AdminHome from '../Containers/AdminHome'
+import AdminHome from '../Containers/Swagger/AdminHome'
 import SwaggerUi from '../Containers/Swagger/SwaggerUi'
+import MobileAppSimulator from '../Containers/Swagger/MobileAppSimulator'
 // begin Ignite-Entity-Pointofsale
 import Pointofsale from '../Containers/Pointofsale'
 // end Ignite-Entity-Pointofsale
@@ -112,7 +115,8 @@ class App extends Component {
         '/entity/classes',
         '/entity/conference',
         '/entity/badge',
-        '/profile'
+        '/profile',
+        '/login'
       ]
       if (loginRestriction.indexOf(location.pathname) !== -1) {
         this.props.checkLogedStatus()
@@ -140,11 +144,12 @@ class NavigationRouter extends Component {
           <ResponsiveContainer>
             <Route exact path='/' component={PageHome} />
             <Route exact path='/home' component={PageHome} />
-            <Route exact path='/about' component={OpetstudioAbout} />
-            <Route exact path='/contact' component={OpetstudioContact} />
+            <Route exact path='/about' component={PageAbout} />
+            <Route exact path='/contact' component={PageContact} />
 
             {/* ADMIN */}
             <Route exact path='/admin/dashboard' component={AdminHome} />
+            <Route exact path='/admin/mobileapp-simulator' component={MobileAppSimulator} />
             <Route exact path='/admin/swagger-ui' component={SwaggerUi} />
             <Route exact path='/admin/swagger-ui-detail/:appName' component={SwaggerUi} />
             <Route exact path='/profile' component={PageProfile} />
