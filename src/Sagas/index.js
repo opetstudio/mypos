@@ -92,6 +92,9 @@ import { LoginTypes } from '../Containers/Login/redux'
 // begin Ignite-Entity-Debitonline
 import { DebitonlineTypes } from '../Containers/Swagger/redux'
 // end Ignite-Entity-Debitonline
+// begin Ignite-Entity-Paymentpage
+import { PaymentpageTypes } from '../Containers/Paymentpage/redux'
+// end Ignite-Entity-Paymentpage
 
 import { StartupTypes } from '../Redux/StartupRedux'
 // Sagas /* ------------- Sagas ------------- */
@@ -142,6 +145,10 @@ import { postRole, getRoles, getRole, updateRole, removeRole, updateRoleBatch} f
 // begin Ignite-Entity-Debitonline
 import { debitonlineRequest } from '../Containers/Swagger/sagas'
 // end Ignite-Entity-Debitonline
+
+// begin Ignite-Entity-Paymentpage
+import { paymentpageRequest } from '../Containers/Paymentpage/sagas'
+// end Ignite-Entity-Paymentpage
 
 // begin Ignite-Entity-Filecontent
 import {
@@ -279,6 +286,7 @@ const host = baseUrl + ''
 // const host = 'http://localhost:8090/api/'
 const api = DebugConfig.useFixtures ? FixtureAPI : API.create(host)
 const apiDebitonline = API.create(AppConfig.env === 'development' ? 'http://localhost:8080/' : '/')
+const apiPaymentpage = API.create(AppConfig.env === 'development' ? 'http://202.158.24.186:8380/' : '/')
 // const baseApi = DebugConfig.useFixtures ? FixtureAPI : API.create(baseUrl)
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -549,6 +557,10 @@ export default function * root () {
     // begin Ignite-Entity-Debitonline
     takeLatest(DebitonlineTypes.DEBITONLINE_REQUEST, debitonlineRequest, apiDebitonline),
     // end Ignite-Entity-Debitonline
+
+    // begin Ignite-Entity-Paymentpage
+    takeLatest(PaymentpageTypes.PAYMENTPAGE_REQUEST, paymentpageRequest, apiPaymentpage),
+    // end Ignite-Entity-Paymentpage
 
     takeLatest(StartupTypes.STARTUP, startup, api)
     // some sagas receive extra parameters in addition to an action

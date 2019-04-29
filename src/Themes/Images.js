@@ -12,6 +12,8 @@ const images = {
   octocat: require('../Images/octocat.png'),
   blogger: require('../Images/blogger.png'),
   linkedin: require('../Images/linkedin.png'),
-  fbicon: require('../Images/fbicon.png')
+  fbicon: require('../Images/fbicon.png'),
+  visaicon: require('../Images/visa-icon.png'),
+  mastercardicon: require('../Images/mastercard-icon.png')
 }
 export default images

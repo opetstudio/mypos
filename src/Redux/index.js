@@ -93,9 +93,13 @@ export default () => {
     login: require('../Containers/Login/redux').reducer,
     // end Ignite-Entity-Login
 
-    // begin Ignite-Entity-Login
+    // begin Ignite-Entity-debitonline
     debitonline: require('../Containers/Swagger/redux').reducer,
-    // end Ignite-Entity-Login
+    // end Ignite-Entity-debitonline
+
+    // begin Ignite-Entity-Paymentpage
+    paymentpage: require('../Containers/Paymentpage/redux').reducer,
+    // end Ignite-Entity-Paymentpage
 
     home: require('./HomeRedux').reducer
   })

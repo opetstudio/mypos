@@ -183,6 +183,8 @@ const create = (baseURL = 'https://jsonplaceholder.typicode.com/') => {
 
   // swagger
   apiMerged = merge(apiMerged, require('../Containers/Swagger/api').create(api))
+  // paymentpage
+  apiMerged = merge(apiMerged, require('../Containers/Paymentpage/api').create(api))
 
   apiMerged = merge(apiMerged, {})
   return {
