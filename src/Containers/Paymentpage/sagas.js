@@ -50,7 +50,7 @@ export function * paymentpageRequest (api, action) {
         const cookies = new Cookies()
         cookies.set(data.payload.trxid, response.data.id, { path: '/' })
         // yield put(PaymentpageActions.paymentpageRequestPatch({ctrxId: data.payload.trxid, strxId: response.data.id}))
-        window.open(response.data.redirectURL)
+        window.open(response.data.redirectURL, '_self')
         // window.open(response.data.redirectURL, '_blank')
       } else {
         message = 'pcs payment register FAILED'
