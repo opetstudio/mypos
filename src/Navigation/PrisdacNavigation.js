@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
 import {
   RootScreen
 } from '../Containers'
-import ResponsiveContainer from '../Containers/ResponsiveContainer'
+import ResponsiveContainer from '../Containers/Prisdac/ResponsiveContainer'
 import PageAbout from '../Containers/PageAbout'
 import PageProfile from '../Containers/Profile'
 import RouteWrapper from '../Containers/RouteWrapper'
@@ -144,6 +144,8 @@ class NavigationRouter extends Component {
             <Route exact path='/home' component={PrisdacHome} />
             <Route exact path='/point-of-sale' component={Pointofsale} />
             <Route exact path='/news' component={PageNews} />
+            <Route exact path='/events' component={PageEvent} />
+            <Route exact path='/event/:slug' component={PageEventDetail} />
             <Route exact path='/gallery-album' component={PageAlbum} />
             <Route exact path='/gallery/:id' component={PageGallery} />
 
