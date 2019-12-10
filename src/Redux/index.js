@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { persistReducer, persistStore } from 'redux-persist'
+import { persistReducer } from 'redux-persist'
 import CreateStore from './CreateStore'
 import rootSaga from '../Sagas/'
 import ReduxPersist from '../Config/ReduxPersist'
@@ -11,7 +11,6 @@ export default () => {
     // begin Ignite-Entity-Product
     product: require('../Containers/Product/redux').reducer,
     // end Ignite-Entity-Product
-    
 
     // begin Ignite-Entity-Albumgallery
     albumgallery: require('../Containers/Albumgallery/redux').reducer,
@@ -22,40 +21,35 @@ export default () => {
     // begin Ignite-Entity-Bulletin
     bulletin: require('../Containers/Bulletin/redux').reducer,
     // end Ignite-Entity-Bulletin
-    
+
     // begin Ignite-Entity-Gallery
     gallery: require('../Containers/Gallery/redux').reducer,
     // end Ignite-Entity-Gallery
-    
+
     // begin Ignite-Entity-News
     news: require('../Containers/News/redux').reducer,
     // end Ignite-Entity-News
-    
 
     // begin Ignite-Entity-Article
     article: require('../Containers/Article/redux').reducer,
     // end Ignite-Entity-Article
-    
 
     // begin Ignite-Entity-Event
     event: require('../Containers/Event/redux').reducer,
     // end Ignite-Entity-Event
-    
 
     // begin Ignite-Entity-Userrole
     userrole: require('../Containers/Userrole/redux').reducer,
     // end Ignite-Entity-Userrole
-    
 
     // begin Ignite-Entity-Pointofsale
     pointofsale: require('../Containers/Pointofsale/redux').reducer,
     // end Ignite-Entity-Pointofsale
-    
 
     // begin Ignite-Entity-Role
     role: require('../Containers/Role/redux').reducer,
     // end Ignite-Entity-Role
-    
+
     // begin Ignite-Entity-Filecontent
     filecontent: require('../Containers/Filecontent/redux').reducer,
     // end Ignite-Entity-Filecontent

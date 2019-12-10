@@ -46,7 +46,7 @@ class PrisdacHomeLayout extends Component {
           {this.props.carousel}
         </Segment> */}
         <Helmet>
-          <title>Home - Prisma SDA Church</title>
+          <title>Home - Prisma SDA Church - GMAHK Prisma</title>
           {/* <meta name='description' content='Prisma Ministry Indonesia and Prisma SDAC Jakarta.' itemprop='description' />
           <meta charset='utf-8' />
           <meta property='og:type' content='article' />
@@ -82,7 +82,7 @@ class PrisdacHomeLayout extends Component {
                     </Grid.Column>
                     <Grid.Column>
                       <Header as='h3'>
-                        <Image src={Images.igicon} style={{ width: '50%' }} onClick={() => window.open('https://www.instagram.com/prisdac', '_blank')} />
+                        <Image onClick={() => window.open('https://www.instagram.com/prisdac', '_blank')} src={Images.igicon} style={{ width: '50%' }} />
                         <p>@prisdac</p>
                       </Header>
                     </Grid.Column>
