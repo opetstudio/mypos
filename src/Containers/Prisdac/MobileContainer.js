@@ -112,6 +112,7 @@ class MobileContainer extends Component {
           <Menu.Item as={Link} to='/home' active={pathname === '/home'}>Home</Menu.Item>
           <Menu.Item as={Link} to='/events' active={['/events'].indexOf(pathname) !== -1}>Events</Menu.Item>
           <Menu.Item as={Link} to='/gallery-album' active={['/gallery-album'].indexOf(pathname) !== -1}>Gallery</Menu.Item>
+          <Menu.Item as={Link} to='/sabatini' active={['/sabatini'].indexOf(pathname) !== -1}>SabatIni</Menu.Item>
           {/* <Menu.Item as={Link} to='/article' active={pathname === '/article'}>Articles</Menu.Item>
           <Menu.Item as={Link} to='/news' active={pathname === '/news'}>News</Menu.Item> */}
           {/* <Menu.Item as='a'>Log in</Menu.Item>

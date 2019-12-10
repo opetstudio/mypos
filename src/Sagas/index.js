@@ -20,6 +20,10 @@ import AppConfig from '../Config/AppConfig'
     // begin Ignite-Entity-Album
     import { AlbumTypes } from '../Containers/Album/redux'
     // end Ignite-Entity-Album
+    
+    // begin Ignite-Entity-Bulletin
+    import { BulletinTypes } from '../Containers/Bulletin/redux'
+    // end Ignite-Entity-Bulletin
 
     // begin Ignite-Entity-Gallery
     import { GalleryTypes } from '../Containers/Gallery/redux'
@@ -101,9 +105,14 @@ import { StartupTypes } from '../Redux/StartupRedux'
     // begin Ignite-Entity-Albumgallery
     import { postAlbumgallery, getAlbumgallerys, getAlbumgallery, updateAlbumgallery, removeAlbumgallery, updateAlbumgalleryBatch} from '../Containers/Albumgallery/sagas'
     // end Ignite-Entity-Albumgallery
+    
     // begin Ignite-Entity-Album
     import { postAlbum, getAlbums, getAlbum, updateAlbum, removeAlbum, updateAlbumBatch} from '../Containers/Album/sagas'
     // end Ignite-Entity-Album
+    
+    // begin Ignite-Entity-Bulletin
+    import { postBulletin, getBulletins, getBulletin, updateBulletin, removeBulletin, updateBulletinBatch} from '../Containers/Bulletin/sagas'
+    // end Ignite-Entity-Bulletin
 
     // begin Ignite-Entity-Gallery
     import { postGallery, getGallerys, getGallery, updateGallery, removeGallery, updateGalleryBatch} from '../Containers/Gallery/sagas'
@@ -258,7 +267,7 @@ import { startup } from './StartupSagas'
 // const baseUrl = AppConfig.env === 'development' ? '/' : 'https://api1.opetstudio.com/'
 const baseUrl =
   AppConfig.env === 'development'
-    ? 'http://localhost:8080/'
+    ? 'http://localhost:8082/'
     // ? 'https://api1.opetstudio.com/'
     : 'https://api1.opetstudio.com/'
 // const baseUrl = 'http://localhost:8080/'
@@ -302,6 +311,14 @@ export default function * root () {
     takeLatest(AlbumTypes.ALBUM_UPDATE_BATCH, updateAlbumBatch, api),
     takeLatest(AlbumTypes.ALBUM_REMOVE, removeAlbum, api),
     // end Ignite-Entity-Album
+    // begin Ignite-Entity-Bulletin
+    takeLatest(BulletinTypes.BULLETIN_CREATE, postBulletin, api),
+    takeLatest(BulletinTypes.BULLETIN_REQUEST, getBulletin, api),
+    takeLatest(BulletinTypes.BULLETIN_REQUEST_ALL, getBulletins, api),
+    takeLatest(BulletinTypes.BULLETIN_UPDATE, updateBulletin, api),
+    takeLatest(BulletinTypes.BULLETIN_UPDATE_BATCH, updateBulletinBatch, api),
+    takeLatest(BulletinTypes.BULLETIN_REMOVE, removeBulletin, api),
+    // end Ignite-Entity-Bulletin
     
     // begin Ignite-Entity-Gallery
     takeLatest(GalleryTypes.GALLERY_CREATE, postGallery, api),

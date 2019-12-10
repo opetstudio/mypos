@@ -19,6 +19,9 @@ export default () => {
     // begin Ignite-Entity-Album
     album: require('../Containers/Album/redux').reducer,
     // end Ignite-Entity-Album
+    // begin Ignite-Entity-Bulletin
+    bulletin: require('../Containers/Bulletin/redux').reducer,
+    // end Ignite-Entity-Bulletin
     
     // begin Ignite-Entity-Gallery
     gallery: require('../Containers/Gallery/redux').reducer,

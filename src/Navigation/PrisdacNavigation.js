@@ -40,6 +40,7 @@ import PageArticle from '../Containers/Article/PageArticle'
 import PageNews from '../Containers/News/PageNews'
 import PageGallery from '../Containers/Gallery/PageGallery'
 import PageAlbum from '../Containers/Album/PageAlbum'
+import PageBulletin from '../Containers/Bulletin/PageBulletin'
 
 // ADMIN
 import AdminHome from '../Containers/AdminHome'
@@ -148,6 +149,7 @@ class NavigationRouter extends Component {
             <Route exact path='/event/:slug' component={PageEventDetail} />
             <Route exact path='/gallery-album' component={PageAlbum} />
             <Route exact path='/gallery/:id' component={PageGallery} />
+            <Route exact path='/sabatini' component={PageBulletin} />
 
 
 
