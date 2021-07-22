@@ -106,7 +106,7 @@
     "redux-mock-store": "1.4.0",
     "standard": "^11.0.1",
     "uuid": "^3.2.1",
-    "xlsx": "^0.12.11"
+    "xlsx": "^0.17.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
