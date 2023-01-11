@@ -96,7 +96,7 @@
     "ignite-kryptonite": "file:../../workspace_reactjs/ignite-kryptonite",
     "jest": "^23.4.2",
     "json2csv": "^4.1.2",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "lint-staged": "^4.0.1",
     "nedb": "^1.8.0",
     "prettier-standard": "^8.0.1",
